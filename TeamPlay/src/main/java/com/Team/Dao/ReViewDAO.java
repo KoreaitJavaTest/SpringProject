@@ -13,4 +13,8 @@ public interface ReViewDAO {
 
 	ReViewVO selectByIdx(int idx);
 
+	void ReViewUpdate(ReViewVO vo);
+
+	void ReViewDelete(int idx);
+
 }

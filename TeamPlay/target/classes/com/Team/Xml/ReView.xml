@@ -19,5 +19,15 @@
 	<select id="selectByIdx" resultType="com.Team.Vo.ReViewVO" parameterType="Integer">
 		select * from REVIEW where RE_idx = #{idx}
 	</select>
+	
+	<update id="ReViewUpdate" parameterType="com.Team.Vo.ReViewVO">
+		update REVIEW set re_content = #{RE_content},re_title=#{RE_title},
+		re_img = #{RE_img} , RE_categoryDetail=#{RE_categoryDetail} , RE_imgNames = #{RE_imgNames}
+		where RE_idx = #{RE_idx}
+	</update>
+	
+	<delete id="ReViewDelete" parameterType="Integer">
+		delete from REVIEW where RE_idx = #{idx}
+	</delete>
 
 </mapper>

@@ -73,7 +73,7 @@ function searchAddr(){
 		<div class="row">
 			<div class="col-xs-2"></div>
 			<div class="col-xs-8">
-		<form action="EditResultView.nhn" method = "post">
+		<form action="EditResultViewDo" method = "post">
 			<table class = "table table-bordered table-hover" border = "1" align = "center" style = "margin-top:10px;">
 				<tr>
 					<td align = "center" colspan ="2"> 

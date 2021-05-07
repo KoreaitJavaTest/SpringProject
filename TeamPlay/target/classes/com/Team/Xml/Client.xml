@@ -40,8 +40,13 @@
 		delete from CLIENT_DB where Client_ID = #{id}
 	</delete>
 	
-	<select id="ClientInfo" parameterType="vo" resultType="vo">
+	<select id="ClientInfo" parameterType="com.Team.Vo.ClientVo" resultType="com.Team.Vo.ClientVo">
 		SELECT * FROM CLIENT_DB WHERE CLIENT_ID = #{client_id} AND CLIENT_PASSWORD = #{client_password}
 	</select>
+	
+	<update id="ClientUpdate" parameterType="com.Team.Vo.ClientVo">
+		UPDATE CLIENT_DB SET CLIENT_PASSWORD = #{client_password}, CLIENT_ADDR_HEAD = #{client_addr_head}, CLIENT_ADDR_END = #{client_addr_end}
+		WHERE CLIENT_ID = #{client_id}
+	</update>
 	
 </mapper>

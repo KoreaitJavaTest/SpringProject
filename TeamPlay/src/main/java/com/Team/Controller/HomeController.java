@@ -80,5 +80,5 @@ public class HomeController {
 		ReViewService.getInstance().ReViewDelete(model,mapper);
 		return "ReView/ReViewDeleteOK";
 	}
-	
+
 }

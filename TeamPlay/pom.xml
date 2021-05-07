@@ -43,6 +43,12 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+
 		<!-- AspectJ -->
 		<dependency>
 			<groupId>org.aspectj</groupId>
@@ -50,6 +56,12 @@
 			<version>${org.aspectj-version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -152,12 +164,13 @@
 			<version>1.2.2</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.servlets/cos -->
+
 		<dependency>
 			<groupId>com.servlets</groupId>
 			<artifactId>cos</artifactId>
 			<version>09May2002</version>
 		</dependency>
+
 
 
 

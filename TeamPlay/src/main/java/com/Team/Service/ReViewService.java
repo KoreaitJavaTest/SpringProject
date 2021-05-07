@@ -13,24 +13,24 @@ import com.Team.List.ReViewList;
 import com.Team.Vo.ReViewVO;
 
 public class ReViewService {
-	String fileAddr = "http://localhost:8009/korea/upload/";	// 여기서 포트만 수정하세요 or (server.xml 경로도 자기에맞게)
+	String fileAddr = "http://localhost:8009/korea/upload/";
 	
 	private static ReViewService instance = new ReViewService();
 	private ReViewService() {}
 	public static ReViewService getInstance() {	return instance;}
 	
 	public void ReViewSelect(Model model, ReViewDAO mapper) {
-		System.out.println("ReViewService - ReViewSelect() 메소드 실행");
+		System.out.println("ReViewService - ReViewSelect()");
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		int currentPage = 1;	//현재페이지
+		int currentPage = 1;
 		try {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		} catch (Exception e) {
 			
 		}
-		int pageSize = 6;		//한페이지에 표시할 글의 개수
+		int pageSize = 6;
 		int totalCount= mapper.selectCount();
 		System.out.println("---------------------");
 		
@@ -42,17 +42,17 @@ public class ReViewService {
 	}
 	
 	public void ReViewDetailSelect(Model model, ReViewDAO mapper) {
-		System.out.println("ReViewService - ReViewSelect() 메소드 실행");
+		System.out.println("ReViewService - ReViewSelect()");
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		int currentPage = 1;	//현재페이지
+		int currentPage = 1;
 		try {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		} catch (Exception e) {
 			
 		}
-		int idx = Integer.parseInt(request.getParameter("idx"));	//선택한 게시글 글번호
+		int idx = Integer.parseInt(request.getParameter("idx"));
 		
 		ReViewVO vo = ctx.getBean("ReViewVO",ReViewVO.class);
 		vo = mapper.selectByIdx(idx);

@@ -400,7 +400,7 @@ span.tags {background: #1abc9c;border-radius: 2px;color: #f5f5f5;font-weight: bo
 			<div class="collapse navbar-collapse navheigt" id="bs-example-navbar-collapse-1" style="padding-left: 80px;">
 				<ul class="nav navbar-nav" style="background: black;" >
 					<li class="nav-item">
-						<a  class="nav-link jinho" href="AllProducts.nhn?currentPage=1">전체상품</a>
+						<a  class="nav-link jinho" href="shop/ShopAllProduct">전체상품</a>
 					</li>
 					<li class="nav-item">
 						<a  class="nav-link jinho" href="insertProduct.nhn">상품판매등록(임시)</a>

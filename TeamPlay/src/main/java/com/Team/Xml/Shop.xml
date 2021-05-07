@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Team.Dao.ShopDAO">
+
+	<select id="selectCount" resultType="int">
+		select count(*) from shop
+	</select>
+
+	<select id="selectAllProduct" parameterType="com.Team.List.ShopList" resultType="com.Team.Vo.ShopVO">
+		<![CDATA[
+		select * from (
+			select rownum rnum, TT.* from (
+				select * from shop 
+				]]>
+					<where>
+						<if test="category != null and category.equals('신발')">
+							SH_CATEGORY = '신발'
+						</if>
+						<if test="category != null and category.equals('상의')">
+							SH_CATEGORY = '상의'
+						</if>
+					</where>
+				<![CDATA[
+				order by sh_idx desc
+			) TT where rownum <= #{endNo}
+		) where rnum >= #{startNo}
+		]]>
+	</select> 
+
+</mapper>

@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-<bean id="ReViewVO" class="com.Team.Vo.ReViewVO"/>
-<bean id="ReViewList" class="com.Team.List.ReViewList"/>
 
+	<bean id="ShopVO" class="com.Team.Vo.ShopVO"/>
+	<bean id="ShopList" class="com.Team.List.ShopList"/>
 </beans>

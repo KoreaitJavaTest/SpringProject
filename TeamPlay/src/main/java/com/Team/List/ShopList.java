@@ -1,12 +1,11 @@
 package com.Team.List;
 
 import java.util.ArrayList;
+import com.Team.Vo.ShopVO;
 
-import com.Team.Vo.ReViewVO;
+public class ShopList {
 
-
-public class ReViewList {
-	private ArrayList<ReViewVO> list = new ArrayList<ReViewVO>();
+	private ArrayList<ShopVO> list = new ArrayList<ShopVO>();
 	private int pageSize = 10;
 	private int totalCount = 0;
 	private int totalPage = 0;
@@ -15,21 +14,21 @@ public class ReViewList {
 	private int endNo = 0;
 	private int startPage = 0;
 	private int endPage = 0;
-	private String id = "";
+	private String category = "";
+	private String categoryDetail = "";
 	
-	public ReViewList() { }
-	
-	public void setDate(int pagesize, int totalcount, int currentPage) {
-		this.pageSize = pagesize;
-		this.totalCount = totalcount;
+	public void shopList_category(int pageSize, int totalCount, int currentPage, String category) {
+		this.pageSize = pageSize;
+		this.totalCount = totalCount;
 		this.currentPage = currentPage;
+		this.category = category;
 		calculator();
 	}
-	public ReViewList(int pagesize, int totalcount, int currentPage, String id) {
-		this.id = id;
-		this.pageSize = pagesize;
-		this.totalCount = totalcount;
+	public void shopList_categoryDetail(int pageSize, int totalCount, int currentPage, String categoryDetail) {
+		this.pageSize = pageSize;
+		this.totalCount = totalCount;
 		this.currentPage = currentPage;
+		this.categoryDetail = categoryDetail;
 		calculator();
 	}
 	
@@ -43,10 +42,27 @@ public class ReViewList {
 		endPage = startPage + 9;
 		endPage = endPage > totalPage ? totalPage : endPage;
 	}
-	public ArrayList<ReViewVO> getList() {
+	
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getCategoryDetail() {
+		return categoryDetail;
+	}
+
+	public void setCategoryDetail(String categoryDetail) {
+		this.categoryDetail = categoryDetail;
+	}
+
+	public ArrayList<ShopVO> getList() {
 		return list;
 	}
-	public void setList(ArrayList<ReViewVO> list) {
+	public void setList(ArrayList<ShopVO> list) {
 		this.list = list;
 	}
 	public int getPageSize() {
@@ -99,10 +115,11 @@ public class ReViewList {
 	}
 	@Override
 	public String toString() {
-		return "ReViewList [list=" + list + ", pageSize=" + pageSize + ", totalCount=" + totalCount + ", totalPage="
+		return "ShopList [list=" + list + ", pageSize=" + pageSize + ", totalCount=" + totalCount + ", totalPage="
 				+ totalPage + ", currentPage=" + currentPage + ", startNo=" + startNo + ", endNo=" + endNo
-				+ ", startPage=" + startPage + ", endPage=" + endPage + "]";
+				+ ", startPage=" + startPage + ", endPage=" + endPage + ", category=" + category + ", categoryDetail="
+				+ categoryDetail + "]";
 	}
 	
-	
+
 }

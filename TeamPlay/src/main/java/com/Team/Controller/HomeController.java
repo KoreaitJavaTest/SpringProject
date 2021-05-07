@@ -9,7 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Team.Dao.ReViewDAO;
+import com.Team.Dao.ShopDAO;
 import com.Team.Service.ReViewService;
+import com.Team.Service.ShopService;
 
 /**
  * Handles requests for the application home page.

@@ -5,7 +5,7 @@
 <script type="text/javascript">
 	window.onload = function(){
 		alert("정보수정이 완료되었습니다.");
-		location.href = "index.jsp";
+		location.href = "Controller/index";
 	}
 </script>
 

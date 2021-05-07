@@ -19,19 +19,19 @@ public class ShopController {
 	public SqlSession sqlSession ;
 	
 //	전체 상품 페이지
-	@RequestMapping("/shop/shop")
+	@RequestMapping("/shop")
 	public String shop(HttpServletRequest request,Model model) {
 		System.out.println("HomeController => shop()");
 		return "redirect:ShopAllProduct";
 	}
 	
-	@RequestMapping("/shop/ShopAllProduct")
+	@RequestMapping("/ShopAllProduct")
 	public String ShopAllProduct(HttpServletRequest request, Model model) {
 		System.out.println("HomeController => ShopAllProduct()");
 		model.addAttribute("request", request);
 		ShopDAO mapper = sqlSession.getMapper(ShopDAO.class);
 		ShopService.getInstance().selectAllProduct(model, mapper);
 		
-		return "Shop/shop/ShopAllProduct";
+		return "Shop/ShopAllProduct";
 	}
 }

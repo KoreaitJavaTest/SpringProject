@@ -48,5 +48,4 @@ public class HomeController {
 		ReViewService.getInstance().ReViewDetailSelect(model,mapper);
 		return "ReView/ReViewPostDetail";
 	}
-	
 }

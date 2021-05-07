@@ -416,10 +416,10 @@ span.tags {background: #1abc9c;border-radius: 2px;color: #f5f5f5;font-weight: bo
 					</li>
 					<li class="nav-item">
 						<c:if test = "${sessionScope.session_id eq null }">
-							<a class="nav-link" onclick="alert('로그인후 사용가능 합니다.');location.href='LoginView.nhn'">마이페이지</a>
+							<a class="nav-link" onclick="alert('로그인후 사용가능 합니다.');location.href='LoginViewDo'">마이페이지</a>
 						</c:if>
 						<c:if test = "${sessionScope.session_id != null }">
-							<a class="nav-link" href="MyPageView.nhn">마이페이지</a>
+							<a class="nav-link" href="MyPageViewDo">마이페이지</a>
 						</c:if>
 					</li>
 			<li>
@@ -430,13 +430,13 @@ span.tags {background: #1abc9c;border-radius: 2px;color: #f5f5f5;font-weight: bo
 						</a>
 						<ul class="dropdown-menu">
 							<c:if test = "${sessionScope.session_id eq null }">
-								<li><a href="LoginView.nhn">로그인</a></li>
-								<li><a href="SearchMyIdPw.nhn">아이디,비밀번호 찾기</a></li>
-								<li><a href="JoinView.nhn">회원가입</a></li>
+								<li><a href="LoginViewDo">로그인</a></li>
+								<li><a href="SearchMyIdPwDo">아이디,비밀번호 찾기</a></li>
+								<li><a href="JoinViewDo">회원가입</a></li>
 							</c:if>
 							<c:if test = "${sessionScope.session_id != null }">
 								<li><div align="center">${sessionScope.session_id}님<br/>point: ${sessionScope.session_point}점</div></li>
-								<li><div style="cursor: pointer;" align="center" onclick="location.href='LogoutView.nhn'">로그아웃</div></li>
+								<li><div style="cursor: pointer;" align="center" onclick="location.href='LogoutViewDo'">로그아웃</div></li>
 								<c:if test="${sessionScope.session_level==1}">
 									<li><div style="cursor: pointer;" align="center" onclick="location.href='adminPage.nhn'">관리자페이지</div></li>
 								</c:if>

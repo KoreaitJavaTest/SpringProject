@@ -19,6 +19,17 @@ public class ReViewVO {
 	private int RE_commentCount;
 	private String RE_goodCheckUser;
 
+	
+
+	public void setDate(int rE_idx, String rE_title, String rE_content, int rE_img, String rE_categoryDetail,
+			String rE_imgNames) {
+		RE_idx = rE_idx;
+		RE_title = rE_title;
+		RE_content = rE_content;
+		RE_img = rE_img;
+		RE_categoryDetail = rE_categoryDetail;
+		RE_imgNames = rE_imgNames;
+	}
 
 
 	@Override

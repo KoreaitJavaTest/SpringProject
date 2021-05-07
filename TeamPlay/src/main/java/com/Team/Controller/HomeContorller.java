@@ -1,38 +1,42 @@
 package com.Team.Controller;
 
+import java.io.IOException;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletWebRequest;
 
+import com.Team.Dao.ClientDao;
 import com.Team.Dao.ReViewDAO;
+import com.Team.Service.ClientService;
 import com.Team.Service.ReViewService;
 
-/**
- * Handles requests for the application home page.
- */
+
 @Controller
-public class HomeController {
-	
+@RequestMapping(value = "/")
+public class HomeContorller {
 	@Autowired
-	public SqlSession sqlSession ;
+	public SqlSession sqlSession;
 
-	@RequestMapping(value = "/")
-	public String home(Model model) {
-		return "views/index";
 
-	}
+//	ReView======================================================================================================================
 //	05-06 진호추가 
-	@RequestMapping("/ReViewBoard")	//리뷰 게시판이동
+	@RequestMapping("ReViewBoard")	//리뷰 게시판이동
 	public String ReViewBoard(HttpServletRequest request,Model model) {
 		System.out.println("ReViewBoard()");
 		return "redirect:ReViewBoardSelect";
 	}
 	
-	@RequestMapping("/ReViewBoardSelect")	// 리뷰게시판출력-->리뷰게시판이동
+	@RequestMapping("ReViewBoardSelect")	// 리뷰게시판출력-->리뷰게시판이동
 	public String ReViewBoardSelect(HttpServletRequest request,Model model) {
 		System.out.println("ReViewBoardSelect()");
 		model.addAttribute("request", request);
@@ -40,7 +44,7 @@ public class HomeController {
 		ReViewService.getInstance().ReViewSelect(model,mapper);
 		return "ReView/ReViewBoard";
 	}
-	@RequestMapping("/ReViewDetailSelect")	// 리뷰게시판출력-->리뷰게시판이동
+	@RequestMapping("ReViewDetailSelect")	// 리뷰게시판출력-->리뷰게시판이동
 	public String ReViewDetailSelect(HttpServletRequest request,Model model) {
 		System.out.println("ReViewDetailSelect()");
 		model.addAttribute("request", request);
@@ -48,7 +52,7 @@ public class HomeController {
 		ReViewService.getInstance().ReViewDetailSelect(model,mapper);
 		return "ReView/ReViewPostDetail";
 	}
-	@RequestMapping("/ReViewUpdate")	// 리뷰게시판출력-->리뷰게시판이동
+	@RequestMapping("ReViewUpdate")	// 리뷰게시판출력-->리뷰게시판이동
 	public String ReViewUpdate(HttpServletRequest request,Model model) {
 		System.out.println("ReViewDetailSelect()");
 		model.addAttribute("request", request);
@@ -57,7 +61,7 @@ public class HomeController {
 //		ReViewService.getInstance().ReViewUpdate(model,mapper);
 		return "ReView/ReViewUpdate";
 	}
-	@RequestMapping("/ReViewUpdateOK")	// 리뷰게시판출력-->리뷰게시판이동
+	@RequestMapping("ReViewUpdateOK")	// 리뷰게시판출력-->리뷰게시판이동
 	public String ReViewUpdateOK(HttpServletRequest request,Model model) {
 		System.out.println("ReViewUpdateOK()");
 		model.addAttribute("request", request);
@@ -66,13 +70,13 @@ public class HomeController {
 		ReViewService.getInstance().ReViewUpdate(model,mapper);
 		return "ReView/ReViewBoardListOk";
 	}
-	@RequestMapping("/ReViewDeleteOK")	// 리뷰게시판출력-->리뷰게시판이동
+	@RequestMapping("ReViewDeleteOK")	// 리뷰게시판출력-->리뷰게시판이동
 	public String ReViewDeleteOK(HttpServletRequest request,Model model) {
 		System.out.println("ReViewDeleteOK()");
 		model.addAttribute("request", request);
 		return "ReView/ReViewDeleteOK";
 	}
-	@RequestMapping("/ReViewDelete")	// 리뷰게시판출력-->리뷰게시판이동
+	@RequestMapping("ReViewDelete")	// 리뷰게시판출력-->리뷰게시판이동
 	public String ReViewDelete(HttpServletRequest request,Model model) {
 		System.out.println("ReViewDeleteOK()");
 		model.addAttribute("request", request);
@@ -80,5 +84,5 @@ public class HomeController {
 		ReViewService.getInstance().ReViewDelete(model,mapper);
 		return "ReView/ReViewDeleteOK";
 	}
-
+//	ReView======================================================================================================================
 }

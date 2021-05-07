@@ -70,7 +70,7 @@ thumbnail a>img, .thumbnail>img {
 
 </style>
 <div class="container" align="center" style="margin-top: 30px;">
-	<form action="ReViewUpdateOK" method="post" enctype="multipart/form-data">
+	<form action="ReView/ReViewUpdateOK" method="post" enctype="multipart/form-data">
 		<table class="table table-bordered table-hover">
 			<tr align="center" >
 				<th colspan="3">리뷰 글 작성</th>

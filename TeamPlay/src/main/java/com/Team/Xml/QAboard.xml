@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Team.Dao.QAboardDao">
+
+	<select id="QAselectCount" resultType="int">
+		SELECT COUNT(*) FROM QABOARD2
+	</select>
+	
+	<select id="selectAlist" resultType="com.Team.Vo.AnswerVO">
+		select * from ANSWER_DB
+	</select>
+
+	<select id="QAselectList" parameterType="java.util.HashMap" resultType="com.Team.Vo.QAboardVo">
+		<![CDATA[
+		SELECT * FROM(
+			SELECT ROWNUM RNUM, GG.* FROM (
+				SELECT * FROM QABOARD2 ORDER BY Q_REF DESC, Q_SEQ ASC
+			) GG WHERE ROWNUM <= #{endNo}
+		)WHERE RNUM >= #{startNo}
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="com.Team.Vo.QAboardVo">
+		insert into QABOARD2 (Q_IDX, Q_TITLE, Q_CONTENT, Q_USERID, Q_REF, Q_LEV, Q_SEQ) 
+		values(QABOARD2_Q_IDX_SEQ.NEXTVAL, #{q_title}, #{q_content}, #{q_userid},QABOARD2_Q_IDX_SEQ.CURRVAL, 0, 0)
+	</insert>
+	
+	<select id="QAselectByIdx" parameterType="int" resultType="com.Team.Vo.QAboardVo">
+		SELECT * FROM QABOARD2 WHERE Q_IDX = #{q_idx}
+	</select>
+	
+	<select id="AnswerByIdx" parameterType="int" resultType="com.Team.Vo.AnswerVO">
+		select * from ANSWER_DB where a_ref = #{q_idx}
+	</select>
+	
+	<update id="update" parameterType="com.Team.Vo.QAboardVo">
+		UPDATE QABOARD2 SET Q_TITLE = #{q_title}, Q_CONTENT =  #{q_content} WHERE Q_IDX = #{q_idx}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM QABOARD2 WHERE Q_IDX = #{q_idx}
+	</delete>
+	
+	<insert id="ansReply" parameterType="com.Team.Vo.AnswerVO">
+		INSERT INTO ANSWER_DB (A_IDX, A_TITLE, A_CONTENT, A_USERID, A_REF) 
+		values (answer_db_a_idx_seq.NEXTVAL, #{a_title}, #{a_content}, #{a_userid}, #{a_ref})
+	</insert>
+	
+	<select id="selectAnswarbyref" parameterType="int" resultType="com.Team.Vo.AnswerVO">
+		select * from ANSWER_DB where a_ref = #{q_idx}
+	</select>
+	
+	<update id="editqaflag">
+		update qaboard2 set q_flag = #{a_idx} where q_idx = #{a_ref}
+	</update>
+	
+	<update id="Aupdate" parameterType="com.Team.Vo.AnswerVO">
+		update ANSWER_DB set a_title = #{a_title}, a_content = #{a_content} where a_ref = #{a_ref}
+	</update>
+	
+	<delete id="ansdelete" parameterType="int">
+		DELETE FROM ANSWER_DB WHERE A_IDX = #{a_idx}
+	</delete>
+	
+	<select id="selectAnswar" parameterType="int" resultType="com.Team.Vo.AnswerVO">
+		select * from ANSWER_DB where a_idx = #{a_idx}
+	</select>
+</mapper>

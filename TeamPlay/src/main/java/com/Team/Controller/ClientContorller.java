@@ -274,7 +274,7 @@ public class ClientContorller {
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
 		model.addAttribute("request", request);
 		ClientService.getInstance().EditResultViewDo(model,mapper,response);
-		return "MyPage/EditResultViewDo";
+		return "MyPage/EditResultView";
 	}
 	
 	//진호 추가 출석체크 포인트 지급
@@ -294,6 +294,14 @@ public class ClientContorller {
 		}
 		return result.toString();
 
+	}
+	@RequestMapping("MyQnAviewPageDo")
+	public String MyQnAviewPageDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
+		System.out.println("MyQnAviewPageDo()");
+		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
+		model.addAttribute("request", request);
+		ClientService.getInstance().MyQnAviewPageDo(model,mapper,response);
+		return "MyPage/MyQnAviewPage";
 	}
 
 }

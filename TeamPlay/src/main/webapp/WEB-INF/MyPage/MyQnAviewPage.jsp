@@ -6,27 +6,15 @@
 <!DOCTYPE html>
 <html>
 <jsp:include page="../Layout/header.jsp"></jsp:include>
-<c:set var="list" value="${qaList.list}"/>
 <jsp:useBean id="date" class="java.util.Date"/>
-<div class="container_fluid">
-	<div class="col-xs-1"></div>
-	<div class="col-xs-1">
-		<nav id="admin_list"
-			style="float: left; border: 1px solid red; margin-top: 50px;">
-			<ul>
-				<li onclick="location.href='MyEditViewPasswordCheck.nhn'">내정보
-					수정</li>
-				<li onclick="location.href='MyListViewPage.nhn'">리뷰게시글 관리</li>
-				<li onclick="location.href='MyQnAviewPage.nhn'">질문게시글 관리</li>
-			</ul>
-		</nav>
-	</div>
-	<div class="col-xs-9" align = "center">
-		<div id="admin_body"
-			style="float: left; border: 1px solid red; margin-top: 50px; width: 90%; top :100px;">
-			<table class="table table-hover table-border">
+<jsp:include page="./MyPageLayOut/menuBar.jsp"></jsp:include>
+<jsp:include page="./MyPageLayOut/StartMain.jsp"></jsp:include>
+<c:set var="list" value="${qaList.list}"/>
+<div class="container">
+              <table id="mytable" class="table table-bordred table-striped table-hover">
+ 
 				<tr>
-					<th colspan="5">리뷰 게시판</th>
+					<th colspan="5">나의 문의내역</th>
 				</tr>
 				<tr>
 					<td align="center">글번호</td>
@@ -42,7 +30,7 @@
 					</c:when>
 					<c:otherwise>
 						<c:forEach var="vo" items="${list}">
-							<tr onclick="누르면 뷰페이지 가야댐 아직 안만든듯" style="cursor: pointer;">
+							<tr onclick="location.href = 'contentViewDo?idx=${vo.q_idx}&currentPage=${qaList.currentPage}'" style="cursor: pointer;">
 								<td align="center">${vo.q_idx}</td>
 								<td align="center">${vo.q_content}</td>
 								<td align="center">${vo.q_userid}</td>
@@ -96,9 +84,7 @@
 				</tr>
 			</table>
 		</div>
-	</div>
-	<div class="col-xs-1"></div>
-</div>
+<jsp:include page="./MyPageLayOut/EndMain.jsp"></jsp:include>
 <div>
 	<jsp:include page="../Layout/footer.jsp"></jsp:include>
 </div>

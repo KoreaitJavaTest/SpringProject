@@ -21,8 +21,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Team.Dao.ClientDao;
+import com.Team.List.QAboardList;
 import com.Team.Vo.AttentionPointVO;
 import com.Team.Vo.ClientVo;
 
@@ -175,7 +177,9 @@ public class ClientService {
 		
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
-		ClientVo vo = new ClientVo(id,password);
+		ClientVo vo = (ClientVo) ctx.getBean("Client");
+		vo.setClientVo(id, password);
+		
 		vo = mapper.login(vo);	
 		if(null == vo) {
 			PrintWriter script = response.getWriter();
@@ -299,12 +303,14 @@ public class ClientService {
 	public void MyPasswordChangeDo(Model model, ClientDao mapper) {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:ClientCTX.xml");
+
 		String id = request.getParameter("id");
 		String pw = request.getParameter("password");
 		System.out.println(id);
 		System.out.println(pw);
-		ClientVo vo = new ClientVo(id, pw);
+		ClientVo vo = (ClientVo) ctx.getBean("Client");
+		vo.setClientVo(id, pw);
 		
 		mapper.ChangePassword(vo);
 	}
@@ -332,6 +338,7 @@ public class ClientService {
 	public void ClientEditViewDo(Model model, ClientDao mapper, HttpServletResponse response) throws IOException {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:ClientCTX.xml");
 		
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
@@ -340,14 +347,14 @@ public class ClientService {
 		
 		String id = (String) session.getAttribute("session_id");
 		String password = request.getParameter("password");
-		ClientVo vo = null;
+		ClientVo vo = (ClientVo) ctx.getBean("Client");
 		
 		if(password.equals((String)session.getAttribute("session_password"))) {
-			vo = new ClientVo(id, password);
-			vo = mapper.ClientInfo(mapper, vo);
+			vo.setClientVo(id, password);
+			vo = mapper.ClientInfo(vo);
 		}else {
-			vo = new ClientVo(id, password);
-			vo = mapper.ClientInfo(mapper, vo);
+			vo.setClientVo(id, password);
+			vo = mapper.ClientInfo(vo);
 			if(null == vo) {
 				PrintWriter script;
 				script = response.getWriter();
@@ -389,7 +396,7 @@ public class ClientService {
 						script = response.getWriter();
 						script.println("<script>");
 						script.println("alert('변경된 내용이없어 메인페이지로 돌아갑니다.');");
-						script.println("location.href = 'index.jsp';");
+						script.println("location.href = 'views/index';");
 						script.println("</script>");
 						script.close();
 						return;
@@ -402,7 +409,7 @@ public class ClientService {
 					vo.setClient_addr_end(addr_end);
 					vo.setClient_id(id);
 					
-					mapper.ClientUpdate(mapper,vo);
+					mapper.ClientUpdate(vo);
 					
 					session.setAttribute("session_addr_head", addr_head);
 					session.setAttribute("session_addr_end", addr_end);
@@ -415,7 +422,7 @@ public class ClientService {
 				vo.setClient_addr_end(addr_end);
 				vo.setClient_id(id);
 				
-				mapper.ClientUpdate(mapper,vo);
+				mapper.ClientUpdate(vo);
 				
 				session.setAttribute("session_addr_head", addr_head);
 				session.setAttribute("session_addr_end", addr_end);
@@ -427,7 +434,7 @@ public class ClientService {
 			vo.setClient_addr_head(addr_head);
 			vo.setClient_addr_end(addr_end);
 			vo.setClient_id(id);
-			mapper.ClientUpdate(mapper,vo);
+			mapper.ClientUpdate(vo);
 			
 			session.setAttribute("session_password", password);
 			session.setAttribute("session_addr_head", addr_head);
@@ -485,15 +492,45 @@ public class ClientService {
 			
 		}
 		return -1;
+	}
+	
+	public void MyQnAviewPageDo(Model model, ClientDao mapper, HttpServletResponse response) throws IOException {
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:QAboardCTX.xml");
 		
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+		int currentPage = 1;
+		try {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		} catch (Exception e) { }
 		
+		int pagesize = 10;
 		
+		String id = (String)session.getAttribute("session_id");
 		
+		int totalcount = mapper.qnaTotalCount(id);
+		System.out.println("토탈카운트 : "+totalcount);
 		
+		QAboardList qaBoardList = (QAboardList) ctx.getBean("qaboaddlist");
+		qaBoardList.setQAboardList(pagesize, totalcount, currentPage, id);
 		
+		System.out.println("id: "+id);
+//		1페이지 분량의 글 목록을 얻어와서 mvcboardList의 ArrayList에 넣어준다.
+		qaBoardList.setList(mapper.QAselectList(qaBoardList));
+
+		request.setAttribute("qaList", qaBoardList);		
 	}
 	
 }
+
+
+
+
+
+
+
 
 
 

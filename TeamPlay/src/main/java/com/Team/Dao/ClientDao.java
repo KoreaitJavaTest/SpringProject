@@ -2,8 +2,10 @@ package com.Team.Dao;
 
 import java.util.ArrayList;
 
+import com.Team.List.QAboardList;
 import com.Team.Vo.AttentionPointVO;
 import com.Team.Vo.ClientVo;
+import com.Team.Vo.QAboardVo;
 
 public interface ClientDao {
 
@@ -25,9 +27,9 @@ public interface ClientDao {
 
 	void deleteId(String id);
 
-	ClientVo ClientInfo(ClientDao mapper, ClientVo vo);
+	ClientVo ClientInfo(ClientVo vo);
 
-	void ClientUpdate(ClientDao mapper, ClientVo vo);
+	void ClientUpdate(ClientVo vo);
 
 	
 	//진호추가 05-08
@@ -39,5 +41,9 @@ public interface ClientDao {
 
 	int userPointSelect(String userId);
 	//---
+
+	int qnaTotalCount(String id);
+
+	ArrayList<QAboardVo> QAselectList(QAboardList qaBoardList);
 
 }

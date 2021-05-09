@@ -30,8 +30,7 @@ public class QAboardList {
 	
 		
 	
-	public QAboardList(int pageSize, int totalCount, int currentPage, String id) {
-		super();
+	public void setQAboardList(int pageSize, int totalCount, int currentPage, String id) {
 		this.pageSize = pageSize;
 		this.totalCount = totalCount;
 		this.currentPage = currentPage;

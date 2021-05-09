@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Team.Dao.ReViewDAO">
+	
+	<insert id="ReViewInsert" parameterType="com.Team.Vo.ReViewVO">
+		INSERT INTO REVIEW (RE_IDX,RE_TITLE,RE_CONTENT,RE_USERID,RE_IMG,RE_CATEGORYDETAIL,RE_IMGNAMES)
+		VALUES (REVIEW_RE_IDX_SEQ.NEXTVAL,#{RE_title},#{RE_content},#{RE_userId},#{RE_img},#{RE_categoryDetail},#{RE_imgNames})
+	</insert>
+
+
 
 	<select id="selectCount" resultType="Integer">
 		select count(*) from REVIEW
@@ -30,4 +37,80 @@
 		delete from REVIEW where RE_idx = #{idx}
 	</delete>
 
+		<select id="ReViewTotalCount" parameterType="com.Team.Vo.ReViewSearchVO" resultType="Integer">
+		select count(*) from REVIEW where
+		<if test="searchName=='제목'">
+			RE_title LIKE '%'||#{searchText}||'%'
+		</if>		
+		<if test="searchName=='작성자'">
+			RE_USERID LIKE '%'||#{searchText}||'%'
+		</if>		
+		<if test="searchName=='제목작성자'">
+			RE_title LIKE '%'||#{searchText}||'%' or RE_USERID LIKE '%'||#{searchText}||'%'
+		</if>
+	</select>
+	
+	<select id="ReViewSearch" parameterType="com.Team.Vo.ReViewSearchVO" resultType="com.Team.Vo.ReViewVO">
+		<![CDATA[select * from (select rownum rnum, GG.* from (select*from REVIEW where]]>
+		<if test="searchName=='제목'">
+			<![CDATA[RE_title like '%'||#{searchText}||'%']]>
+		</if>		
+		<if test="searchName=='작성자'">
+			<![CDATA[RE_USERID like '%'||#{searchText}||'%']]>
+		</if>		
+		<if test="searchName=='제목작성자'">
+			<![CDATA[RE_title like '%'||#{searchText}||'%' or RE_USERID like '%'||#{searchText}||'%']]>
+		</if>
+			<![CDATA[order by RE_idx desc) GG where rownum <=#{endNo})where rnum>=#{startNo}]]>	
+	</select>
+	
+	<update id="CommentUp" parameterType="Integer">
+		update REVIEW set RE_COMMENTCOUNT = RE_COMMENTCOUNT + 1 where RE_idx = #{refIdx}
+	</update>
+	
+	<insert id="insertComment" parameterType="com.Team.Vo.ReViewCommentVO">
+		INSERT INTO REVIEW_COMMENT 
+		(IDX,REF_IDX,USERID,CONTENT)
+		VALUES 
+		(REVIEW_COMMENT_IDX_SEQ.NEXTVAL,#{refIdx},#{userId},#{content})
+	</insert>
+	
+	<select id="CommentTotalCount" parameterType="Integer" resultType="Integer">
+		SELECT count(*) from REVIEW_COMMENT WHERE ref_idx=#{idx}
+	</select>
+	
+	<select id="selectCommentList" parameterType="java.util.HashMap" resultType="com.Team.Vo.ReViewCommentVO">
+		<![CDATA[
+		select * from (
+			select rownum rnum, TT.* from (
+				select * from REVIEW_COMMENT where REF_IDX= #{idx} order by idx DESC
+			) TT where rownum <= #{endNo}
+		) where rnum >= #{startNo}
+		]]>
+	</select>
+	
+	<update id="updateComment" parameterType="java.util.HashMap">
+		update REVIEW_COMMENT set content = #{content} where idx = #{idx}
+	</update>
+	
+	<!-- 좋아요  -->
+
+	<update id="likeUp" parameterType="Integer">
+		update REVIEW set RE_GOOD = RE_GOOD + 1 where RE_idx = #{idx}
+	</update>
+	<update id="likeDown" parameterType="Integer">
+		update REVIEW set RE_GOOD = RE_GOOD - 1 where RE_idx = #{idx}
+	</update>
+	<update id="checkUserUpdate" parameterType="com.Team.Vo.ReViewVO">
+		update REVIEW set RE_GOODCHECKUSER=#{RE_goodCheckUser} where RE_idx = #{RE_idx}
+	</update>
+	
+	<update id="minusCommentCount" parameterType="Integer">
+		update REVIEW set RE_COMMENTCOUNT = RE_COMMENTCOUNT - 1 where RE_idx = #{idx}
+	</update>
+	
+	<delete id="deleteComment" parameterType="Integer">
+		delete from REVIEW_COMMENT where idx  = #{commentIdx}
+	</delete>
+	
 </mapper>

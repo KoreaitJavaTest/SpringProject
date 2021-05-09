@@ -30,6 +30,17 @@ public class ReViewVO {
 		RE_categoryDetail = rE_categoryDetail;
 		RE_imgNames = rE_imgNames;
 	}
+	public void setDateInsert(String rE_title, String rE_content, int rE_img, String rE_categoryDetail,
+			String rE_imgNames) {
+		RE_title = rE_title;
+		RE_content = rE_content;
+		RE_img = rE_img;
+		RE_categoryDetail = rE_categoryDetail;
+		RE_imgNames = rE_imgNames;
+	}
+
+
+
 
 
 	@Override
@@ -37,10 +48,9 @@ public class ReViewVO {
 		return "ReViewVO [RE_idx=" + RE_idx + ", RE_title=" + RE_title + ", RE_content=" + RE_content + ", RE_userId="
 				+ RE_userId + ", RE_good=" + RE_good + ", RE_bad=" + RE_bad + ", RE_hit=" + RE_hit + ", RE_report="
 				+ RE_report + ", RE_writeDate=" + RE_writeDate + ", RE_img=" + RE_img + ", RE_categoryDetail="
-				+ RE_categoryDetail + ", RE_imgNames=" + RE_imgNames + ", RE_commentCount=" + RE_commentCount + "]";
+				+ RE_categoryDetail + ", RE_imgNames=" + RE_imgNames + ", RE_commentCount=" + RE_commentCount
+				+ ", RE_goodCheckUser=" + RE_goodCheckUser + "]";
 	}
-
-
 	public String getRE_categoryDetail() {
 		return RE_categoryDetail;
 	}

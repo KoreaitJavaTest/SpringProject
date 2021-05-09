@@ -20,7 +20,7 @@
 			alert("성공적으로 글을 삭제했습니다.");
 		}else if(flag==4){
 			alert('댓글을 추가 하였습니다.');
-			location.href = "ReViewSelect.nhn?currentPage="+currentPage+"&idx=${idx}";
+			location.href = "ReViewDetailSelect?currentPage="+currentPage+"&idx=${idx}";
 			return;
 		}
 		location.href = "ReViewBoardSelect?currentPage="+currentPage;

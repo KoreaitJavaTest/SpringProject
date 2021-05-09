@@ -57,7 +57,7 @@ $("#myModal").modal({                    // wire up the actual modal functionali
             <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='ReViewDelete?idx=<%=idx%>&currentPage=<%=currentPage%>'">예</button>
             <% if(flag.equals("detail")){ %>
-	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='ReHitUp.nhn?idx=<%=idx%>&currentPage=<%=currentPage%>'">아니오</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='ReViewDetailSelect?idx=<%=idx%>&currentPage=<%=currentPage%>'">아니오</button>
 			<%}else if(flag.equals("mypage")){ %>
 	        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="history.back()">아니오</button>
 			<%} %>

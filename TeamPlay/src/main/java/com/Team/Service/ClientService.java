@@ -2,6 +2,8 @@ package com.Team.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
 
@@ -21,6 +23,7 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.ui.Model;
 
 import com.Team.Dao.ClientDao;
+import com.Team.Vo.AttentionPointVO;
 import com.Team.Vo.ClientVo;
 
 import util.Gmail;
@@ -430,6 +433,64 @@ public class ClientService {
 			session.setAttribute("session_addr_head", addr_head);
 			session.setAttribute("session_addr_end", addr_end);
 		}
+	}
+	public int AttentionCheck(Model model, ClientDao mapper, HttpServletResponse response) throws IOException {
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:ClientCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		HttpSession session = request.getSession();
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		int check = 0;
+		int attentionPoint = 50;
+		String content = "출석체크 포인트";
+		String userId = request.getParameter("userId");
+		System.out.println(userId);
+		ArrayList<AttentionPointVO> PointList = mapper.selectPoint(userId);
+		System.out.println("PointList: "+PointList);
+		Date date = new Date(System.currentTimeMillis());
+		AttentionPointVO logVo = ctx.getBean("AttentionPointVO",AttentionPointVO.class);
+		logVo.SetAttentionPointVO(userId, attentionPoint, content);
+		if(PointList.size()==0) {
+			mapper.insertPointLog(logVo);
+			mapper.depositAttentionPoint(logVo);
+			System.out.println("test");
+			response.getWriter().write("출석포인트 50Point 적립 되었습니다!");
+			System.out.println("사이즈가 0일떄");
+		}else { 
+			for (int i = 0; i < PointList.size(); i++) {
+
+//				System.out.println(PointList.get(i).getDepositDate().getDate());
+				if(PointList.get(i).getDepositDate().getMonth()+1!=date.getMonth()+1 && PointList.get(i).getDepositDate().getDate()!=date.getDate()
+					|| PointList.get(i).getDepositDate().getMonth()+1==date.getMonth()+1 && PointList.get(i).getDepositDate().getDate()!=date.getDate()) {
+					check++;
+				}
+			if(check==PointList.size()) { //포인트내역추가 , 유저 포인트 증가
+				mapper.insertPointLog(logVo);
+				System.out.println("insertPointLog 종료");
+				mapper.depositAttentionPoint(logVo);
+				System.out.println("depositAttentionPoint 종료");
+				
+//				response.getWriter().write("출석포인트 50Point 적립 되었습니다!");
+				int user_point = mapper.userPointSelect(userId);
+				session.setAttribute("session_point", user_point);//다시 세션에저장해줘야함
+				return 1;
+			}else {
+//				response.getWriter().write("오늘 이미 출석포인트를 적립 받으셨습니다!");
+				return -1;
+			}
+				
+		}
+			
+		}
+		return -1;
+		
+		
+		
+		
+		
+		
 	}
 	
 }

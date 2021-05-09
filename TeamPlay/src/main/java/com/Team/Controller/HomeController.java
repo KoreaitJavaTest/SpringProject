@@ -1,6 +1,7 @@
 package com.Team.Controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -19,23 +21,22 @@ import com.Team.Dao.ClientDao;
 import com.Team.Dao.ReViewDAO;
 import com.Team.Service.ClientService;
 import com.Team.Service.ReViewService;
+import com.google.gson.Gson;
 
 
 @Controller
-@RequestMapping(value = "/")
-public class HomeContorller {
+@RequestMapping(value="/")
+public class HomeController {
+
 	@Autowired
 	public SqlSession sqlSession;
 
-
-//	ReView======================================================================================================================
-//	05-06 진호추가 
 	@RequestMapping("ReViewBoard")	//리뷰 게시판이동
 	public String ReViewBoard(HttpServletRequest request,Model model) {
 		System.out.println("ReViewBoard()");
 		return "redirect:ReViewBoardSelect";
 	}
-	
+
 	@RequestMapping("ReViewBoardSelect")	// 리뷰게시판출력-->리뷰게시판이동
 	public String ReViewBoardSelect(HttpServletRequest request,Model model) {
 		System.out.println("ReViewBoardSelect()");
@@ -84,5 +85,81 @@ public class HomeContorller {
 		ReViewService.getInstance().ReViewDelete(model,mapper);
 		return "ReView/ReViewDeleteOK";
 	}
-//	ReView======================================================================================================================
+	@RequestMapping("ReViewInsert")	// 리뷰게시판출력-->리뷰게시판이동
+	public String ReViewInsert(HttpServletRequest request,Model model) {
+		System.out.println("ReViewInsert()");
+		return "ReView/ReViewInsert";
+	}
+	@RequestMapping("ReViewInsertOK")	// 리뷰게시판출력-->리뷰게시판이동
+	public String ReViewInsertOK(HttpServletRequest request,Model model) {
+		System.out.println("ReViewInsertOK()");
+		model.addAttribute("request", request);
+		ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+		ReViewService.getInstance().ReViewInsert(model,mapper);
+		return "redirect:ReViewBoard";
+	}
+	@RequestMapping("ReViewSearch")	// 리뷰게시판출력-->리뷰게시판이동
+	public String ReViewSearch(HttpServletRequest request,Model model) {
+		System.out.println("ReViewSearch()");
+		model.addAttribute("request", request);
+		ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+		ReViewService.getInstance().ReViewSearch(model,mapper);
+		return "ReView/ReViewBoard";
+	}
+	//댓글작성
+	@RequestMapping("ReViewComment")	// 리뷰게시판출력-->리뷰게시판이동
+	public String ReViewComment(HttpServletRequest request,Model model) {
+		System.out.println("ReViewComment()");
+		model.addAttribute("request", request);
+		ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+		ReViewService.getInstance().commentInsert(model,mapper);
+		return "ReView/ReViewBoardListOk";
+	}
+	//댓글수정
+	@RequestMapping("updateComment")	// 리뷰게시판출력-->리뷰게시판이동
+	public String updateComment(HttpServletRequest request,Model model) {
+		System.out.println("ReViewComment()");
+		model.addAttribute("request", request);
+		ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+		ReViewService.getInstance().updateComment(model,mapper);
+		return "redirect:ReViewDetailSelect";
+	}
+	//댓글삭제
+	@RequestMapping("deleteComment")	
+	public String deleteComment(HttpServletRequest request,Model model) {
+		System.out.println("deleteComment()");
+		model.addAttribute("request", request);
+		ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+		ReViewService.getInstance().deleteComment(model,mapper);
+		return "ReView/ReViewPostDetail";
+	}
+	
+	//댓글삭제
+//	@RequestMapping("updateComment")	// 리뷰게시판출력-->리뷰게시판이동
+//	public String updateComment(HttpServletRequest request,Model model) {
+//		System.out.println("ReViewComment()");
+//		model.addAttribute("request", request);
+//		ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+//		ReViewService.getInstance().updateComment(model,mapper);
+//		return "redirect:ReViewDetailSelect";
+//	}
+	
+	
+	//리뷰 좋아요
+	@ResponseBody
+	@RequestMapping("likeCheck")	
+	public String likeCheck(HttpServletRequest request,Model model) {
+		System.out.println("likeCheck()");
+		model.addAttribute("request", request);
+		ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+//		ReViewService.getInstance().likeCheck(model,mapper);
+		Gson gson = new Gson();
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("succees","통신성공");
+		String jsonString = gson.toJson(hmap);
+		ReViewService.getInstance().likeCheck(model,mapper);
+		return jsonString;
+		
+	}
+
 }

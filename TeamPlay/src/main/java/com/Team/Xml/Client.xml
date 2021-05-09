@@ -49,4 +49,26 @@
 		WHERE CLIENT_ID = #{client_id}
 	</update>
 	
+	<!-- 진호 -->
+	<select id="selectPoint" parameterType="String" resultType="com.Team.Vo.AttentionPointVO">
+		select * from ATTENTIONPOINT where userid=#{userId}
+	</select>
+	
+	<insert id="insertPointLog" parameterType="com.Team.Vo.AttentionPointVO">
+		INSERT INTO ATTENTIONPOINT (idx,userid,point,content) VALUES (ATTENTIONPOINT_seq_idx.nextval,#{userId},#{point},#{content})
+	</insert>
+	
+	<update id="depositAttentionPoint" parameterType="com.Team.Vo.AttentionPointVO">
+		update CLIENT_DB set CLIENT_POINT = CLIENT_POINT+#{point} WHERE CLIENT_ID = #{userId}
+	</update>
+	
+	<select id="userPointSelect" parameterType="String" resultType="Integer">
+		select CLIENT_POINT from CLIENT_DB WHERE CLIENT_ID=#{userId}
+	</select>
+	
+	
+	
+	
+	
+	
 </mapper>

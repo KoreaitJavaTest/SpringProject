@@ -68,11 +68,15 @@
 }
 </style>
 <script type="text/javascript">
-
 var voIdx = ${vo.RE_idx}	//해당게시글의 번호
 var CoIdx = 0;				//삭제하기 버튼누른후 초기화될 댓글번호
+var flag = "${commentUpdate}"
+
 
 $(document).ready(function() {
+	if(flag=="update"){
+		alert('댓글이 성공적으로 수정 되었습니다');
+	}
 	  $('#media').carousel({
 	    pause: true,
 	    interval: false,
@@ -90,7 +94,7 @@ function commentCheck() {
 // 	console.log(context.trim().length);
 	if(session_id==''){
 		alert('로그인 후 작성해주세요.');
-		location.href='LoginView.nhn'
+		location.href='LoginViewDo'
 		return false;
 	}else if(context.trim().length==0){
 		alert('댓글을 작성해 주세요.');
@@ -119,7 +123,7 @@ function test(idx) {
 	var Commentidx = idx;		//댓글번호
 	var content = $('input[name=content2]').val()
 	var PageIdx = ${vo.RE_idx};
-	location.href = 'updateComment.nhn?Commentidx='+Commentidx+'&content='+content+'&idx='+PageIdx;
+	location.href = 'updateComment?Commentidx='+Commentidx+'&content='+content+'&idx='+PageIdx;
 	
 }
 function idxCommit(idx) {			//idx : 댓글 번호 idx 
@@ -128,7 +132,7 @@ function idxCommit(idx) {			//idx : 댓글 번호 idx
 function commentDelete() {
 	console.log("삭제할 댓글 글번호 : "+CoIdx);
 	console.log("댓글을 가진 게시글번호 : "+voIdx);
-	location.href = 'commentDelete.nhn?idx='+voIdx+'&commentIdx='+CoIdx;
+	location.href = 'deleteComment?idx='+voIdx+'&commentIdx='+CoIdx;
 }//AJAX로 하자!
 
 function like(flag){
@@ -136,17 +140,18 @@ function like(flag){
 // 	console.log(flag);
 	$.ajax({
 		type:"POST",
-		url:"./likeCheck.nhn",
+		url:"./likeCheck",
 		data:{
 			userId:"${sessionScope.session_id}",
 			idx:"${vo.RE_idx}",
 			checkFlag:flag
 		},
+		dataType : "json",
 		success: function(meg){
-			alert('t')
+// 			alert(meg);
 			location.reload();
-		},error: function(){
-			alert("failed!");
+		},error: function(meg){
+			alert(meg);
 		}
 	});
 }
@@ -233,14 +238,14 @@ function like(flag){
 			</tr>
 			<tr>
 				<td colspan="2" align="center">
-					<input type="button" class="btn btn-default" value="목록보기" onclick="location.href='ReViewBoard.nhn?currentPage=${currentPage}'"/>
+					<input type="button" class="btn btn-default" value="목록보기" onclick="location.href='ReViewBoard?currentPage=${currentPage}'"/>
 					<div class="dropdown" style="float: right;">
 						<a class="dropdown-toggle" data-toggle="dropdown" data-target="#"><span class="glyphicon glyphicon-option-horizontal"></span></a>
 						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 							 <li role="presentation">
 							 <c:choose>
 							 	<c:when test="${sessionScope.session_id eq vo.RE_userId }">
-							 	<a href="ReView/ReViewUpdate?idx=${vo.RE_idx}&currentPage=${currentPage}" role="menuitem" tabindex="-1">
+							 	<a href="ReViewUpdate?idx=${vo.RE_idx}&currentPage=${currentPage}" role="menuitem" tabindex="-1">
 							 		수정하기
 							 	</a>
 							 	</c:when>
@@ -255,12 +260,12 @@ function like(flag){
 							 <li role="presentation">
 								 <c:choose>
 							 	<c:when test="${sessionScope.session_id eq vo.RE_userId }">
-							 	<a href="ReView/ReViewDeleteOK?idx=${vo.RE_idx}&currentPage=${currentPage}&flag=detail" role="menuitem" tabindex="-1">
+							 	<a href="ReViewDeleteOK?idx=${vo.RE_idx}&currentPage=${currentPage}&flag=detail" role="menuitem" tabindex="-1">
 							 		삭제하기
 							 	</a>
 							 	</c:when>
 							 	<c:when test="${sessionScope.session_id eq null }">
-							 	<a href="ReView/ReViewDeleteOK?idx=${vo.RE_idx}&currentPage=${currentPage}&flag=detail" role="menuitem" tabindex="-1">
+							 	<a href="ReViewDeleteOK?idx=${vo.RE_idx}&currentPage=${currentPage}&flag=detail" role="menuitem" tabindex="-1">
 							 		삭제하기
 							 	</a>
 							 	</c:when>
@@ -367,7 +372,7 @@ function like(flag){
 								 	</c:if>
 							 	</c:if>
 							 	<c:if test="${sessionScope.session_id==null}">
-								 	<a href="#" role="menuitem" tabindex="-1" onclick="alert('로그인후 이용해주세요.');location.href='LoginView.nhn'">
+								 	<a href="#" role="menuitem" tabindex="-1" onclick="alert('로그인후 이용해주세요.');location.href='LogoutViewDo'">
 								 		삭제하기
 								 	</a>
 							 	</c:if>

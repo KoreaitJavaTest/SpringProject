@@ -7,7 +7,9 @@ public class ReViewSearchVO {
 	private int endNo;
 	
 	
-	
+	public ReViewSearchVO() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	@Override
 	public String toString() {

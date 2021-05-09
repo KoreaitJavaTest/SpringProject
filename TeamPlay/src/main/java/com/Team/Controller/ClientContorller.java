@@ -19,7 +19,61 @@ import com.Team.Dao.ClientDao;
 import com.Team.Dao.ReViewDAO;
 import com.Team.Service.ClientService;
 import com.Team.Service.ReViewService;
-
+//@RequestMapping("ReViewBoard")	//리뷰 게시판이동
+//public String ReViewBoard(HttpServletRequest request,Model model) {
+//	System.out.println("ReViewBoard()");
+//	return "redirect:ReViewBoardSelect";
+//}
+//
+//@RequestMapping("ReViewBoardSelect")	// 리뷰게시판출력-->리뷰게시판이동
+//public String ReViewBoardSelect(HttpServletRequest request,Model model) {
+//	System.out.println("ReViewBoardSelect()");
+//	model.addAttribute("request", request);
+//	ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+//	ReViewService.getInstance().ReViewSelect(model,mapper);
+//	return "ReView/ReViewBoard";
+//}
+//@RequestMapping("ReViewDetailSelect")	// 리뷰게시판출력-->리뷰게시판이동
+//public String ReViewDetailSelect(HttpServletRequest request,Model model) {
+//	System.out.println("ReViewDetailSelect()");
+//	model.addAttribute("request", request);
+//	ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+//	ReViewService.getInstance().ReViewDetailSelect(model,mapper);
+//	return "ReView/ReViewPostDetail";
+//}
+//@RequestMapping("ReViewUpdate")	// 리뷰게시판출력-->리뷰게시판이동
+//public String ReViewUpdate(HttpServletRequest request,Model model) {
+//	System.out.println("ReViewDetailSelect()");
+//	model.addAttribute("request", request);
+//	ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+//	ReViewService.getInstance().selectByIdx(model,mapper);
+////	ReViewService.getInstance().ReViewUpdate(model,mapper);
+//	return "ReView/ReViewUpdate";
+//}
+//@RequestMapping("ReViewUpdateOK")	// 리뷰게시판출력-->리뷰게시판이동
+//public String ReViewUpdateOK(HttpServletRequest request,Model model) {
+//	System.out.println("ReViewUpdateOK()");
+//	model.addAttribute("request", request);
+//	ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+////	ReViewService.getInstance().selectByIdx(model,mapper);
+//	ReViewService.getInstance().ReViewUpdate(model,mapper);
+//	return "ReView/ReViewBoardListOk";
+//}
+//@RequestMapping("ReViewDeleteOK")	// 리뷰게시판출력-->리뷰게시판이동
+//public String ReViewDeleteOK(HttpServletRequest request,Model model) {
+//	System.out.println("ReViewDeleteOK()");
+//	model.addAttribute("request", request);
+//	return "ReView/ReViewDeleteOK";
+//}
+//@RequestMapping("ReViewDelete")	// 리뷰게시판출력-->리뷰게시판이동
+//public String ReViewDelete(HttpServletRequest request,Model model) {
+//	System.out.println("ReViewDeleteOK()");
+//	model.addAttribute("request", request);
+//	ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+//	ReViewService.getInstance().ReViewDelete(model,mapper);
+//	return "ReView/ReViewDeleteOK";
+//}
+import com.google.gson.Gson;
 
 @Controller
 public class ClientContorller {
@@ -27,7 +81,7 @@ public class ClientContorller {
 	@Autowired
 	public SqlSession sqlSession;
 
-	@RequestMapping(value = "/")
+	@RequestMapping(value="/")
 	public String homehome(Model model) {
 		return "views/index";
 
@@ -40,14 +94,14 @@ public class ClientContorller {
 	}
 	
 	// 회원가입 페이지 이동
-	@RequestMapping("/JoinViewDo")
+	@RequestMapping("JoinViewDo")
 	public String JoinViewDo(HttpServletRequest request, Model model) {
 		System.out.println("JoinViewDo()");
 		return "ClientJoin/JoinView";
 	}
 
 	// 회원가입 결과 페이지
-	@RequestMapping("/JoinResultViewDo")
+	@RequestMapping("JoinResultViewDo")
 	public String JoinResultViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("JoinViewDo()");
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
@@ -57,7 +111,7 @@ public class ClientContorller {
 		return "ClientJoin/JoinResultView";
 	}
 
-	@RequestMapping("/JoinEmailResultViewDo")
+	@RequestMapping("JoinEmailResultViewDo")
 	public String JoinEmailResultViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("JoinEmailResultViewDo()");
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
@@ -68,7 +122,7 @@ public class ClientContorller {
 	}
 
 	@ResponseBody
-	@RequestMapping("/IdoverlapcheckLogicDo")
+	@RequestMapping("IdoverlapcheckLogicDo")
 	public void IdoverlapcheckLogicDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("IdoverlapcheckLogicDo()");
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
@@ -100,13 +154,13 @@ public class ClientContorller {
 		return result.toString();
 	}
 	
-	@RequestMapping("/LoginViewDo")
+	@RequestMapping("LoginViewDo")
 	public String LoginViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("LoginViewDo()");
 		return "Login/LoginView";
 	}
 	
-	@RequestMapping("/LoginDo")
+	@RequestMapping("LoginDo")
 	public String LoginDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
 		model.addAttribute("request", request);
@@ -115,7 +169,7 @@ public class ClientContorller {
 		return "Login/LoginResultView";
 	}
 
-	@RequestMapping("/LogoutViewDo")
+	@RequestMapping("LogoutViewDo")
 	public String LogoutViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("LogoutViewDo()");
 		model.addAttribute("request", request);
@@ -124,14 +178,14 @@ public class ClientContorller {
 		return "Login/LogoutView";
 	}
 	
-	@RequestMapping("/SearchMyIdPwDo")
+	@RequestMapping("SearchMyIdPwDo")
 	public String SearchMyIdPwDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("SearchMyIdPwDo()");
 
 		return "MyPage/SearchMyIdPw";
 	}
 	
-	@RequestMapping("/SearchIdByEmailDo")
+	@RequestMapping("SearchIdByEmailDo")
 	public String SearchIdByEmailDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("SearchIdByEmailDo()");
 
@@ -139,14 +193,14 @@ public class ClientContorller {
 	}
 	
 	
-	@RequestMapping("/SearchPwViewDo")
+	@RequestMapping("SearchPwViewDo")
 	public String SearchPwViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("SearchPwViewDo()");
 
 		return "MyPage/SearchPwView";
 	}
 	
-	@RequestMapping("/SearchMyIdByEmailDo")
+	@RequestMapping("SearchMyIdByEmailDo")
 	public String SearchMyIdByEmailDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("SearchMyIdByEmailDo()");
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
@@ -156,7 +210,7 @@ public class ClientContorller {
 		return "MyPage/SearchMyIdByEmailResult";
 	}
 	
-	@RequestMapping("/SearchMyPwDo")
+	@RequestMapping("SearchMyPwDo")
 	public String SearchMyPwDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("SearchMyPwDo()");
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
@@ -166,7 +220,7 @@ public class ClientContorller {
 		return "MyPage/SearchMyPwResult";
 	}
 	
-	@RequestMapping("/MyPasswordChangeDo")
+	@RequestMapping("MyPasswordChangeDo")
 	public String MyPasswordChangeDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("MyPasswordChangeDo()");
 		String id = request.getParameter("id");
@@ -174,7 +228,7 @@ public class ClientContorller {
 		return "MyPage/MyPasswordChangeView";
 	}
 	
-	@RequestMapping("/PasswordChangeDo")
+	@RequestMapping("PasswordChangeDo")
 	public String PasswordChangeDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("PasswordChangeDo()");
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
@@ -183,14 +237,14 @@ public class ClientContorller {
 		return "MyPage/PasswordChangeResult";
 	}
 	
-	@RequestMapping("/MyPageViewDo")
+	@RequestMapping("MyPageViewDo")
 	public String MyPageViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("MyPageViewDo()");
 		
 		return "MyPage/MyPageMainView";
 	}
 	
-	@RequestMapping("/MyClientWithdrawalDo")
+	@RequestMapping("MyClientWithdrawalDo")
 	public String MyClientWithdrawalDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("MyClientWithdrawalDo()");
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
@@ -199,13 +253,13 @@ public class ClientContorller {
 		return "MyPage/MyClientWithdrawal";
 	}
 	
-	@RequestMapping("/MyEditViewPasswordCheckDo")
+	@RequestMapping("MyEditViewPasswordCheckDo")
 	public String MyEditViewPasswordCheckDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("MyEditViewPasswordCheckDo()");
 		return "MyPage/ClientMyEditPasswordView";
 	}
 	
-	@RequestMapping("/ClientEditViewDo")
+	@RequestMapping("ClientEditViewDo")
 	public String ClientEditViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("ClientEditViewDo()");
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
@@ -214,13 +268,32 @@ public class ClientContorller {
 		return "MyPage/ClientEditView";
 	}
 
-	@RequestMapping("/EditResultViewDo")
+	@RequestMapping("EditResultViewDo")
 	public String EditResultViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("EditResultViewDo()");
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
 		model.addAttribute("request", request);
 		ClientService.getInstance().EditResultViewDo(model,mapper,response);
 		return "MyPage/EditResultViewDo";
+	}
+	
+	//진호 추가 출석체크 포인트 지급
+	@ResponseBody
+	@RequestMapping(value="depositPoint",produces="application/json;charset=utf8")
+	public String depositPoint(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
+		System.out.println("EditResultViewDo()");
+		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
+		model.addAttribute("request", request);
+		Gson gson = new Gson();
+		int flag = ClientService.getInstance().AttentionCheck(model,mapper,response);
+		StringBuffer result = new StringBuffer("");
+		if(flag==1) {
+			result.append(gson.toJson("출석포인트 50Point 적립 되었습니다!"));
+		}else if(flag==-1) {
+			result.append(gson.toJson("오늘 이미 출석포인트를 적립 받으셨습니다!"));
+		}
+		return result.toString();
+
 	}
 
 }

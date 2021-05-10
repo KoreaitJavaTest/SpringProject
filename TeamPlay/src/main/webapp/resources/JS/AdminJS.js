@@ -18,6 +18,24 @@ function userDelete(id) {
 	} else {
 		alert('잘 생각 했어!')
 	}
-	
 }
+function UpdateUserInfo(idx,level,id,password,gender,phone,point,email) {
+//	console.log(id);
+	$('#userId').val(id);
+	$('#userPw').val(password);
+	$('#userEmail').val(email);
+	$('#userPh').val(phone);
+	$('#userPoint').val(point);
+	$('#userPh').val(phone);
+	if(level==0){
+		$('#consumer').attr('selected','selected')
+	}
+	if(level==1){
+		$('#seller').attr('selected','selected')
+	}
+	if(level==2){
+		$('#admin').attr('selected','selected')
+	}
+
+}	
 

@@ -32,6 +32,18 @@ public class ClientVo {
 		this.client_emailcode = client_emailcode;
 	}
 
+	
+
+	public void adminUserUpdate(int client_level, String client_id, String client_password, String client_phone,
+			String client_email, String client_point) {
+		this.client_level = client_level;
+		this.client_id = client_id;
+		this.client_password = client_password;
+		this.client_phone = client_phone;
+		this.client_email = client_email;
+		this.client_point = client_point;
+	}
+
 
 	public void setClientVo(String client_id ,String client_password) {
 		this.client_id = client_id;

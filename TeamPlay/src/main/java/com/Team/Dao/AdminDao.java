@@ -14,4 +14,6 @@ public interface AdminDao {
 
 	void AdminUserDelete(String userId);
 
+	void adminUpserUpdate(ClientVo updateVo);
+
 }

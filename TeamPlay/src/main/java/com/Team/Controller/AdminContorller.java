@@ -110,6 +110,13 @@ public class AdminContorller {
 		String result = gson.toJson(AdminService.getInstance().AdminUserDelete(model,mapper,response));
 		return result.toString();
 	}
+	@RequestMapping("AdminUserUpdate")
+	public String AdminUserUpdate(Model model,HttpServletRequest request) {
+		model.addAttribute("request", request);
+		AdminDao mapper = sqlSession.getMapper(AdminDao.class);
+		AdminService.getInstance().AdminUserUpdate(model,mapper);
+		return "redirect:AdminUserMangement";
+	}
 
 
 }

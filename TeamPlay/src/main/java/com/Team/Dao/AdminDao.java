@@ -12,4 +12,6 @@ public interface AdminDao {
 
 	ArrayList<ClientVo> AdminUserSelectList(HashMap<String, Integer> hmap);
 
+	void AdminUserDelete(String userId);
+
 }

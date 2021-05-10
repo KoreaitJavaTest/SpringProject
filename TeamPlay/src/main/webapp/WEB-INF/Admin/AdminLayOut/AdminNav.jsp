@@ -8,16 +8,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<script src='<c:url value="/resources/JS/jquery-3.6.0.min.js"/>'></script>
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src='<c:url value="/resources/JS/AdminJS.js"/>'></script>
 </head>
 <style>
 <style>
 #mytable > th {
  text-align: center;
 }
-
+#mytable thead>tr>th, #mytable tbody>tr>th, #mytable tfoot>tr>th, #mytable thead>tr>td, #mytable tbody>tr>td, #mytable tfoot>tr>td{
+	vertical-align: middle;
+}
 </style>
 <body>
 <div class="container">

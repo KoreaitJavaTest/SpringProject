@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -40,6 +41,21 @@ public class AdminService {
 		list.setList(mapper.AdminUserSelectList(hmap));
 		
 		model.addAttribute("AdminUserList",list);
+		
+	}
+	public String AdminUserDelete(Model model, AdminDao mapper, HttpServletResponse response) {
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:AdminCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		String userId = request.getParameter("userId");
+		
+		mapper.AdminUserDelete(userId);
+		return "성공적으로"+ userId+"을(를) 삭제했습니다.";
+		
+		
 		
 	}
 	

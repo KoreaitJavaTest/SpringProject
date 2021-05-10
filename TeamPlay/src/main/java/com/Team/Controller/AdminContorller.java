@@ -1,6 +1,7 @@
 package com.Team.Controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -95,6 +96,19 @@ public class AdminContorller {
 		AdminDao mapper = sqlSession.getMapper(AdminDao.class);
 		AdminService.getInstance().selectUserList(model,mapper);
 		return "Admin/AdminUserMangement";
+	}
+	//유저관리페이지 -> 유저삭제 (AJAX)
+	@ResponseBody
+	@RequestMapping(value="AdminUserDelete",produces="application/json;charset=utf8")
+	public String AdminUserDelete(Model model,HttpServletRequest request , HttpServletResponse response) throws UnsupportedEncodingException {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		Gson gson = new Gson();
+		model.addAttribute("request", request);
+		AdminDao mapper = sqlSession.getMapper(AdminDao.class);
+		String result = gson.toJson(AdminService.getInstance().AdminUserDelete(model,mapper,response));
+		return result.toString();
 	}
 
 

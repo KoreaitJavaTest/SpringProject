@@ -16,4 +16,8 @@
 		]]>
 	</select>
 	
+	<delete id="AdminUserDelete" parameterType="String">
+		delete from CLIENT_DB WHERE CLIENT_ID = #{userId}
+	</delete>
+	
 </mapper>

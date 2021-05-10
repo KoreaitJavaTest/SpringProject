@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
+
 <jsp:useBean id="date" class="java.util.Date"/>
 <jsp:include page="./AdminLayOut/AdminNav.jsp"></jsp:include>
 	<div class="col-md-12 well">
@@ -71,7 +72,7 @@
 					    	</td>
 					    	<td align="center">
 						    	<p data-placement="top" data-toggle="tooltip" title="Delete">
-							    	<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="" >
+							    	<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="userDelete('${id.client_id}')" >
 							    		<span class="glyphicon glyphicon-trash"></span>
 							    	</button>
 					    		</p>

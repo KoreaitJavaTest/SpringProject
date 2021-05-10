@@ -4,7 +4,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 <bean id="ReViewVO" class="com.Team.Vo.ReViewVO"/>
-
 <bean id="ReViewList" class="com.Team.List.ReViewList"/>
 
 <bean id="ReViewSearchVO" class="com.Team.Vo.ReViewSearchVO"></bean>

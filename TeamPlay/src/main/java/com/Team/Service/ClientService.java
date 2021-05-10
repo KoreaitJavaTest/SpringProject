@@ -565,10 +565,10 @@ public class ClientService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		HttpSession session = request.getSession();
 		
-		ArrayList<String> baguni = new ArrayList<String>();
+		ArrayList<HttpSession> baguni = new ArrayList<HttpSession>();
 		
 		for(int i = 0; i < 10; i++) {
-			baguni.add((String)session.getAttribute("session_cart_" + i));
+			baguni.add((HttpSession) session.getAttribute("session_cart_"+i));
 		}
 		
 		System.out.println("바구니 : " + baguni);

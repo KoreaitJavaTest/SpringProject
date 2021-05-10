@@ -59,13 +59,16 @@
 							<td align="center">
 							<select id="level" name="level">
 								<option value="0" <c:if test="${id.client_level==0}">selected</c:if> >소비자</option>
-								<option value="2" <c:if test="${id.client_level==2}">selected</c:if> >판매자</option>
-								<option value="1" <c:if test="${id.client_level==1}">selected</c:if> >관리자</option>
+								<option value="2" <c:if test="${id.client_level==1}">selected</c:if> >판매자</option>
+								<option value="1" <c:if test="${id.client_level==2}">selected</c:if> >관리자</option>
 							</select>
 							</td>
 							<td align="center">
 						    	<p data-placement="top" data-toggle="tooltip" title="Edit">
-							    	<button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" onclick="">
+							    	<button class="btn btn-primary btn-xs" data-title="Edit" tabindex="-1"  data-toggle="modal" data-target="#UserVo" 
+							    	onclick="UpdateUserInfo('${id.client_idx}','${id.client_level}','${id.client_id}'
+							    	,'${id.client_password}','${id.client_gender}','${id.client_phone}',
+							    	'${id.client_point}','${id.client_email}',)">
 							    		<span class="glyphicon glyphicon-pencil"></span>
 							    	</button>
 						    	</p>
@@ -119,10 +122,10 @@
 		</tr>
     </tbody>
 </table>		
-	                
-	
-	</div>
+</div>
 	                <!-- 메인글 끝 -->
+	          
+<jsp:include page="./AdminModal.jsp"></jsp:include>
 	                
 <jsp:include page="./AdminLayOut/AdminNavEnd.jsp"></jsp:include>
 

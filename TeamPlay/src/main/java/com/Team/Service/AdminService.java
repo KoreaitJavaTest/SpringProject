@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 
 import com.Team.Dao.AdminDao;
 import com.Team.List.AdminUserMangementList;
+import com.Team.Vo.ClientVo;
 
 public class AdminService {
 	private static AdminService instance = new AdminService();
@@ -55,6 +56,29 @@ public class AdminService {
 		mapper.AdminUserDelete(userId);
 		return "성공적으로"+ userId+"을(를) 삭제했습니다.";
 		
+		
+		
+	}
+	public void AdminUserUpdate(Model model, AdminDao mapper) {
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:ClientCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		String updateId = request.getParameter("userId");
+		String updatePw = request.getParameter("userPw");
+		String updateEmail = request.getParameter("userEmail");
+		String updatePh = request.getParameter("userPh");
+		String updatePoint = request.getParameter("userPoint");
+		int userLevel = Integer.parseInt(request.getParameter("userLevel")); 	
+		System.out.println(updatePw);
+		System.out.println(updateEmail);
+		System.out.println(updatePh);
+		System.out.println(updatePoint);
+		System.out.println(userLevel);
+		ClientVo updateVo = ctx.getBean("Client",ClientVo.class);
+		updateVo.adminUserUpdate(userLevel, updateId, updatePw, updatePh, updateEmail, updatePoint);
+		System.out.println(updateVo);
+		mapper.adminUpserUpdate(updateVo);
 		
 		
 	}

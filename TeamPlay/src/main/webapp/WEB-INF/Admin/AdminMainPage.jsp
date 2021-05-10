@@ -40,7 +40,7 @@ body { padding-top:20px; }
 	                          <a href="#" class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-tag"></span> <br/>Tags</a>
 	                        </div>
 	                    </div>
-	                    <a href="http://www.jquery2dotnet.com/" class="btn btn-success btn-lg btn-block" role="button"><span class="glyphicon glyphicon-globe"></span> Home</a>
+	                    <a href="index" class="btn btn-success btn-lg btn-block" role="button"><span class="glyphicon glyphicon-globe"></span> Home</a>
 	                </div>
 	                
 	                <!-- 메인글 끝 -->

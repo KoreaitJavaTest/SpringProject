@@ -3,9 +3,11 @@ package com.Team.Dao;
 import java.util.ArrayList;
 
 import com.Team.List.QAboardList;
+import com.Team.List.ReViewList;
 import com.Team.Vo.AttentionPointVO;
 import com.Team.Vo.ClientVo;
 import com.Team.Vo.QAboardVo;
+import com.Team.Vo.ReViewVO;
 
 public interface ClientDao {
 
@@ -40,10 +42,18 @@ public interface ClientDao {
 	void depositAttentionPoint(AttentionPointVO logVo);
 
 	int userPointSelect(String userId);
+	
+	int reviewListCount(String id);
 	//---
 
 	int qnaTotalCount(String id);
 
 	ArrayList<QAboardVo> QAselectList(QAboardList qaBoardList);
+
+	ArrayList<ReViewVO> selectreviewList(ReViewList reViewList);
+
+	ArrayList<AttentionPointVO> SelectMyPointDeposit(String userId);
+
+
 
 }

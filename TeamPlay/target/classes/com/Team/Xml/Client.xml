@@ -80,6 +80,22 @@
 		]]>
 	</select>	
 	
+	<select id="reviewListCount" parameterType="String" resultType="int">
+		SELECT count(*) FROM REVIEW WHERE RE_USERID = #{id}
+	</select>
+	
+	<select id="selectreviewList" parameterType="com.Team.List.ReViewList" resultType="com.Team.Vo.ReViewVO">
+		<![CDATA[
+		select * from (
+			select rownum rnum, TT.* from (
+				select * from REVIEW WHERE RE_USERID = #{id} order by RE_IDX asc
+			) TT where rownum <= #{endNo}
+		) where rnum >= #{startNo}
+		]]>
+	</select>
+	<select id="SelectMyPointDeposit" parameterType="String" resultType="com.Team.Vo.AttentionPointVO">
+		select * from ATTENTIONPOINT WHERE USERID = #{userId}
+	</select>
 	
 	
 	

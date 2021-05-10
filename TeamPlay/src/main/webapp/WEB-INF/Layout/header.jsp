@@ -393,7 +393,7 @@ span.tags {background: #1abc9c;border-radius: 2px;color: #f5f5f5;font-weight: bo
 					<span class="icon-bar"></span>
 				</button>
 			</div>
-			<div class="jumbotron" onclick = "location.href = '/TeamPlay/'">
+			<div style="cursor: pointer;" class="jumbotron" onclick = "location.href = 'index'">
 				<h1 class="text-center">LUXMEA</h1>
 				<p class="text-center">LUXMEA MAKES YOU SHINE</p>
 			</div>
@@ -438,7 +438,7 @@ span.tags {background: #1abc9c;border-radius: 2px;color: #f5f5f5;font-weight: bo
 								<li><div align="center">${sessionScope.session_id}님<br/>point: ${sessionScope.session_point}점</div></li>
 								<li><div style="cursor: pointer;" align="center" onclick="location.href='LogoutViewDo'">로그아웃</div></li>
 								<c:if test="${sessionScope.session_level==1}">
-									<li><div style="cursor: pointer;" align="center" onclick="location.href='adminPage.nhn'">관리자페이지</div></li>
+									<li><div style="cursor: pointer;" align="center" onclick="location.href='adminPage'">관리자페이지</div></li>
 								</c:if>
 							</c:if>
 						</ul>

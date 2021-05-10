@@ -44,13 +44,13 @@
 	          <div class="collapse" id="toggleDemo" style="height: 0px;">
 	            <ul class="nav nav-list">
 	              <li><a href="#">판매 상품</a></li>
-	              <li><a href="MyListViewPage.nhn">내가 올린 리뷰</a></li>
+	              <li><a href="MyListViewPage">내가 올린 리뷰</a></li>
 	              <li><a href="MyQnAviewPageDo">1:1 상담</a></li>
 	            </ul>
 	          </div>
 	        </li>
 	        <li><a href="MyBaguniView.nhn"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;장바구니</a></li>
-	        <li><a href="MyPointSelect.nhn"><span class="glyphicon glyphicon-copyright-mark"></span> 포인트 내역 <span class="badge pull-right">${sessionScope.session_point}</span></a></li>
+	        <li><a href="MyPointSelect"><span class="glyphicon glyphicon-copyright-mark"></span> 포인트 내역 <span class="badge pull-right">${sessionScope.session_point}</span></a></li>
 	        <li><a href="MyClientWithdrawalDo"><span class="glyphicon glyphicon-cog"></span> 회원 탈퇴</a></li>
 	      </ul>
 	      </div><!--/.nav-collapse -->

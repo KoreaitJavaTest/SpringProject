@@ -25,7 +25,7 @@
         <div class="col-md-3">
             <ul class="nav nav-pills nav-stacked">
                 <li class="active"><a href="#"><i class="fa fa-home fa-fw"></i>Home</a></li>
-                <li><a href="AdminUserMangement.nhn"><i class="fa fa-list-alt fa-fw"></i>사용자관리</a></li>
+                <li><a href="AdminUserMangement"><i class="fa fa-list-alt fa-fw"></i>사용자관리</a></li>
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-file-o fa-fw"></i>상품관리</a></li>
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-bar-chart-o fa-fw"></i>결제 관리</a></li>
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-table fa-fw"></i>배송 관리</a></li>

@@ -303,5 +303,22 @@ public class ClientContorller {
 		ClientService.getInstance().MyQnAviewPageDo(model,mapper,response);
 		return "MyPage/MyQnAviewPage";
 	}
+	@RequestMapping("MyListViewPage")
+	public String MyListViewPage(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
+		System.out.println("MyQnAviewPageDo()");
+		ClientDao Clientmapper = sqlSession.getMapper(ClientDao.class);
+		ReViewDAO ReViewmapper = sqlSession.getMapper(ReViewDAO.class);
+		model.addAttribute("request", request);
+		ClientService.getInstance().reviewSelect(model,Clientmapper,ReViewmapper,response);
+		return "MyPage/MyListViewPage";
+	}
+	@RequestMapping("MyPointSelect")
+	public String MyPointSelect(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
+		System.out.println("MyQnAviewPageDo()");
+		ClientDao Clientmapper = sqlSession.getMapper(ClientDao.class);
+		model.addAttribute("request", request);
+		ClientService.getInstance().SelectMyPointDeposit(model,Clientmapper,response);
+		return "MyPage/MyPagePointLogView";
+	}
 
 }

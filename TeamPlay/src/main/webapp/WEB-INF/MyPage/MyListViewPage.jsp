@@ -25,8 +25,8 @@
 <!-- 					<td align="center">작성일</td> -->
 <!-- 					<td align="center">조회수</td> -->
                    <th><input type="checkbox" id="checkall" /></th>
-                   <th>글번호</th>
-                    <th style="width: 70px;">글쓴이</th>
+
+                    <th style="width: 70px; text-align: center;">글쓴이</th>
                      <th style="text-align: center;">제목</th>
                      <th style="width: 146px; text-align: center;">작성일</th>
                      <th style="width: 66px;">조회수</th>
@@ -45,7 +45,6 @@
 					<c:forEach var="vo" items="${list}">
 						<tr style="cursor: pointer;">
 							<td><input type="checkbox" class="checkthis" /></td>
-							<td align="center">${vo.RE_idx}</td>
 							<td align="center">${vo.RE_userId}</td>
 							<td align="center" onclick="location.href='ReHitUp.nhn?idx=${vo.RE_idx}&currentPage=${reViewList.currentPage}'">${vo.RE_title}</td>
 								<td align="center">
@@ -59,14 +58,14 @@
 							<td align="center">${vo.RE_hit}</td>
 							<td align="center">
 						    	<p data-placement="top" data-toggle="tooltip" title="Edit">
-							    	<button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" onclick="location.href='ReViewUpdate.nhn?idx=${vo.RE_idx}'">
+							    	<button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" onclick="location.href='ReViewUpdate?idx=${vo.RE_idx}'">
 							    		<span class="glyphicon glyphicon-pencil"></span>
 							    	</button>
 						    	</p>
 					    	</td>
 					    	<td align="center">
 						    	<p data-placement="top" data-toggle="tooltip" title="Delete">
-							    	<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="location.href='ReViewDeleteOK.nhn?idx=${vo.RE_idx}&flag=mypage'" >
+							    	<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="location.href='ReViewDeleteOK?idx=${vo.RE_idx}&flag=mypage'" >
 							    		<span class="glyphicon glyphicon-trash"></span>
 							    	</button>
 					    		</p>

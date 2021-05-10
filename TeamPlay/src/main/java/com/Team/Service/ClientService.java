@@ -24,7 +24,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Team.Dao.ClientDao;
+import com.Team.Dao.ReViewDAO;
 import com.Team.List.QAboardList;
+import com.Team.List.ReViewList;
 import com.Team.Vo.AttentionPointVO;
 import com.Team.Vo.ClientVo;
 
@@ -463,16 +465,18 @@ public class ClientService {
 			mapper.insertPointLog(logVo);
 			mapper.depositAttentionPoint(logVo);
 			System.out.println("test");
-			response.getWriter().write("출석포인트 50Point 적립 되었습니다!");
-			System.out.println("사이즈가 0일떄");
+//			response.getWriter().write("출석포인트 50Point 적립 되었습니다!");
+//			System.out.println("사이즈가 0일떄");
 		}else { 
-			for (int i = 0; i < PointList.size(); i++) {
-
-//				System.out.println(PointList.get(i).getDepositDate().getDate());
+			System.out.println("사이즈"+PointList.size());
+			for (int i = 0; i < PointList.size(); i++) {	
+//				System.out.println("적립날짜 순서 :"+PointList.);
+				System.out.println("반복횟수:"+i);
 				if(PointList.get(i).getDepositDate().getMonth()+1!=date.getMonth()+1 && PointList.get(i).getDepositDate().getDate()!=date.getDate()
 					|| PointList.get(i).getDepositDate().getMonth()+1==date.getMonth()+1 && PointList.get(i).getDepositDate().getDate()!=date.getDate()) {
 					check++;
 				}
+			}
 			if(check==PointList.size()) { //포인트내역추가 , 유저 포인트 증가
 				mapper.insertPointLog(logVo);
 				System.out.println("insertPointLog 종료");
@@ -488,10 +492,10 @@ public class ClientService {
 				return -1;
 			}
 				
-		}
+		
 			
 		}
-		return -1;
+		return 1;
 	}
 	
 	public void MyQnAviewPageDo(Model model, ClientDao mapper, HttpServletResponse response) throws IOException {
@@ -521,6 +525,39 @@ public class ClientService {
 		qaBoardList.setList(mapper.QAselectList(qaBoardList));
 
 		request.setAttribute("qaList", qaBoardList);		
+	}
+	public void reviewSelect(Model model, ClientDao mapper, ReViewDAO reViewmapper, HttpServletResponse response) throws UnsupportedEncodingException {
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		HttpSession session = request.getSession();
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		int currentPage = 1;
+		try {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		} catch (Exception e) { }
+		
+		int pagesize = 10;
+		String id = (String)session.getAttribute("session_id");
+		int totalCount = mapper.reviewListCount(id);
+		ReViewList reViewList = ctx.getBean("ReViewList",ReViewList.class);
+		reViewList.SetReViewList(pagesize, totalCount, currentPage, id);
+		reViewList.setList(mapper.selectreviewList(reViewList));
+		
+		model.addAttribute("reViewList", reViewList);
+		System.out.println("list:" +reViewList.getList());
+		
+	}
+	public void SelectMyPointDeposit(Model model, ClientDao clientmapper, HttpServletResponse response) {
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		HttpSession session = request.getSession();
+		String userId=""+session.getAttribute("session_id");
+		ArrayList<AttentionPointVO> list = clientmapper.SelectMyPointDeposit(userId);
+		model.addAttribute("list", list);
 	}
 	
 }

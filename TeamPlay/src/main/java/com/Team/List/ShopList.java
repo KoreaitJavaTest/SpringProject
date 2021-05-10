@@ -24,11 +24,12 @@ public class ShopList {
 		this.category = category;
 		calculator();
 	}
-	public void shopList_categoryDetail(int pageSize, int totalCount, int currentPage, String categoryDetail) {
+	public void shopList_category(int pageSize, int totalCount, int currentPage, String categoryDetail, String category) {
 		this.pageSize = pageSize;
 		this.totalCount = totalCount;
 		this.currentPage = currentPage;
 		this.categoryDetail = categoryDetail;
+		this.category = category;
 		calculator();
 	}
 	

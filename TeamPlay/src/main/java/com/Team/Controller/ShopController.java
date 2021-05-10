@@ -47,11 +47,80 @@ public class ShopController {
 	}
 	
 	@RequestMapping("/ShopInsertProductOK")
-	public String ShopInsertProductOK(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+	public String ShopInsertProductOK(HttpServletRequest request, Model model) throws IOException {
 		System.out.println("HomeController => ShopInsertProductOK()");
 		model.addAttribute("request", request);
 		ShopDAO mapper = sqlSession.getMapper(ShopDAO.class);
-		shopservice.insertProduct(model, response, mapper);
+		shopservice.insertProduct(model, mapper);
+		return "Shop/ShopAllProduct";
+	}
+	
+	@RequestMapping("/ShopCategoryDetail")
+	public String selectCategoryDetail(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		System.out.println("HomeController => ShopCategoryDetail()");
+		model.addAttribute("request", request);
+		ShopDAO mapper = sqlSession.getMapper(ShopDAO.class);
+		shopservice.selectCategoryDetail(model, response, mapper);
+		return "Shop/ShopCategoryDetail";
+	}
+	
+	@RequestMapping("/ShopSelectProduct")
+	public String ShopSelectProduct(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		System.out.println("HomeController => ShopSelectProduct()");
+		model.addAttribute("request", request);
+		ShopDAO mapper = sqlSession.getMapper(ShopDAO.class);
+		shopservice.ShopSelectProduct(model, response, mapper);
+		return "Shop/ShopSelectProduct";
+	}
+	
+	@RequestMapping("/likeUpdate")
+	public void likeUpdate(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		System.out.println("HomeController => likeUpdate()");
+		model.addAttribute("request", request);
+		ShopDAO mapper = sqlSession.getMapper(ShopDAO.class);
+		shopservice.likeUpdate(model, response, mapper);
+	}
+	
+	@RequestMapping("/likeCount")
+	public void likeCount(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		System.out.println("HomeController => likeCount()");
+		model.addAttribute("request", request);
+		ShopDAO mapper = sqlSession.getMapper(ShopDAO.class);
+		shopservice.likeCount(model, response, mapper);
+	}
+	
+//	상품 수정	
+	@RequestMapping("/ShopUpdateProduct")
+	public String ShopUpdateProduct(HttpServletRequest request, Model model) throws IOException {
+		System.out.println("HomeController => ShopInsertProduct()");
+		return "Shop/ShopUpdateProduct";
+	}
+	
+	@RequestMapping("/ShopUpdateProductOK")
+	public String ShopUpdateProduct(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		System.out.println("HomeController => ShopUpdateProduct()");
+		model.addAttribute("request", request);
+		ShopDAO mapper = sqlSession.getMapper(ShopDAO.class);
+		shopservice.ShopUpdateProduct(model, response, mapper);
+		return "Shop/ShopAllProduct";
+	}
+	
+//	상품 삭제
+	@RequestMapping("/ShopDeleteProduct")
+	public String ShopDeleteProduct(HttpServletRequest request, Model model) throws IOException {
+		System.out.println("HomeController => ShopInsertProduct()");
+		model.addAttribute("request", request);
+		ShopDAO mapper = sqlSession.getMapper(ShopDAO.class);
+		shopservice.ShopSelectByIdx(model, mapper);
+		return "Shop/ShopDeleteProduct";
+	}
+	
+	@RequestMapping("/ShopDeleteProductOK")
+	public String ShopDeleteProduct(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+		System.out.println("HomeController => ShopDeleteProduct()");
+		model.addAttribute("request", request);
+		ShopDAO mapper = sqlSession.getMapper(ShopDAO.class);
+		shopservice.ShopDeleteProduct(model, response, mapper);
 		return "Shop/ShopAllProduct";
 	}
 //	

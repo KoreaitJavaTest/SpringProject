@@ -2,11 +2,12 @@ package com.Team.List;
 
 import java.util.ArrayList;
 
-import com.Team.Vo.ReViewVO;
+import com.Team.Vo.ClientVo;
 
 
-public class ReViewList {
-	private ArrayList<ReViewVO> list = new ArrayList<ReViewVO>();
+
+public class AdminUserMangementList {
+	private ArrayList<ClientVo> list = new ArrayList<ClientVo>();
 	private int pageSize = 10;
 	private int totalCount = 0;
 	private int totalPage = 0;
@@ -17,15 +18,15 @@ public class ReViewList {
 	private int endPage = 0;
 	private String id = "";
 	
-	public ReViewList() { }
-	
-	public void setDate(int pagesize, int totalcount, int currentPage) {
-		this.pageSize = pagesize;
-		this.totalCount = totalcount;
+	public AdminUserMangementList() { }
+	public void SetAdminUserMangementList(int pageSize, int totalCount, int currentPage) {
+		this.pageSize = pageSize;
+		this.totalCount = totalCount;
 		this.currentPage = currentPage;
 		calculator();
 	}
-	public void SetReViewList(int pagesize, int totalcount, int currentPage, String id) {
+	
+	public void SetIdAdminUserMangementList(int pagesize, int totalcount, int currentPage, String id) {
 		this.id = id;
 		this.pageSize = pagesize;
 		this.totalCount = totalcount;
@@ -43,10 +44,10 @@ public class ReViewList {
 		endPage = startPage + 9;
 		endPage = endPage > totalPage ? totalPage : endPage;
 	}
-	public ArrayList<ReViewVO> getList() {
+	public ArrayList<ClientVo> getList() {
 		return list;
 	}
-	public void setList(ArrayList<ReViewVO> list) {
+	public void setList(ArrayList<ClientVo> list) {
 		this.list = list;
 	}
 	public int getPageSize() {
@@ -97,12 +98,11 @@ public class ReViewList {
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
-	@Override
-	public String toString() {
-		return "ReViewList [list=" + list + ", pageSize=" + pageSize + ", totalCount=" + totalCount + ", totalPage="
-				+ totalPage + ", currentPage=" + currentPage + ", startNo=" + startNo + ", endNo=" + endNo
-				+ ", startPage=" + startPage + ", endPage=" + endPage + "]";
+	public String getId() {
+		return id;
 	}
-	
+	public void setId(String id) {
+		this.id = id;
+	}
 	
 }

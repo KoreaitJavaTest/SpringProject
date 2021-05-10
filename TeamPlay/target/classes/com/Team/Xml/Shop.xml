@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Team.Dao.ShopDAO">
+
+	<select id="selectCount" resultType="int">
+		select count(*) from shop
+	</select>
+
+	<select id="selectAllProduct" parameterType="com.Team.List.ShopList" resultType="com.Team.Vo.ShopVO">
+		<![CDATA[
+		select * from (
+			select rownum rnum, TT.* from (
+				select * from shop 
+				]]>
+					<where>
+						<if test="category != null and category.equals('신발')">
+							SH_CATEGORY = '신발'
+						</if>
+						<if test="category != null and category.equals('상의')">
+							SH_CATEGORY = '상의'
+						</if>
+					</where>
+				<![CDATA[
+				order by sh_idx desc
+			) TT where rownum <= #{endNo}
+		) where rnum >= #{startNo}
+		]]>
+	</select> 
+	
+	<select id="selectCategoryDetail" parameterType="com.Team.List.ShopList" resultType="com.Team.Vo.ShopVO">
+		<![CDATA[
+ 			select * from (
+ 				select rownum rnum, TT.* from (
+  					select * from shop where 
+  					
+   					SH_CATEGORYDETAIL like '%'||#{categoryDetail}||'%' AND SH_CATEGORY like '%'||#{category}||'%'
+  					
+  					order by sh_idx desc
+ 				) TT where rownum <= #{endNo}
+ 			) where rnum >= #{startNo}
+ 		]]> 
+	</select> 
+
+	<insert id="shopInsertProduct" parameterType="com.Team.Vo.ShopVO">
+		insert into shop	
+		(
+			sh_idx, sh_title, sh_name, sh_category, sh_categoryDetail, sh_content, sh_ea, sh_price, sh_img1, sh_img2, sh_saleprice, sh_salepercent, sh_seller
+		)
+		values 
+		(
+			shop_idx_seq.nextval, #{sh_title}, #{sh_name},	#{sh_category},	#{sh_categoryDetail}, #{sh_content}, #{sh_ea}, #{sh_price}, #{sh_img1}, #{sh_img2}, #{sh_salePrice}, #{sh_salePercent}, #{sh_seller}												
+		)
+	</insert>
+	<insert id="shopInsertProduct1" parameterType="com.Team.Vo.ShopVO">
+		insert into shop	
+		(
+			sh_idx, sh_title, sh_name, sh_category, sh_categoryDetail, sh_content, sh_ea, sh_price, sh_img1, sh_saleprice, sh_salepercent, sh_seller
+		)
+		values 
+		(
+			shop_idx_seq.nextval, #{sh_title}, #{sh_name},	#{sh_category},	#{sh_categoryDetail}, #{sh_content}, #{sh_ea}, #{sh_price}, #{sh_img1}, #{sh_salePrice}, #{sh_salePercent}, #{sh_seller}
+		)
+	</insert>
+	<insert id="shopInsertProduct2" parameterType="com.Team.Vo.ShopVO">
+		insert into shop	
+		(
+			sh_idx, sh_title, sh_name, sh_category, sh_categoryDetail, sh_content, sh_ea, sh_price, sh_img2, sh_saleprice, sh_salepercent, sh_seller
+		)
+		values 
+		(
+			shop_idx_seq.nextval, #{sh_title}, #{sh_name},	#{sh_category},	#{sh_categoryDetail}, #{sh_content}, #{sh_ea}, #{sh_price}, #{sh_img2}, #{sh_salePrice}, #{sh_salePercent}, #{sh_seller}
+		)
+	</insert>
+
+	<!-- idx로 상품 1개 가져오기 -->
+	<select id="selectProduct" parameterType="int" resultType="com.Team.Vo.ShopVO">
+ 			select * from shop where sh_idx = #{sh_idx}
+	</select>
+
+	<!-- 좋아요 체크 -->
+	<select id="likeCheck" parameterType="map" resultType="int">
+		select count(*) from product_like where ref_sh_idx = #{like_idx} and ref_client_id = #{like_id}
+	</select>
+	
+	<!-- 좋아요 추가 -->
+	<insert id="likeUpdate" parameterType="map">
+		insert into product_like values(#{like_idx}, #{like_id})
+	</insert>
+	
+	<!-- 좋아요 삭제 -->
+	<delete id="likeDelete" parameterType="map">
+		delete from product_like where ref_sh_idx = #{like_idx} and ref_client_id = #{like_id}
+	</delete>
+
+	<!-- 좋아요 수 카운트 -->
+	<select id="likeCount" parameterType="int" resultType="int">
+		select count(*) from product_like where ref_sh_idx = #{like_idx}
+	</select>
+	
+	<!-- 상품에 좋아요 수 업데이트 -->
+	<update id="productLikeInsert" parameterType="int">
+		update shop set sh_like = #{count} where sh_idx = #{sh_idx}
+	</update>
+
+	<!-- 	상품 삭제 -->
+	<delete id="deleteProduct" parameterType="int">
+		delete shop where sh_idx = #{sh_idx}
+	</delete>
+	
+	<!-- 	상품 수정 -->
+	<update id="updateProduct" parameterType="com.Team.Vo.ShopVO">
+		update shop set sh_title = #{sh_title}, sh_name = #{sh_name}, sh_category=#{sh_category},
+		sh_categoryDetail=#{sh_categoryDetail}, sh_content=#{sh_content}, sh_price=#{sh_price},
+		sh_salePercent=#{sh_salePercent}, sh_salePrice=#{sh_salePrice}, sh_img1=#{sh_img1}, sh_img2=#{sh_img2}
+		where sh_idx=#{sh_idx}
+	</update>
+	<update id="updateProduct1" parameterType="com.Team.Vo.ShopVO">
+		update shop set sh_title = #{sh_title}, sh_name = #{sh_name}, sh_category=#{sh_category},
+		sh_categoryDetail=#{sh_categoryDetail}, sh_content=#{sh_content}, sh_price=#{sh_price},
+		sh_salePercent=#{sh_salePercent}, sh_salePrice=#{sh_salePrice}, sh_img1=#{sh_img1}, sh_img2=null
+		where sh_idx=#{sh_idx}
+	</update>
+	<update id="updateProduct2" parameterType="com.Team.Vo.ShopVO">
+		update shop set sh_title = #{sh_title}, sh_name = #{sh_name}, sh_category=#{sh_category},
+		sh_categoryDetail=#{sh_categoryDetail}, sh_content=#{sh_content}, sh_price=#{sh_price},
+		sh_salePercent=#{sh_salePercent}, sh_salePrice=#{sh_salePrice}, sh_img1=null, sh_img2=#{sh_img2}
+		where sh_idx=#{sh_idx}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

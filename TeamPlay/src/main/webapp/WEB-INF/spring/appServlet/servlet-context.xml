@@ -18,14 +18,16 @@
 <!-- 	<resources mapping="/JS/**" location="/WEB-INF/JS/" /> -->
 	<resources mapping="/korea/upload/**" location="file:///D:/upload" />
 
+
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/"/>
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<context:component-scan base-package="com.Team.*" />
 
-	<context:component-scan base-package="com.Team.Controller" />
+<!-- 	<context:component-scan base-package="com.Team.Controller" /> -->
 	
 	<beans:bean name="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -49,6 +51,8 @@
 		<beans:constructor-arg index="0"
 			ref="sqlSessionFactory"></beans:constructor-arg>
 	</beans:bean>
-
 	
+	<!-- 파일 업로드 -->
+<!-- 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> -->
+<!-- 	</beans:bean> -->
 </beans:beans>

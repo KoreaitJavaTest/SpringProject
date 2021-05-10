@@ -240,11 +240,12 @@ function like(flag){
 							 <li role="presentation">
 							 <c:choose>
 							 	<c:when test="${sessionScope.session_id eq vo.RE_userId }">
-							 	<a href="ReViewUpdate.nhn?idx=${vo.RE_idx}&currentPage=${currentPage}" role="menuitem" tabindex="-1">
+							 	<a href="ReView/ReViewUpdate?idx=${vo.RE_idx}&currentPage=${currentPage}" role="menuitem" tabindex="-1">
 							 		수정하기
 							 	</a>
 							 	</c:when>
 							 	<c:otherwise>
+<%-- 							 		<a href="ReView/ReViewUpdate?idx=${vo.RE_idx}&currentPage=${currentPage}" role="menuitem" tabindex="-1"> --%>
 								 	<a href="#" role="menuitem" tabindex="-1" onclick="alert('작성자 아이디가 아닙니다!');location.href='LoginView.nhn'">
 								 		수정하기
 								 	</a>
@@ -254,11 +255,17 @@ function like(flag){
 							 <li role="presentation">
 								 <c:choose>
 							 	<c:when test="${sessionScope.session_id eq vo.RE_userId }">
-							 	<a href="ReViewDeleteOK.nhn?idx=${vo.RE_idx}&currentPage=${currentPage}&flag=detail" role="menuitem" tabindex="-1">
+							 	<a href="ReView/ReViewDeleteOK?idx=${vo.RE_idx}&currentPage=${currentPage}&flag=detail" role="menuitem" tabindex="-1">
+							 		삭제하기
+							 	</a>
+							 	</c:when>
+							 	<c:when test="${sessionScope.session_id eq null }">
+							 	<a href="ReView/ReViewDeleteOK?idx=${vo.RE_idx}&currentPage=${currentPage}&flag=detail" role="menuitem" tabindex="-1">
 							 		삭제하기
 							 	</a>
 							 	</c:when>
 							 	<c:otherwise>
+<%-- 								 	<a href="ReViewDeleteOK?idx=${vo.RE_idx}&currentPage=${currentPage}&flag=detail" role="menuitem" tabindex="-1"> --%>
 								 	<a href="#" role="menuitem" tabindex="-1" onclick="alert('작성자 아이디가 아닙니다!')location.href='LoginView.nhn'">
 								 		삭제하기
 								 	</a>

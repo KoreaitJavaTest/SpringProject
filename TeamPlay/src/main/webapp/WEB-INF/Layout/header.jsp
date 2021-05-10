@@ -403,7 +403,7 @@ span.tags {background: #1abc9c;border-radius: 2px;color: #f5f5f5;font-weight: bo
 						<a  class="nav-link jinho" href="ShopAllProduct">전체상품</a>
 					</li>
 					<li class="nav-item">
-						<a  class="nav-link jinho" href="insertProduct.nhn">상품판매등록(임시)</a>
+						<a  class="nav-link jinho" href="ShopInsertProduct">상품판매등록(임시)</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link jinho" href="ReViewBoard">리뷰게시판</a>

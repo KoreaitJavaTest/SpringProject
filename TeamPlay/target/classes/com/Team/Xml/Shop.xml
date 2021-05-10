@@ -27,4 +27,36 @@
 		]]>
 	</select> 
 
+	<insert id="shopInsertProduct" parameterType="com.Team.Vo.ShopVO">
+		insert into shop	
+		(
+			sh_idx, sh_title, sh_name, sh_category, sh_categoryDetail, sh_content, sh_ea, sh_price, sh_img1, sh_img2, sh_saleprice, sh_salepercent, sh_seller
+		)
+		values 
+		(
+			shop_idx_seq.nextval, #{sh_title}, #{sh_name},	#{sh_category},	#{sh_categoryDetail}, #{sh_content}, #{sh_ea}, #{sh_price}, #{sh_img1}, #{sh_img2}, #{sh_salePrice}, #{sh_salePercent}, #{sh_seller}												
+		)
+	</insert>
+	<insert id="shopInsertProduct1" parameterType="com.Team.Vo.ShopVO">
+		insert into shop	
+		(
+			sh_idx, sh_title, sh_name, sh_category, sh_categoryDetail, sh_content, sh_ea, sh_price, sh_img1, sh_saleprice, sh_salepercent, sh_seller
+		)
+		values 
+		(
+			shop_idx_seq.nextval, #{sh_title}, #{sh_name},	#{sh_category},	#{sh_categoryDetail}, #{sh_content}, #{sh_ea}, #{sh_price}, #{sh_img1}, #{sh_salePrice}, #{sh_salePercent}, #{sh_seller}
+		)
+	</insert>
+	<insert id="shopInsertProduct2" parameterType="com.Team.Vo.ShopVO">
+		insert into shop	
+		(
+			sh_idx, sh_title, sh_name, sh_category, sh_categoryDetail, sh_content, sh_ea, sh_price, sh_img2, sh_saleprice, sh_salepercent, sh_seller
+		)
+		values 
+		(
+			shop_idx_seq.nextval, #{sh_title}, #{sh_name},	#{sh_category},	#{sh_categoryDetail}, #{sh_content}, #{sh_ea}, #{sh_price}, #{sh_img2}, #{sh_salePrice}, #{sh_salePercent}, #{sh_seller}
+		)
+	</insert>
+
+
 </mapper>

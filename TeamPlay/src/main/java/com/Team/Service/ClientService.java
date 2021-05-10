@@ -2,25 +2,23 @@ package com.Team.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.mail.*;
+import javax.mail.Address;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.ui.Model;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletWebRequest;
 
 import com.Team.Dao.ClientDao;
 import com.Team.Vo.ClientVo;
@@ -360,6 +358,78 @@ public class ClientService {
 		}
 		request.setAttribute("vo", vo);
 		
+	}
+	public void EditResultViewDo(Model model, ClientDao mapper, HttpServletResponse response) throws UnsupportedEncodingException {
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		ClientVo vo = null;
+		
+		HttpSession session = request.getSession();
+		
+		String id = (String) session.getAttribute("session_id");
+		String before_password = (String)session.getAttribute("session_password");
+		String before_addr_head = (String)session.getAttribute("session_addr_head");
+		String before_addr_end = (String)session.getAttribute("session_addr_end");
+		
+		String password = request.getParameter("password");
+		String addr_head = request.getParameter("addr_head");
+		String addr_end = request.getParameter("addr_end");
+		if(password.equals("") || password.equals(before_password)) {
+			if(addr_head.equals(before_addr_head)) {
+				if(addr_end.equals(before_addr_end)) {
+					PrintWriter script;
+					try {
+						script = response.getWriter();
+						script.println("<script>");
+						script.println("alert('변경된 내용이없어 메인페이지로 돌아갑니다.');");
+						script.println("location.href = 'index.jsp';");
+						script.println("</script>");
+						script.close();
+						return;
+					} catch (IOException e) {e.printStackTrace();}
+				}else {
+					System.out.println("비밀번호는 변경하지않지만 주소만 변경");
+					vo = new ClientVo();
+					vo.setClient_password(before_password);
+					vo.setClient_addr_head(addr_head);
+					vo.setClient_addr_end(addr_end);
+					vo.setClient_id(id);
+					
+					mapper.ClientUpdate(mapper,vo);
+					
+					session.setAttribute("session_addr_head", addr_head);
+					session.setAttribute("session_addr_end", addr_end);
+				}
+			}else {
+				System.out.println("비밀번호는 변경하지않지만 주소만 변경");
+				vo = new ClientVo();
+				vo.setClient_password(before_password);
+				vo.setClient_addr_head(addr_head);
+				vo.setClient_addr_end(addr_end);
+				vo.setClient_id(id);
+				
+				mapper.ClientUpdate(mapper,vo);
+				
+				session.setAttribute("session_addr_head", addr_head);
+				session.setAttribute("session_addr_end", addr_end);
+			}
+		}else {
+			System.out.println("비밀번호 주소 둘다변경");
+			vo = new ClientVo();
+			vo.setClient_password(password);
+			vo.setClient_addr_head(addr_head);
+			vo.setClient_addr_end(addr_end);
+			vo.setClient_id(id);
+			mapper.ClientUpdate(mapper,vo);
+			
+			session.setAttribute("session_password", password);
+			session.setAttribute("session_addr_head", addr_head);
+			session.setAttribute("session_addr_end", addr_end);
+		}
 	}
 	
 }

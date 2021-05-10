@@ -24,4 +24,6 @@ public interface ClientDao {
 
 	ClientVo ClientInfo(ClientDao mapper, ClientVo vo);
 
+	void ClientUpdate(ClientDao mapper, ClientVo vo);
+
 }

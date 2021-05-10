@@ -38,7 +38,7 @@ public class ClientContorller {
 		return "views/index";
 
 	}
-
+	
 	// 회원가입 페이지 이동
 	@RequestMapping("/JoinViewDo")
 	public String JoinViewDo(HttpServletRequest request, Model model) {
@@ -212,6 +212,15 @@ public class ClientContorller {
 		model.addAttribute("request", request);
 		ClientService.getInstance().ClientEditViewDo(model,mapper,response);
 		return "MyPage/ClientEditView";
+	}
+
+	@RequestMapping("/EditResultViewDo")
+	public String EditResultViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
+		System.out.println("EditResultViewDo()");
+		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
+		model.addAttribute("request", request);
+		ClientService.getInstance().EditResultViewDo(model,mapper,response);
+		return "MyPage/EditResultViewDo";
 	}
 
 }

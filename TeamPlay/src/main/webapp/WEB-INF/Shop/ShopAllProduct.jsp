@@ -43,7 +43,8 @@ function addcart(idx) {
         <div class="col-md-3 col-sm-6">
             <div class="product-grid">
                 <div class="product-image">
-                    <a href="increment.nhn?sh_idx=${vo.sh_idx}">
+<%--                     <a href="increment.nhn?sh_idx=${vo.sh_idx}"> 원본--%>
+                    <a href="ShopInsertProduct?sh_idx=${vo.sh_idx}">
                     	<c:if test="${vo.sh_img1 != null && vo.sh_img2 == null}">
 	                        <img class="pic-1 pic" src="${vo.sh_img1}">
                     	</c:if>

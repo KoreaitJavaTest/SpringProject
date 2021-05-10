@@ -153,8 +153,8 @@ function searchAddr(){
 </script>
 <jsp:include page="../Layout/header.jsp"></jsp:include>
 <html>
-	<form action="JoinResultViewDo" method = "post">
-		<table class = "table table-bordered table-hover" border = "1" align = "center" style = "width : 30%; margin-top:10px;">
+	<form action="JoinResultViewDo" method = "post" align = "center">
+		<table class = "table table-bordered table-hover" border = "1" align = "center" style = "width : 30%;margin-top:10px;margin-left: 680px;">
 			<tr>
 				<td align = "center" colspan ="2"> 
 					아이디

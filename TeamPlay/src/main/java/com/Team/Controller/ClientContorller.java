@@ -320,5 +320,14 @@ public class ClientContorller {
 		ClientService.getInstance().SelectMyPointDeposit(model,Clientmapper,response);
 		return "MyPage/MyPagePointLogView";
 	}
+	
+	@RequestMapping("MyBaguniViewDo")
+	public String MyBaguniViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
+		System.out.println("MyBaguniViewDo()");
+		ClientDao Clientmapper = sqlSession.getMapper(ClientDao.class);
+		model.addAttribute("request", request);
+		ClientService.getInstance().MyBaguniViewDo(model,Clientmapper,response);
+		return "MyPage/MyBaguniMainView";
+	}
 
 }

@@ -49,4 +49,38 @@
 		WHERE CLIENT_ID = #{client_id}
 	</update>
 	
+	<!-- 진호 -->
+	<select id="selectPoint" parameterType="String" resultType="com.Team.Vo.AttentionPointVO">
+		select * from ATTENTIONPOINT where userid=#{userId}
+	</select>
+	
+	<insert id="insertPointLog" parameterType="com.Team.Vo.AttentionPointVO">
+		INSERT INTO ATTENTIONPOINT (idx,userid,point,content) VALUES (ATTENTIONPOINT_seq_idx.nextval,#{userId},#{point},#{content})
+	</insert>
+	
+	<update id="depositAttentionPoint" parameterType="com.Team.Vo.AttentionPointVO">
+		update CLIENT_DB set CLIENT_POINT = CLIENT_POINT+#{point} WHERE CLIENT_ID = #{userId}
+	</update>
+	
+	<select id="userPointSelect" parameterType="String" resultType="Integer">
+		select CLIENT_POINT from CLIENT_DB WHERE CLIENT_ID=#{userId}
+	</select>
+	
+	<select id="qnaTotalCount" parameterType="String" resultType="int">
+		select count(*) from QABOARD2 where Q_USERID like '%'||#{id}||'%'
+	</select>
+	
+	<select id="QAselectList" parameterType="com.Team.Vo.QAboardVo" resultType="com.Team.Vo.QAboardVo">
+		<![CDATA[
+		select * from (
+			select rownum rnum, TT.* from (
+				select * from QABOARD2 WHERE Q_USERID like '%'||#{id}||'%' order by Q_IDX asc
+			) TT where rownum <= #{endNo}
+		) where rnum >= #{startNo}
+		]]>
+	</select>	
+	
+	
+	
+	
 </mapper>

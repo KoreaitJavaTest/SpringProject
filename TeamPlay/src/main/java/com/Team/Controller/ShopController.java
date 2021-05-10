@@ -38,7 +38,7 @@ public class ShopController {
 	}
 	
 	@RequestMapping("/ShopInsertProduct")
-	public String ShopInsertProduct(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
+	public String ShopInsertProduct(HttpServletRequest request, Model model) throws IOException {
 		System.out.println("HomeController => ShopInsertProduct()");
 //		model.addAttribute("request", request);
 //		ShopDAO mapper = sqlSession.getMapper(ShopDAO.class);

@@ -33,7 +33,7 @@ public class ClientVo {
 	}
 
 
-	public ClientVo(String client_id ,String client_password) {
+	public void setClientVo(String client_id ,String client_password) {
 		this.client_id = client_id;
 		this.client_password = client_password;
 	}

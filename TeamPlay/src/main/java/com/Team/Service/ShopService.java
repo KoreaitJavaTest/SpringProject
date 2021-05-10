@@ -87,7 +87,6 @@ public class ShopService {
 					"UTF-8",
 					new DefaultFileRenamePolicy()
 				);
-			System.out.println("======================여기===========================");
 //			업로드할 파일이름 여러개를 받는다.
 				Enumeration<String> fileNames = mr.getFileNames();
 //			hasMoreElements() : Enumeration 인터페이스 객체에 다음에 읽어들일 데이터가 있으면 true, 없으면 false를 리턴시킨다.
@@ -137,10 +136,6 @@ public class ShopService {
 			System.out.println("파일업로드 에러");
 			e.printStackTrace();
 		}
-			
-			
-
-
 			
 			System.out.println(vo);
 			if(vo.getSh_img1() != null && vo.getSh_img2() != null) {

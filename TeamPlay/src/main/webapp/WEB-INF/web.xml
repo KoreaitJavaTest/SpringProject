@@ -46,5 +46,21 @@
 	    <filter-name>encodingFilter</filter-name> 
 	    <url-pattern>/*</url-pattern> 
 	 </filter-mapping> 
+	 
+	 <!-- 파일 업로드 -->
+	 <filter>
+	     <filter-name>multipartFilter</filter-name>
+	     <filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+	     <init-param>
+		     <param-name>multipartResolverBeanName</param-name>
+		     <param-value>multipartResolver</param-value>
+	     </init-param>
+	 </filter>
+	  
+	 <filter-mapping>
+	     <filter-name>multipartFilter</filter-name>
+	     <url-pattern>/*</url-pattern>
+	 </filter-mapping>
+
 
 </web-app>

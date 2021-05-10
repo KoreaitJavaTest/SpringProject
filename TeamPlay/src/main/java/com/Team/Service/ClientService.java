@@ -2,6 +2,8 @@ package com.Team.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
 
@@ -19,8 +21,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Team.Dao.ClientDao;
+import com.Team.List.QAboardList;
+import com.Team.Vo.AttentionPointVO;
 import com.Team.Vo.ClientVo;
 
 import util.Gmail;
@@ -172,7 +177,9 @@ public class ClientService {
 		
 		String id = request.getParameter("id");
 		String password = request.getParameter("password");
-		ClientVo vo = new ClientVo(id,password);
+		ClientVo vo = (ClientVo) ctx.getBean("Client");
+		vo.setClientVo(id, password);
+		
 		vo = mapper.login(vo);	
 		if(null == vo) {
 			PrintWriter script = response.getWriter();
@@ -296,12 +303,14 @@ public class ClientService {
 	public void MyPasswordChangeDo(Model model, ClientDao mapper) {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:ClientCTX.xml");
+
 		String id = request.getParameter("id");
 		String pw = request.getParameter("password");
 		System.out.println(id);
 		System.out.println(pw);
-		ClientVo vo = new ClientVo(id, pw);
+		ClientVo vo = (ClientVo) ctx.getBean("Client");
+		vo.setClientVo(id, pw);
 		
 		mapper.ChangePassword(vo);
 	}
@@ -329,6 +338,7 @@ public class ClientService {
 	public void ClientEditViewDo(Model model, ClientDao mapper, HttpServletResponse response) throws IOException {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:ClientCTX.xml");
 		
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
@@ -337,14 +347,14 @@ public class ClientService {
 		
 		String id = (String) session.getAttribute("session_id");
 		String password = request.getParameter("password");
-		ClientVo vo = null;
+		ClientVo vo = (ClientVo) ctx.getBean("Client");
 		
 		if(password.equals((String)session.getAttribute("session_password"))) {
-			vo = new ClientVo(id, password);
-			vo = mapper.ClientInfo(mapper, vo);
+			vo.setClientVo(id, password);
+			vo = mapper.ClientInfo(vo);
 		}else {
-			vo = new ClientVo(id, password);
-			vo = mapper.ClientInfo(mapper, vo);
+			vo.setClientVo(id, password);
+			vo = mapper.ClientInfo(vo);
 			if(null == vo) {
 				PrintWriter script;
 				script = response.getWriter();
@@ -386,7 +396,7 @@ public class ClientService {
 						script = response.getWriter();
 						script.println("<script>");
 						script.println("alert('변경된 내용이없어 메인페이지로 돌아갑니다.');");
-						script.println("location.href = 'index.jsp';");
+						script.println("location.href = 'views/index';");
 						script.println("</script>");
 						script.close();
 						return;
@@ -399,7 +409,7 @@ public class ClientService {
 					vo.setClient_addr_end(addr_end);
 					vo.setClient_id(id);
 					
-					mapper.ClientUpdate(mapper,vo);
+					mapper.ClientUpdate(vo);
 					
 					session.setAttribute("session_addr_head", addr_head);
 					session.setAttribute("session_addr_end", addr_end);
@@ -412,7 +422,7 @@ public class ClientService {
 				vo.setClient_addr_end(addr_end);
 				vo.setClient_id(id);
 				
-				mapper.ClientUpdate(mapper,vo);
+				mapper.ClientUpdate(vo);
 				
 				session.setAttribute("session_addr_head", addr_head);
 				session.setAttribute("session_addr_end", addr_end);
@@ -424,15 +434,103 @@ public class ClientService {
 			vo.setClient_addr_head(addr_head);
 			vo.setClient_addr_end(addr_end);
 			vo.setClient_id(id);
-			mapper.ClientUpdate(mapper,vo);
+			mapper.ClientUpdate(vo);
 			
 			session.setAttribute("session_password", password);
 			session.setAttribute("session_addr_head", addr_head);
 			session.setAttribute("session_addr_end", addr_end);
 		}
 	}
+	public int AttentionCheck(Model model, ClientDao mapper, HttpServletResponse response) throws IOException {
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:ClientCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		HttpSession session = request.getSession();
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		int check = 0;
+		int attentionPoint = 50;
+		String content = "출석체크 포인트";
+		String userId = request.getParameter("userId");
+		System.out.println(userId);
+		ArrayList<AttentionPointVO> PointList = mapper.selectPoint(userId);
+		System.out.println("PointList: "+PointList);
+		Date date = new Date(System.currentTimeMillis());
+		AttentionPointVO logVo = ctx.getBean("AttentionPointVO",AttentionPointVO.class);
+		logVo.SetAttentionPointVO(userId, attentionPoint, content);
+		if(PointList.size()==0) {
+			mapper.insertPointLog(logVo);
+			mapper.depositAttentionPoint(logVo);
+			System.out.println("test");
+			response.getWriter().write("출석포인트 50Point 적립 되었습니다!");
+			System.out.println("사이즈가 0일떄");
+		}else { 
+			for (int i = 0; i < PointList.size(); i++) {
+
+//				System.out.println(PointList.get(i).getDepositDate().getDate());
+				if(PointList.get(i).getDepositDate().getMonth()+1!=date.getMonth()+1 && PointList.get(i).getDepositDate().getDate()!=date.getDate()
+					|| PointList.get(i).getDepositDate().getMonth()+1==date.getMonth()+1 && PointList.get(i).getDepositDate().getDate()!=date.getDate()) {
+					check++;
+				}
+			if(check==PointList.size()) { //포인트내역추가 , 유저 포인트 증가
+				mapper.insertPointLog(logVo);
+				System.out.println("insertPointLog 종료");
+				mapper.depositAttentionPoint(logVo);
+				System.out.println("depositAttentionPoint 종료");
+				
+//				response.getWriter().write("출석포인트 50Point 적립 되었습니다!");
+				int user_point = mapper.userPointSelect(userId);
+				session.setAttribute("session_point", user_point);//다시 세션에저장해줘야함
+				return 1;
+			}else {
+//				response.getWriter().write("오늘 이미 출석포인트를 적립 받으셨습니다!");
+				return -1;
+			}
+				
+		}
+			
+		}
+		return -1;
+	}
+	
+	public void MyQnAviewPageDo(Model model, ClientDao mapper, HttpServletResponse response) throws IOException {
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:QAboardCTX.xml");
+		
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+		int currentPage = 1;
+		try {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		} catch (Exception e) { }
+		
+		int pagesize = 10;
+		
+		String id = (String)session.getAttribute("session_id");
+		
+		int totalcount = mapper.qnaTotalCount(id);
+		System.out.println("토탈카운트 : "+totalcount);
+		
+		QAboardList qaBoardList = (QAboardList) ctx.getBean("qaboaddlist");
+		qaBoardList.setQAboardList(pagesize, totalcount, currentPage, id);
+		
+		System.out.println("id: "+id);
+//		1페이지 분량의 글 목록을 얻어와서 mvcboardList의 ArrayList에 넣어준다.
+		qaBoardList.setList(mapper.QAselectList(qaBoardList));
+
+		request.setAttribute("qaList", qaBoardList);		
+	}
 	
 }
+
+
+
+
+
+
+
 
 
 

@@ -154,18 +154,19 @@ span.tags
 function AttentionCheck() {
 	$.ajax({
 		type:"POST",
-		url:"./depositPoint.nhn",
+		url:"./depositPoint",
 		data:{
 			userId:"${sessionScope.session_id}"
 		},
+// 		dataType : "String",
 		success: function(meg){
 			alert(meg);
-			
-		},error: function(){
-			alert("failed!");
+			location.reload();
+		},
+		error: function(meg){
+			alert("실패");
 		}
 	});
-	location.reload();
 }
 
 

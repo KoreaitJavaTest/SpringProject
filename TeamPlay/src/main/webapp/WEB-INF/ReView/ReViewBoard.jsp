@@ -17,7 +17,7 @@ $(function() {
 		if(searchText.trim().length==0){
 			alert('검색어를 입력해 주세요');
 		}else{
-			location.href='ReViewSearch.nhn?searchName='+searchName+'&searchText='+searchText;
+			location.href='ReViewSearch?searchName='+searchName+'&searchText='+searchText;
 		}
 	
 	})
@@ -46,16 +46,19 @@ $(function() {
 
     <div class="container">
 		<div class="row" style="margin-left: 20px;">
+			<c:if test="${NoSearch==true}">
+				<h3>검색한 글이 존재 하지 않습니다.</h3>
+			</c:if>
 			<c:forEach var="vo" items="${list}">
 				<c:set var="imgN" value="${fn:split(vo.RE_imgNames,',')}"/>
 			  <div class="col-xs-2 col-sm-6 col-md-4" style="height: 560px; width: 360px;" align="center">
 			    <div class="thumbnail" style="width: 320px; height: 548px;">
-			    	<a href="ReView/ReViewDetailSelect?idx=${vo.RE_idx}&currentPage=${ReViewList.currentPage}&flag=1">
+			    	<a href="ReViewDetailSelect?idx=${vo.RE_idx}&currentPage=${ReViewList.currentPage}&flag=1">
 				        <img src="http://localhost:8009/korea/upload/${imgN[0]}" alt="${imgN[0]}" style="width: 300px;height: 300px;">
 			    	</a>
 			      <div class="caption" style="height: 243px;">
 			      <div>
-			      	<a class="RETitle" href="ReView/ReHitUp.nhn?idx=${vo.RE_idx}&currentPage=${ReViewList.currentPage}">
+			      	<a class="RETitle" href="ReHitUp.nhn?idx=${vo.RE_idx}&currentPage=${ReViewList.currentPage}">
 				        <h4 style="margin-bottom: 5px; display: inline-block; word-break:break-all">${vo.RE_title}
 				        	<c:if test="${date.year == vo.RE_writeDate.year && date.month == vo.RE_writeDate.month && date.date == vo.RE_writeDate.date}">
 								<span class="label label-default">New</span>
@@ -131,10 +134,10 @@ $(function() {
 				<div align="right">
 				<c:choose>
 					<c:when test="${sessionScope.session_id != null }">
-						<input type="button" class="btn btn-default searchLine insertBtn" value="리뷰글 작성하기" onclick="location.href='ReView/ReViewInsert.nhn'">
+						<input type="button" class="btn btn-default searchLine insertBtn" value="리뷰글 작성하기" onclick="location.href='ReViewInsert'">
 					</c:when>
 					<c:otherwise>
-						<input type="button" class="btn btn-default searchLine insertBtn"  value="리뷰글 작성하기" onclick="alert('로그인 후 작성하실 수 있습니다!');location.href='LoginView.nhn'">
+						<input type="button" class="btn btn-default searchLine insertBtn"  value="리뷰글 작성하기" onclick="alert('로그인 후 작성하실 수 있습니다!');location.href='LoginViewDo'">
 					</c:otherwise>
 				</c:choose>
 				</div>

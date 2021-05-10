@@ -393,7 +393,7 @@ span.tags {background: #1abc9c;border-radius: 2px;color: #f5f5f5;font-weight: bo
 					<span class="icon-bar"></span>
 				</button>
 			</div>
-			<div class="jumbotron" onclick = "location.href = '/TeamProject01/'">
+			<div class="jumbotron" onclick = "location.href = '/TeamPlay/'">
 				<h1 class="text-center">LUXMEA</h1>
 				<p class="text-center">LUXMEA MAKES YOU SHINE</p>
 			</div>
@@ -409,7 +409,7 @@ span.tags {background: #1abc9c;border-radius: 2px;color: #f5f5f5;font-weight: bo
 						<a class="nav-link jinho" href="ReViewBoard">리뷰게시판</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link jinho" href="QAboard.nhn">묻고답하기</a>
+						<a class="nav-link jinho" href="QAboardDo">묻고답하기</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link jinho" href="index5.html">공지사항</a>

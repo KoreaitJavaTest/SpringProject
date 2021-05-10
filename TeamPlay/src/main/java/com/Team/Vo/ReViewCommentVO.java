@@ -10,8 +10,8 @@ public class ReViewCommentVO {
 	private Date writedate;
 	private int report;
 
-	public ReViewCommentVO(int refIdx, String content, String userId) {
-		super();
+	
+	public void setCommentVO(int refIdx, String content, String userId) {
 		this.refIdx = refIdx;
 		this.content = content;
 		this.userId = userId;

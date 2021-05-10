@@ -28,6 +28,11 @@
 		}
 		return flag;
 	}
+	
+	function go_submit() {
+		$("#submit").submit();
+
+	}
 
 </script>
 
@@ -35,7 +40,7 @@
 
 <jsp:include page="../Layout/header.jsp"></jsp:include>
 
-<form action="ShopInsertProductOK" method="post" onsubmit="return check()" enctype="multipart/form-data">
+<form id="submit" name="submit" action="ShopInsertProductOK" method="post" enctype="multipart/form-data">
 
 	<div class="container" style="margin-top: 50px;">
 		<table class="table table-hover table-border">
@@ -130,7 +135,7 @@
 			
 			<tr>
 				<td align="center" colspan="2">
-					<input type="submit" value="판매 등록"/>
+					<input type="button" onclick="go_submit()" value="판매 등록"/>
 				</td>
 			</tr>
 			

@@ -6,4 +6,5 @@
 
 	<bean id="ShopVO" class="com.Team.Vo.ShopVO"/>
 	<bean id="ShopList" class="com.Team.List.ShopList"/>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
 </beans>

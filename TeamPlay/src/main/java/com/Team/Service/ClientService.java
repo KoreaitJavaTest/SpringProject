@@ -30,6 +30,7 @@ import com.Team.List.QAboardList;
 import com.Team.List.ReViewList;
 import com.Team.Vo.AttentionPointVO;
 import com.Team.Vo.ClientVo;
+import com.Team.Vo.ShopVO;
 
 import util.Gmail;
 import util.SHA256;
@@ -560,16 +561,21 @@ public class ClientService {
 		ArrayList<AttentionPointVO> list = clientmapper.SelectMyPointDeposit(userId);
 		model.addAttribute("list", list);
 	}
-	public void MyBaguniViewDo(Model model, ClientDao clientmapper, HttpServletResponse response) {
+	public void MyBaguniViewDo(Model model, ShopDAO mapper, HttpServletResponse response) {
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		HttpSession session = request.getSession();
 		
-		ArrayList<HttpSession> baguni = new ArrayList<HttpSession>();
+		ArrayList<ShopVO> baguni = new ArrayList<ShopVO>();
 		
-		for(int i = 0; i < 10; i++) {
-			baguni.add((HttpSession) session.getAttribute("session_cart_"+i));
+		for(int i = 0; i < 50; i++) {
+			String idx = (String) session.getAttribute("sh_idx_" + i);
+			if(null != idx) {
+				System.out.println("널이아니라능");
+				int go = Integer.parseInt(idx);
+				baguni.add(mapper.selectProduct(go));
+			}
 		}
 		
 		System.out.println("바구니 : " + baguni);

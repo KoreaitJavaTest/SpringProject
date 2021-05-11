@@ -21,9 +21,29 @@
 			<td align="center">사이즈</td>
 			<td align="center">가격</td>
 		</tr>
-		<tr>
-			<td colspan="4"><marquee>장바구니에 아무것도 없어용.</marquee></td>
-		</tr>
+			<c:if test = "${list == null }">
+			<tr>
+				<td colspan="4"><marquee>장바구니에 아무것도 없어용.</marquee></td>
+			</tr>
+			</c:if>
+			<c:if test = "${list != null }">
+				<c:forEach var="list" items="${list}">
+				<tr>
+					<td>
+						${list.sh_img1 }
+					</td>
+					<td>
+						${list.sh_name }
+					</td>
+					<td>
+						
+					</td>
+					<td>
+						${list.sh_price}
+					</td>
+				</tr>
+				</c:forEach>
+			</c:if>
 		<tr>
 			<td colspan="5" style = "float: right;">
 				<input type="button" value="결제하기" id = "naverPayBtn">

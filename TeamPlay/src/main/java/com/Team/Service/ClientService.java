@@ -559,6 +559,22 @@ public class ClientService {
 		ArrayList<AttentionPointVO> list = clientmapper.SelectMyPointDeposit(userId);
 		model.addAttribute("list", list);
 	}
+	public void MyBaguniViewDo(Model model, ClientDao clientmapper, HttpServletResponse response) {
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		HttpSession session = request.getSession();
+		
+		ArrayList<HttpSession> baguni = new ArrayList<HttpSession>();
+		
+		for(int i = 0; i < 10; i++) {
+			baguni.add((HttpSession) session.getAttribute("session_cart_"+i));
+		}
+		
+		System.out.println("바구니 : " + baguni);
+		
+		request.setAttribute("list", baguni);
+	}
 	
 }
 

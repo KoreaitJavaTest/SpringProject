@@ -15,10 +15,9 @@ function addcart() {
 	       		sh_idx: "${vo.sh_idx}"
 	        },
 	        success: function (data) {
-	     		alert('장바구니 추가 완료')
+	        	alert(data + "번 상품을 장바구니에 담았습니다.");
 	        },
 	        error: function() {
-	        	console.log('아작스 통신 실패');
 	        }
 		})
 	}

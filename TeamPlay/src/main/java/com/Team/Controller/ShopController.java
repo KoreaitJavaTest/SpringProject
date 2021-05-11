@@ -144,6 +144,7 @@ public class ShopController {
 		shopservice.addcart(model, response, mapper);
 	}
 	
+//	마이페이지 상품 관리
 	@RequestMapping("/MyProductViewPage")
 	public String MyProductViewPage(HttpServletRequest request, Model model) throws IOException {
 		System.out.println("ShopController => MyProductViewPage()");
@@ -153,6 +154,17 @@ public class ShopController {
 		return "MyPage/MyProductViewPage";
 	}
 	
+//	관리자페이지 상품관리
+	@RequestMapping("/AdminProductManagement")
+	public String AdminProductManagement(HttpServletRequest request, Model model) throws IOException {
+		System.out.println("ShopController => AdminProductManagement()");
+		model.addAttribute("request", request);
+		ShopDAO mapper = sqlSession.getMapper(ShopDAO.class);
+		shopservice.AdminProductManagement(model, mapper);
+		return "Admin/AdminProductManagement";
+	}
+	
+
 
 }
 

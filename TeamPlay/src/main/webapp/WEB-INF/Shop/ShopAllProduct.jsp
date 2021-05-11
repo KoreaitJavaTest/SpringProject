@@ -16,10 +16,9 @@ function addcart(idx) {
 	       		sh_idx: idx
 	        },
 	        success: function (data) {
-	     		alert('장바구니 추가 완료!')
+	        	alert(data + "번 상품을 장바구니에 담았습니다.");
 	        },
 	        error: function() {
-	        	console.log(idx);
 	        }
 		})
 	}

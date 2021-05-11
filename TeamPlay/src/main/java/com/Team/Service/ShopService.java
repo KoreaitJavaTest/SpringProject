@@ -349,7 +349,7 @@ public class ShopService {
 	
 //	idx로 상품 한 개 가져오기
 	public void ShopSelectByIdx(Model model, ShopDAO mapper) throws IOException {
-		System.out.println("service => ShopDeleteProduct()");
+		System.out.println("service => ShopSelectByIdx()");
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
@@ -420,18 +420,39 @@ public class ShopService {
 	
 //	장바구니
 	public void addcart(Model model, HttpServletResponse response, ShopDAO mapper) throws IOException {
-		System.out.println("service => ShopDeleteProduct()");
+		System.out.println("service => addcart()");
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
+		PrintWriter script = response.getWriter();
 		
-		int sh_idx = Integer.parseInt(request.getParameter("sh_idx"));
-		session.setAttribute("sh_idx", sh_idx);
+		String sh_idx = request.getParameter("sh_idx");
+		System.out.println("request로 넘어온 sh_idx : " + sh_idx);
+		System.out.println("장바구니에 담긴 idx : " + session.getAttribute("sh_idx_" + sh_idx));
+		session.setAttribute("sh_idx_" + sh_idx , sh_idx);
 		System.out.println("sh_idx : " + sh_idx);
 		out.println(sh_idx);
+		
+//		try {
+//			if(sh_idx.equals(session.getAttribute("sh_idx_" + sh_idx))) {
+//				script.println("<script>");
+//				script.println("alert('"+sh_idx+"번 상품을 이미 장바구니에 담았습니다.');");
+//				script.println("history.back();");
+//				script.println("</script>");
+//				script.close();
+//			} else {
+//				script.println("<script>");
+//				script.println("alert('" + sh_idx + "번 상품을 장바구니에 담았습니다.');");
+//				script.println("history.back();");
+//				script.println("</script>");
+//				script.close();
+//			}
+//		} catch (NumberFormatException e) {
+//			System.out.println("장바구니에 없음");
+//		}
 	}
 	
 //	마이페이지 상품 관리
@@ -458,7 +479,31 @@ public class ShopService {
 		list.setList(mapper.myProductViewPage(userId));
 		System.out.println("MyProductViewPage : " + list);
 		model.addAttribute("shoplist", list);
+	}
+	
+	public void AdminProductManagement(Model model, ShopDAO mapper) throws IOException {
+		System.out.println("service => AdminProductManagement()");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
 		
+		int currentPage = 1;
+		try {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		} catch (NumberFormatException e) {
+		}
+		int pageSize = 8;
+		int totalCount = mapper.selectCount(mapper);
+
+		ShopList list = ctx.getBean("ShopList", ShopList.class);
+		list.shopList_category(pageSize, totalCount, currentPage);
+		
+		String userId = (String) session.getAttribute("session_id");
+		list.setList(mapper.myProductViewPage(userId));
+		System.out.println("MyProductViewPage : " + list);
+		model.addAttribute("shoplist", list);
 	}
 	
 }

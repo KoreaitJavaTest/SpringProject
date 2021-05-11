@@ -4,22 +4,31 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script type="text/javascript">
-
-
-function addcart(idx) {
-//	상품의 idx로 session key와 value를 설정한다.
-	if(idx == sessionStorage.getItem("session_cart_" + idx)){
-		alert('이미 같은 상품을 담았습니다.')
-	} else {
-		sessionStorage.setItem("session_cart_" + idx, idx)
-		alert(idx + '번 상품을 장바구니에 담았습니다.')
+function addcart() {
+	if(${userId == null}) {
+		alert('장바구니는 로그인 후 이용해주세요');
+	}else {
+		$.ajax({
+			url: "./addcart",
+			type: "POST",
+	        data: {
+	       		sh_idx: "${vo.sh_idx}"
+	        },
+	        success: function (data) {
+	     		alert('장바구니 추가 완료')
+	        },
+	        error: function() {
+	        	console.log('아작스 통신 실패');
+	        }
+		})
 	}
 }
+
 function NoLogin() {
 	alert('좋아요는 로그인 후 가능합니다.');
 	location.href='LoginViewDo';
 }
-// ====================== 수정 ing... =====================
+
 	// 추천버튼 클릭시(추천 추가 또는 추천 제거)
 	function likeUpdate() {
 		$.ajax({
@@ -56,19 +65,16 @@ function NoLogin() {
             success: function (count) {
             	console.log(count);
             	$(".likeCount").html("&nbsp;"+count);
-            	
             },
             error: function() {
             }
 		})
     };
-// =======================================================
 
 </script>
 
 <!-- 선택한 상품을 보여주는 페이지 -->
 <jsp:include page="/WEB-INF/Shop/mainCategory.jsp"></jsp:include>
-
 	<div class="container">
 	
 		<div class="row">
@@ -82,9 +88,9 @@ function NoLogin() {
 					</div>
 					<div class="panel-heading">
 						<h3 class="panel-title" align="right">
-							<span onclick="location.href='AllProducts.nhn?category=신발'" style="cursor: pointer;">${vo.sh_category} </span>
+							<span onclick="location.href='ShopAllProduct?category=신발'" style="cursor: pointer;">${vo.sh_category} </span>
 							>>
-							<span onclick="location.href='categoryDetail.nhn?categoryDetail=${vo.sh_categoryDetail}&category=신발'" style="cursor: pointer;">${vo.sh_categoryDetail}</span>
+							<span onclick="location.href='ShopCategoryDetail?categoryDetail=${vo.sh_categoryDetail}&category=신발'" style="cursor: pointer;">${vo.sh_categoryDetail}</span>
 						</h3>
 					</div>
 				
@@ -135,7 +141,7 @@ function NoLogin() {
 									<a class="btn btn-default" href="#">바로 구매</a>
 								</td>
 								<td colspan="2" align="right">
-									<a class="btn btn-default" onclick="addcart(${vo.sh_idx})">장바구니</a>
+									<a class="btn btn-default" onclick="addcart()">장바구니</a>
 									&nbsp;
 									<c:if test="${userId != null }">
 										<c:if test="${likeCheck == 0}">
@@ -177,7 +183,7 @@ function NoLogin() {
 									<a class="btn btn-default" href="#">상품 리뷰 보러가기</a>
 								</td>
 								<td colspan="2" align="center">
-									<a class="btn btn-default" href="AllProducts.nhn?currentPage=${currentPage}">목록으로</a>
+									<a class="btn btn-default" href="ShopAllProduct?currentPage=${currentPage}">목록으로</a>
 								</td>
 							</tr>
 							

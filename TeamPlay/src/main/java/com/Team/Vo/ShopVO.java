@@ -13,7 +13,7 @@ public class ShopVO {
 	private String sh_content;			// 상품 내용
 	private int sh_ea;					// 재고
 	private int sh_size;				// 사이즈
-	private double sh_price;				// 가격
+	private double sh_price;			// 가격
 	private double sh_salePrice;		// 할인된 가격
 	private double sh_salePercent;		// 할인 퍼센트
 	private int sh_like;				// 찜하기
@@ -160,12 +160,12 @@ public class ShopVO {
 	}
 	@Override
 	public String toString() {
-		return "ShopVO [sh_idx=" + sh_idx + ", sh_category=" + sh_category + ", sh_categoryDetail=" + sh_categoryDetail
-				+ ", sh_name=" + sh_name + ", sh_content=" + sh_content + ", sh_ea=" + sh_ea + ", sh_size=" + sh_size
+		return "sh_idx=" + sh_idx + ", sh_category=" + sh_category + ", sh_categoryDetail=" + sh_categoryDetail + ", sh_name=" + sh_name + ", sh_content=" + sh_content + ", sh_ea=" + sh_ea + ", sh_size=" + sh_size
 				+ ", sh_price=" + sh_price + ", sh_salePrice=" + sh_salePrice + ", sh_salePercent=" + sh_salePercent
 				+ ", sh_like=" + sh_like + ", sh_hit=" + sh_hit + ", sh_report=" + sh_report + ", sh_img1=" + sh_img1
 				+ ", sh_img2=" + sh_img2 + ", sh_img3=" + sh_img3 + ", sh_writeDate=" + sh_writeDate + ", sh_seller="
 				+ sh_seller + ", sh_title=" + sh_title + ", sh_priceFM=" + sh_priceFM + ", sh_salePriceFM="
-				+ sh_salePriceFM + "]";
+				+ sh_salePriceFM;
 	}
+	
 }

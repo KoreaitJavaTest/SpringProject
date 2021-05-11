@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Team.Dao.ClientDao;
 import com.Team.Dao.ReViewDAO;
+import com.Team.Dao.ShopDAO;
 import com.Team.List.QAboardList;
 import com.Team.List.ReViewList;
 import com.Team.Vo.AttentionPointVO;

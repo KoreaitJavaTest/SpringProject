@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -7,16 +6,24 @@
 <script type="text/javascript">
 
 function addcart(idx) {
-	
-//	상품의 idx로 session key와 value를 설정한다.
-	if(idx == sessionStorage.getItem("session_cart_" + idx)){
-		alert('이미 같은 상품을 담았습니다.')
-	} else {
-		sessionStorage.setItem("session_cart_" + idx, idx)
-		alert(idx + '번 상품을 장바구니에 담았습니다.')
+	if(${userId == null}) {
+		alert('장바구니는 로그인 후 이용해주세요');
+	}else {
+		$.ajax({
+			url: "./addcart",
+			type: "POST",
+	        data: {
+	       		sh_idx: idx
+	        },
+	        success: function (data) {
+	     		alert('장바구니 추가 완료!')
+	        },
+	        error: function() {
+	        	console.log(idx);
+	        }
+		})
 	}
 }
-
 
 </script>
 <!-- 전체 상품을 보여주는 페이지 -->
@@ -43,7 +50,6 @@ function addcart(idx) {
         <div class="col-md-3 col-sm-6">
             <div class="product-grid">
                 <div class="product-image">
-<%--                     <a href="increment.nhn?sh_idx=${vo.sh_idx}"> --%>
                     <a href="ShopSelectProduct?sh_idx=${vo.sh_idx}">
                     	<c:if test="${vo.sh_img1 != null && vo.sh_img2 == null}">
 	                        <img class="pic-1 pic" src="${vo.sh_img1}">
@@ -57,8 +63,8 @@ function addcart(idx) {
                     	</c:if>
                     </a>
                     <ul class="social">
-                        <li><a href="increment.nhn?sh_idx=${vo.sh_idx}" data-tip="상품 보기"><i class="fa fa-search"></i></a></li>
-                        <li><a onclick="addcart(${vo.sh_idx})" data-tip="장바구니" id="cart"><i class="fa fa-shopping-cart"></i></a></li>
+                        <li><a href="ShopSelectProduct?sh_idx=${vo.sh_idx}" data-tip="상품 보기"><i class="fa fa-search"></i></a></li>
+                        <li><a onclick="addcart('${vo.sh_idx}')" data-tip="장바구니" id="cart"><i class="fa fa-shopping-cart"></i></a></li>
                     </ul>
                     
                     <!-- 게시일이 오늘 날짜면 new 표기 -->
@@ -77,11 +83,11 @@ function addcart(idx) {
                 
                 
                    <div class="product-content">
-                    <h3 class="title"><a href="increment.nhn?sh_idx=${vo.sh_idx}">${vo.sh_name}</a></h3>
+                    <h3 class="title"><a href="ShopSelectProduct?sh_idx=${vo.sh_idx}">${vo.sh_name}</a></h3>
                     	<div class="price">${vo.sh_salePriceFM}원
                         	<span>${vo.sh_priceFM}원</span>
                         </div>
-                    <a class="add-to-cart" onclick="addcart(${vo.sh_idx})">장바구니 추가</a>
+                    <a class="add-to-cart" onclick="addcart('${vo.sh_idx}')">장바구니 추가</a>
                 </div>
             </div>
     	</div>

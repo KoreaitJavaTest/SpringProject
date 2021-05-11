@@ -134,6 +134,16 @@
 		select * from shop where sh_seller = #{userId}
 	</select>
 	
+	<select id="goodKingShop" resultType="com.Team.Vo.ShopVO">
+		<![CDATA[
+		select * from (
+			select rownum rnum, TT.* from (
+				select * from SHOP order by SH_LIKE DESC
+			) TT where rownum <=2
+		) where rnum >= 0
+		]]>	
+	</select>
+	
 </mapper>
 
 

@@ -414,5 +414,17 @@ public class ReViewService {
 		
 		ReViewDetailSelect(model, mapper);
 	}
+	public void ReViewGoodKing(Model model, ReViewDAO reViewmapper) {
+		System.out.println("ReViewService - deleteComment() 메소드 실행");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		ReViewList list = ctx.getBean("ReViewList",ReViewList.class);
+		list.setList(reViewmapper.goodKingReView());
+		System.out.println(list.getList());
+		model.addAttribute("ReViewList",list);
+		
+	}
 
 }

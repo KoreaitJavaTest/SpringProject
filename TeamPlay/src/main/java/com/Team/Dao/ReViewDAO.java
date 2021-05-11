@@ -10,6 +10,7 @@ import com.Team.Vo.ReViewVO;
 
 public interface ReViewDAO {
 
+
 	int selectCount();
 
 	ArrayList<ReViewVO> selectList(ReViewList list);
@@ -45,5 +46,7 @@ public interface ReViewDAO {
 	void minusCommentCount(int idx);
 
 	void deleteComment(int commentIdx);
+
+	ArrayList<ReViewVO> goodKingReView();
 
 }

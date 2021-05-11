@@ -362,6 +362,17 @@ public class ShopService {
 		request.setAttribute("vo", vo);
 		
 	}
+	public void ShopGoodKing(Model model, ShopDAO shopmapper) {
+		System.out.println("shopGoodKing 실행");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		
+		ShopList list = ctx.getBean("ShopList",ShopList.class);
+		list.setList(shopmapper.goodKingShop());
+		
+		model.addAttribute("shopList",list.getList());
+	}
 	
 //	좋아요  업데이트
 	public void likeUpdate(Model model, HttpServletResponse response, ShopDAO mapper) throws IOException {

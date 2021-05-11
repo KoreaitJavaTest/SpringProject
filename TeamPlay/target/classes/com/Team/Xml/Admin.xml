@@ -16,4 +16,14 @@
 		]]>
 	</select>
 	
+	<delete id="AdminUserDelete" parameterType="String">
+		delete from CLIENT_DB WHERE CLIENT_ID = #{userId}
+	</delete>
+	
+	<update id="adminUpserUpdate" parameterType="com.Team.Vo.ClientVo">
+		update CLIENT_DB set CLIENT_PASSWORD = #{client_password} , CLIENT_PHONE = #{client_phone}
+		,CLIENT_POINT = #{client_point} ,CLIENT_LEVEL = #{client_level}
+		WHERE CLIENT_ID = #{client_id}
+	</update>
+	
 </mapper>

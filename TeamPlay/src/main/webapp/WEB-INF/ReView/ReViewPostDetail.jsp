@@ -4,159 +4,9 @@
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
-
 <jsp:include page="../Layout/header.jsp"></jsp:include>
-<style>
-.setImg{
-	height: 200px;	
-}
-
-.media-carousel 
-{
-  margin-bottom: 0;
-  padding: 0 40px 0px 40px;
-  margin-top: 10px;
-}
-/* Previous button  */
-.media-carousel .carousel-control.left 
-{
-  left: -12px;
-  background-image: none;
-  background: none repeat scroll 0 0 #222222;
-  border: 4px solid #FFFFFF;
-  border-radius: 23px 23px 23px 23px;
-  height: 40px;
-  width : 40px;
-  margin-top: 30px
-}
-/* Next button  */
-.media-carousel .carousel-control.right 
-{
-  right: -12px !important;
-  background-image: none;
-  background: none repeat scroll 0 0 #222222;
-  border: 4px solid #FFFFFF;
-  border-radius: 23px 23px 23px 23px;
-  height: 40px;
-  width : 40px;
-  margin-top: 30px
-}
-/* Changes the position of the indicators */
-.media-carousel .carousel-indicators 
-{
-  right: 50%;
-  top: auto;
-  bottom: 0px;
-  margin-right: -19px;
-}
-/* Changes the colour of the indicators */
-.media-carousel .carousel-indicators li 
-{
-  background: #c0c0c0;
-}
-.media-carousel .carousel-indicators .active 
-{
-  background: #333333;
-}
-.media-carousel img
-{
-  width: 250px;
-  height: 150px
-}
-.like{
-	width: 25px;height: 22px;
-}
-</style>
-<script type="text/javascript">
-var voIdx = ${vo.RE_idx}	//해당게시글의 번호
-var CoIdx = 0;				//삭제하기 버튼누른후 초기화될 댓글번호
-var flag = "${commentUpdate}"
-
-
-$(document).ready(function() {
-	if(flag=="update"){
-		alert('댓글이 성공적으로 수정 되었습니다');
-	}
-	  $('#media').carousel({
-	    pause: true,
-	    interval: false,
-	  });
-$('.dropdown-toggle').dropdown();
-
-// $('commentUpdate').click(function(this) {
-// 	console.log(this.children().eq(0).val());
-// })
-	});
-function commentCheck() {
-	var session_id = '${sessionScope.session_id}';
-	var context = $('#context').val();
-	
-// 	console.log(context.trim().length);
-	if(session_id==''){
-		alert('로그인 후 작성해주세요.');
-		location.href='LoginViewDo'
-		return false;
-	}else if(context.trim().length==0){
-		alert('댓글을 작성해 주세요.');
-		return false;
-	}
-	return true;
-
-}
-function commentUpdateForm(obj) {
-	var idx =  obj.children[0].value;
-	var userId = obj.children[1].value;
-	var content = obj.children[2].value;
-	if(userId.trim()=='${sessionScope.session_id}'){
-		$('#'+idx+'').empty();
-		$('#'+idx+'').append("<td colspan=3><input type='text' name='content2' value='"+content+"' style='width:1100px;margin-top: 4px;'/>"+
-								"</td>");
-		$('#'+idx+'').append("<td>"+
-							"<input type='button' class='btn btndefault test' value='수정하기' onclick='test("+idx+")'></td>");
-
-	}else{
-		alert('댓글 작성자가 아닙니다!');
-	}
-}
-
-function test(idx) {
-	var Commentidx = idx;		//댓글번호
-	var content = $('input[name=content2]').val()
-	var PageIdx = ${vo.RE_idx};
-	location.href = 'updateComment?Commentidx='+Commentidx+'&content='+content+'&idx='+PageIdx;
-	
-}
-function idxCommit(idx) {			//idx : 댓글 번호 idx 
-	CoIdx =idx;						//댓글 삭제하기 누름동시에 버튼초기화
-}
-function commentDelete() {
-	console.log("삭제할 댓글 글번호 : "+CoIdx);
-	console.log("댓글을 가진 게시글번호 : "+voIdx);
-	location.href = 'deleteComment?idx='+voIdx+'&commentIdx='+CoIdx;
-}//AJAX로 하자!
-
-function like(flag){
-	var flag=flag;
-// 	console.log(flag);
-	$.ajax({
-		type:"POST",
-		url:"./likeCheck",
-		data:{
-			userId:"${sessionScope.session_id}",
-			idx:"${vo.RE_idx}",
-			checkFlag:flag
-		},
-		dataType : "json",
-		success: function(meg){
-// 			alert(meg);
-			location.reload();
-		},error: function(meg){
-			alert(meg);
-		}
-	});
-}
-
-</script>
+<link rel="stylesheet" href='<c:url value="/resources/css/ReViewPostDetail.css"/>'>
+<script type="text/javascript" src="<c:url value="/resources/JS/ReView.js"/>" ></script>
 <jsp:include page="/WEB-INF/ReView/ReViewModal.jsp"></jsp:include>
 <c:set var="goodCheckUsers" value="${fn:split(vo.RE_goodCheckUser,',')}"/>
 <div class="container" style="margin-top: 50px;">
@@ -289,17 +139,17 @@ function like(flag){
 						<!-- 비 로그인일시 -->
 						<c:if test="${sessionScope.session_id eq null }">
 							<a onclick="alert('로그인후 이용해주세요.');location.href='LoginView.nhn'">
-								<img class="like" src="http://localhost:8009/korea/upload/nolike.png" alt="좋아요안눌럿을때"/>
+								<img class="like" src="<c:url value="/resources/images/nolike.png"/>" alt="좋아요안눌럿을때"/>
 							</a>
 						</c:if>
 <!-- 						로그인됫을시 -->
 						<c:if test="${sessionScope.session_id != null }">
 								<c:choose>
 									<c:when test="${fn:contains(vo.RE_goodCheckUser,sessionScope.session_id)}">
-										<img class="like" src="http://localhost:8009/korea/upload/like.png" alt="좋아요눌럿을때" onclick="like('cancle')">
+										<img class="like" src="<c:url value="/resources/images/like.png"/>" alt="좋아요눌럿을때" onclick="like('cancle')">
 									</c:when>					
 									<c:otherwise>
-										<img class="like" src="http://localhost:8009/korea/upload/nolike.png" alt="좋아요안눌럿을때" onclick="like('check')">						
+										<img class="like" src="<c:url value="/resources/images/nolike.png"/>" alt="좋아요안눌럿을때" onclick="like('check')">						
 									</c:otherwise>
 								</c:choose>
 						</c:if>

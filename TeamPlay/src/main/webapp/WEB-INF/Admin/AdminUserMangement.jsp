@@ -6,6 +6,14 @@
 <!DOCTYPE html>
 <html>
 <jsp:useBean id="date" class="java.util.Date"/>
+<script src='<c:url value="/resources/JS/jquery-3.6.0.min.js"/>'></script>
+
+<script type="text/javascript">
+$(function() {
+		$('li[class=active]').attr('class','');
+		$('li[id=userMange]').attr('class','active');
+})
+</script>
 <jsp:include page="./AdminLayOut/AdminNav.jsp"></jsp:include>
 	<div class="col-md-12 well">
 	    <div class="panel panel-primary">
@@ -58,20 +66,23 @@
 							<td align="center">
 							<select id="level" name="level">
 								<option value="0" <c:if test="${id.client_level==0}">selected</c:if> >소비자</option>
-								<option value="2" <c:if test="${id.client_level==2}">selected</c:if> >판매자</option>
-								<option value="1" <c:if test="${id.client_level==1}">selected</c:if> >관리자</option>
+								<option value="2" <c:if test="${id.client_level==1}">selected</c:if> >판매자</option>
+								<option value="1" <c:if test="${id.client_level==2}">selected</c:if> >관리자</option>
 							</select>
 							</td>
 							<td align="center">
 						    	<p data-placement="top" data-toggle="tooltip" title="Edit">
-							    	<button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" onclick="">
+							    	<button class="btn btn-primary btn-xs" data-title="Edit" tabindex="-1"  data-toggle="modal" data-target="#UserVo" 
+							    	onclick="UpdateUserInfo('${id.client_idx}','${id.client_level}','${id.client_id}'
+							    	,'${id.client_password}','${id.client_gender}','${id.client_phone}',
+							    	'${id.client_point}','${id.client_email}',)">
 							    		<span class="glyphicon glyphicon-pencil"></span>
 							    	</button>
 						    	</p>
 					    	</td>
 					    	<td align="center">
 						    	<p data-placement="top" data-toggle="tooltip" title="Delete">
-							    	<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="" >
+							    	<button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="userDelete('${id.client_id}')" >
 							    		<span class="glyphicon glyphicon-trash"></span>
 							    	</button>
 					    		</p>
@@ -118,10 +129,10 @@
 		</tr>
     </tbody>
 </table>		
-	                
-	
-	</div>
+</div>
 	                <!-- 메인글 끝 -->
+	          
+<jsp:include page="./AdminModal.jsp"></jsp:include>
 	                
 <jsp:include page="./AdminLayOut/AdminNavEnd.jsp"></jsp:include>
 

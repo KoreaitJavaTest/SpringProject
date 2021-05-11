@@ -17,8 +17,10 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import com.Team.Dao.ClientDao;
 import com.Team.Dao.ReViewDAO;
+import com.Team.Dao.ShopDAO;
 import com.Team.Service.ClientService;
 import com.Team.Service.ReViewService;
+import com.Team.Service.ShopService;
 //@RequestMapping("ReViewBoard")	//리뷰 게시판이동
 //public String ReViewBoard(HttpServletRequest request,Model model) {
 //	System.out.println("ReViewBoard()");
@@ -83,12 +85,18 @@ public class ClientContorller {
 
 	@RequestMapping(value="/")
 	public String homehome(Model model) {
-		return "views/index";
+		return "redirect:index";
 
 	}
 	
 	@RequestMapping("/index")
-	public String home(Model model) {
+	public String home(Model model,HttpServletRequest request) {
+		ReViewDAO ReViewmapper = sqlSession.getMapper(ReViewDAO.class);
+		ShopDAO Shopmapper = sqlSession.getMapper(ShopDAO.class);
+		model.addAttribute("request", request);
+		ReViewService.getInstance().ReViewGoodKing(model,ReViewmapper);
+//		ShopService.getInstance().ShopGoodKing(model,Shopmapper);
+		
 		return "views/index";
 
 	}
@@ -319,6 +327,15 @@ public class ClientContorller {
 		model.addAttribute("request", request);
 		ClientService.getInstance().SelectMyPointDeposit(model,Clientmapper,response);
 		return "MyPage/MyPagePointLogView";
+	}
+	
+	@RequestMapping("MyBaguniViewDo")
+	public String MyBaguniViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
+		System.out.println("MyBaguniViewDo()");
+		ClientDao Clientmapper = sqlSession.getMapper(ClientDao.class);
+		model.addAttribute("request", request);
+		ClientService.getInstance().MyBaguniViewDo(model,Clientmapper,response);
+		return "MyPage/MyBaguniMainView";
 	}
 
 }

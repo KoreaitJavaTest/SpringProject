@@ -97,6 +97,8 @@
 		select * from ATTENTIONPOINT WHERE USERID = #{userId}
 	</select>
 	
-	
+	<delete id="deleteId" parameterType="String">
+		delete from CLIENT_DB where Client_ID = #{id}
+	</delete>
 	
 </mapper>

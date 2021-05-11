@@ -49,7 +49,7 @@
 	            </ul>
 	          </div>
 	        </li>
-	        <li><a href="MyBaguniView.nhn"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;장바구니</a></li>
+	        <li><a href="MyBaguniViewDo"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;장바구니</a></li>
 	        <li><a href="MyPointSelect"><span class="glyphicon glyphicon-copyright-mark"></span> 포인트 내역 <span class="badge pull-right">${sessionScope.session_point}</span></a></li>
 	        <li><a href="MyClientWithdrawalDo"><span class="glyphicon glyphicon-cog"></span> 회원 탈퇴</a></li>
 	      </ul>

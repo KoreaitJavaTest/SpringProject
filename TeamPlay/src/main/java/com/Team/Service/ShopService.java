@@ -425,7 +425,6 @@ public class ShopService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		PrintWriter script = response.getWriter();
 		
@@ -445,7 +444,6 @@ public class ShopService {
 		} catch (NumberFormatException e) {
 			System.out.println("장바구니에 없음");
 		}
-		out.println(sh_idx);
 	}
 	
 //	마이페이지 상품 관리

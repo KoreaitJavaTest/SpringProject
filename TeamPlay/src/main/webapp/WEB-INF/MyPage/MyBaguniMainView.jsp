@@ -29,24 +29,38 @@
 			<c:if test = "${list != null }">
 				<c:forEach var="list" items="${list}">
 				<tr>
-					<td>
-						${list.sh_img1 }
+					<td align = "center">
+						<img src="http://localhost:9090/korea/upload/${list.sh_img1 }">
 					</td>
-					<td>
+					<td align = "center">
 						${list.sh_name }
 					</td>
-					<td>
-						
+					<td align = "center">
+						<c:if test ="${list.sh_category eq '신발' }">
+							<select>
+								<option>230</option>
+								<option>240</option>
+								<option>250</option>
+								<option>260</option>
+								<option>270</option>
+								<option>280</option>
+							</select>
+						</c:if>
 					</td>
-					<td>
-						${list.sh_price}
+					<td align = "center">
+						${list.sh_price}원
 					</td>
 				</tr>
 				</c:forEach>
 			</c:if>
+			<tr>
+				<td colspan="5">
+					<div id ="money" style = "float: right;">총액 : ${money }</div>
+				</td>
+			</tr>
 		<tr>
-			<td colspan="5" style = "float: right;">
-				<input type="button" value="결제하기" id = "naverPayBtn">
+			<td colspan="5">
+				<input type="button"  style = "float: right;" value="결제하기" id = "naverPayBtn">
 			</td>
 		</tr>
 		
@@ -63,10 +77,10 @@
 	
 	    elNaverPayBtn.addEventListener("click", function() {
 	        oPay.open({
-	          "merchantUserKey": "가맹점 사용자 식별키",
-	          "merchantPayKey": "가맹점 주문 번호",
-	          "productName": "상품명을 입력하세요",
-	          "totalPayAmount": "1000",
+	          "merchantUserKey": "test",
+	          "merchantPayKey": "test",
+	          "productName": "뀨잉상품",
+	          "totalPayAmount": "${money}",
 	          "taxScopeAmount": "1000",
 	          "taxExScopeAmount": "0",
 	          "returnUrl": "사용자 결제 완료 후 결제 결과를 받을 URL"

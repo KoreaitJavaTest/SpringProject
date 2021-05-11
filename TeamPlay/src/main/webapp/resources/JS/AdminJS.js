@@ -1,3 +1,13 @@
+$(function() {
+	$('.adminMenu > li').click(function(btn) {
+		var target= btn.currentTarget.id
+		$('li[name='+target+']').attr('class','active');
+		$('li[class=active').attr('class','');
+	})
+})
+
+
+
 
 function userDelete(id) {
 	var flag = confirm('회원정보를 정말로 삭제 하시겠습니까? \n삭제후 복구 되지  않습니다.')
@@ -36,6 +46,6 @@ function UpdateUserInfo(idx,level,id,password,gender,phone,point,email) {
 	if(level==2){
 		$('#admin').attr('selected','selected')
 	}
-
 }	
+
 

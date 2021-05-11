@@ -5,8 +5,15 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
-
 <jsp:useBean id="date" class="java.util.Date"/>
+<script src='<c:url value="/resources/JS/jquery-3.6.0.min.js"/>'></script>
+
+<script type="text/javascript">
+$(function() {
+		$('li[class=active]').attr('class','');
+		$('li[id=userMange]').attr('class','active');
+})
+</script>
 <jsp:include page="./AdminLayOut/AdminNav.jsp"></jsp:include>
 	<div class="col-md-12 well">
 	    <div class="panel panel-primary">

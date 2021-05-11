@@ -113,4 +113,15 @@
 		delete from REVIEW_COMMENT where idx  = #{commentIdx}
 	</delete>
 	
+	<select id="goodKingReView" resultType="com.Team.Vo.ReViewVO">
+			<![CDATA[
+		select * from (
+			select rownum rnum, TT.* from (
+				select * from REVIEW order by RE_GOOD DESC
+			) TT where rownum <=2
+		) where rnum >= 0
+		]]>	
+	</select>
+
+	
 </mapper>

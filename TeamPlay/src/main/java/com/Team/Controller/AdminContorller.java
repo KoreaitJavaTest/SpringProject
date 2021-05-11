@@ -117,6 +117,24 @@ public class AdminContorller {
 		AdminService.getInstance().AdminUserUpdate(model,mapper);
 		return "redirect:AdminUserMangement";
 	}
+	//Admim페이지 -> 리뷰체택 -> 리뷰게시글출력
+	@RequestMapping("AdminReViewSelection")
+	public String AdminReViewSelection(Model model,HttpServletRequest request) {
+		model.addAttribute("request", request);
+		ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
+		ReViewService.getInstance().ReViewSelect(model, mapper);
+		return "Admin/AdminReViewSelection";
+	}
+	@RequestMapping("AdminReViewSelectionOK")
+	public String AdminReViewSelectionOK(Model model,HttpServletRequest request) {
+		System.out.println("일로오냐");
+		model.addAttribute("request", request);
+		AdminDao mapper = sqlSession.getMapper(AdminDao.class);
+		ReViewDAO ReViewmapper = sqlSession.getMapper(ReViewDAO.class);
+		ClientDao Clientwmapper = sqlSession.getMapper(ClientDao.class);
+		AdminService.getInstance().AdminReViewSelectionOK(model,mapper,ReViewmapper,Clientwmapper);
+		return "redirect:AdminReViewSelection";
+	}
 
 
 }

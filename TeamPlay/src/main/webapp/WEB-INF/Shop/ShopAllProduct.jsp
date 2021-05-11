@@ -16,7 +16,7 @@ function addcart(idx) {
 	       		sh_idx: idx
 	        },
 	        success: function (data) {
-	        	alert(data + "번 상품을 장바구니에 담았습니다.");
+	        	alert(data);
 	        },
 	        error: function() {
 	        }

@@ -430,29 +430,22 @@ public class ShopService {
 		PrintWriter script = response.getWriter();
 		
 		String sh_idx = request.getParameter("sh_idx");
-		System.out.println("request로 넘어온 sh_idx : " + sh_idx);
-		System.out.println("장바구니에 담긴 idx : " + session.getAttribute("sh_idx_" + sh_idx));
-		session.setAttribute("sh_idx_" + sh_idx , sh_idx);
-		System.out.println("sh_idx : " + sh_idx);
+//		System.out.println("장바구니에 담을 상품 번호 : " + sh_idx);
+//		System.out.println("장바구니에 담긴 상품 번호 : " + session.getAttribute("sh_idx_" + sh_idx));
+//		System.out.println("sh_idx : " + sh_idx);
+		try {
+			if(sh_idx.equals(session.getAttribute("sh_idx_" + sh_idx)+"")) {
+				script.println("이미 장바구니에 있음");
+				script.close();
+			} else {
+				session.setAttribute("sh_idx_" + sh_idx , sh_idx);
+				script.println("장바구니 담기 성공");
+				script.close();
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("장바구니에 없음");
+		}
 		out.println(sh_idx);
-		
-//		try {
-//			if(sh_idx.equals(session.getAttribute("sh_idx_" + sh_idx))) {
-//				script.println("<script>");
-//				script.println("alert('"+sh_idx+"번 상품을 이미 장바구니에 담았습니다.');");
-//				script.println("history.back();");
-//				script.println("</script>");
-//				script.close();
-//			} else {
-//				script.println("<script>");
-//				script.println("alert('" + sh_idx + "번 상품을 장바구니에 담았습니다.');");
-//				script.println("history.back();");
-//				script.println("</script>");
-//				script.close();
-//			}
-//		} catch (NumberFormatException e) {
-//			System.out.println("장바구니에 없음");
-//		}
 	}
 	
 //	마이페이지 상품 관리

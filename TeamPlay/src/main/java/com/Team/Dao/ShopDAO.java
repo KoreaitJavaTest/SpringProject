@@ -25,6 +25,8 @@ public interface ShopDAO {
 	void updateProduct(ShopVO vo);
 	void updateProduct1(ShopVO vo);
 	void updateProduct2(ShopVO vo);
+	void hitUp(int sh_idx);
+	ArrayList<ShopVO> myProductViewPage(String userId);
 	ArrayList<ShopVO> goodKingShop();
 
 }

@@ -2,6 +2,7 @@ package com.Team.Service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -23,8 +24,6 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class ShopService {
 	
-	String imgNames = "http://localhost:9090/korea/upload/";// img 파일 이름
-	
 	private static ShopService instance = new ShopService();
 	private ShopService() {}
 	public static ShopService getInstance() {return instance;}
@@ -37,6 +36,9 @@ public class ShopService {
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("session_id");
+		
 		int currentPage = 1;
 		try {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
@@ -61,10 +63,12 @@ public class ShopService {
 			vo.setSh_priceFM(priceFm.format(vo.getSh_price()));
 			vo.setSh_salePriceFM(priceFm.format(vo.getSh_salePrice()));
 		}
-		System.out.println(shopList);
+		
 		model.addAttribute("shopList", shopList);
+		model.addAttribute("userId", userId);
 	}
 	
+//	상품 등록
 	public void insertProduct(Model model, ShopDAO mapper) throws IOException {
 		System.out.println("service => insertProduct()");
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
@@ -95,13 +99,14 @@ public class ShopService {
 				while (fileNames.hasMoreElements()) {
 					imgCount++;
 					String parameter = (String) fileNames.nextElement();
-//				String fileName = mr.getOriginalFileName(parameter);
+//					String fileName = mr.getFile(parameter).getName();
 					String fileRealName = mr.getFilesystemName(parameter);
 					
 					if (fileRealName == null) {
 						continue;
 					}
-					imgNames += fileRealName;	// img 파일 이름
+					
+					String imgNames = "http://localhost:9090/korea/upload/" + fileRealName;// img 파일 이름
 					
 					if(imgCount == 1) {
 						vo.setSh_img1(imgNames);
@@ -115,7 +120,6 @@ public class ShopService {
 				String category = mr.getParameter("category");
 				String categoryDetail = mr.getParameter("categoryDetail");
 				String content = mr.getParameter("content");
-//				int size = Integer.parseInt(mr.getParameter("size"));
 				int price = Integer.parseInt(mr.getParameter("price"));
 				double salePercent = Double.parseDouble(mr.getParameter("salePercent"));
 				double salePrice = price - (price*(salePercent/100));
@@ -124,7 +128,6 @@ public class ShopService {
 				vo.setSh_category(category);
 				vo.setSh_categoryDetail(categoryDetail);
 				vo.setSh_content(content);
-//				vo.setSh_size(size);
 				vo.setSh_price(price);
 				vo.setSh_salePercent(salePercent);
 				vo.setSh_salePrice(salePrice);
@@ -150,6 +153,7 @@ public class ShopService {
 			}
 	}
 	
+//	브랜드별 상품 목록
 	public void selectCategoryDetail(Model model, HttpServletResponse response, ShopDAO mapper) throws IOException {
 		System.out.println("service => selectCategoryDetail()");
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
@@ -157,7 +161,9 @@ public class ShopService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("session_id");
+		
 		int currentPage = 1;
 		try { currentPage = Integer.parseInt(request.getParameter("currentPage")); } catch (NumberFormatException e) {}
 		
@@ -165,13 +171,9 @@ public class ShopService {
 		
 		String categoryDetail = request.getParameter("categoryDetail");
 		String category = request.getParameter("category");
-		System.out.println("categoryDetail : " + categoryDetail +"\n category : " + category);
-		HashMap<String, String> hmap = new HashMap<String, String>();
-		hmap.put("categoryDetail", categoryDetail);
-		
 		int totalCount = mapper.selectCount(mapper);
-		ShopList shopList = ctx.getBean("ShopList", ShopList.class);
 		
+		ShopList shopList = ctx.getBean("ShopList", ShopList.class);
 		shopList.shopList_category(pageSize, totalCount, currentPage, categoryDetail, category);
 		shopList.setList(mapper.selectCategoryDetail(shopList));
 		
@@ -181,8 +183,10 @@ public class ShopService {
 			vo.setSh_salePriceFM(priceFm.format(vo.getSh_salePrice()));	// 할인된 가격
 		}
 		model.addAttribute("shopList", shopList);
+		model.addAttribute("userId", userId);
 	}
 	
+//	상품 상세보기
 	public void ShopSelectProduct(Model model, HttpServletResponse response, ShopDAO mapper) throws IOException {
 		System.out.println("service => ShopSelectProduct()");
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
@@ -209,9 +213,11 @@ public class ShopService {
 			likeMap.put("like_id",  userId);
 			likeCheck = mapper.likeCheck(likeMap);
 		}
+		
+		mapper.hitUp(sh_idx);	//	조회수 증가
+		
 		vo.setSh_priceFM(priceFm.format(vo.getSh_price()));
 		vo.setSh_salePriceFM(priceFm.format(vo.getSh_salePrice()));
-		
 		request.setAttribute("likeCheck", likeCheck);		// 좋아요를 누른 유저인지 판별
 		request.setAttribute("likeCount", likeCount);		// 좋아요 개수
 		request.setAttribute("userId", userId);
@@ -220,49 +226,7 @@ public class ShopService {
 		System.out.println("ShopSelectProduct의 vo : " + vo);
 	}
 	
-	public void likeUpdate(Model model, HttpServletResponse response, ShopDAO mapper) throws IOException {
-		System.out.println("service => likeUpdate()");
-		Map<String, Object> map = model.asMap();
-		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		
-		Map<String, Object> likeMap = new HashMap<String, Object>();
-		likeMap.put("like_idx", request.getParameter("like_idx"));
-		likeMap.put("like_id", request.getParameter("like_id"));
-
-		int likeCheck = mapper.likeCheck(likeMap);
-		System.out.println(likeCheck);
-		if(likeCheck == 0) {
-			mapper.likeUpdate(likeMap);
-		} else {
-			mapper.likeDelete(likeMap);
-		}
-		out.println(likeCheck);
-		
-	}
-
-	public void likeCount(Model model, HttpServletResponse response, ShopDAO mapper) throws IOException {
-		System.out.println("service => likeCount()");
-		Map<String, Object> map = model.asMap();
-		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		
-		Map<String, Object> likeMap = new HashMap<String, Object>();
-		int like_idx = Integer.parseInt(request.getParameter("like_idx"));
-		int count = mapper.likeCount(like_idx);
-		
-		likeMap.put("sh_idx", like_idx);
-		likeMap.put("count", count);
-		
-		mapper.productLikeInsert(likeMap);	// 상품 db에 좋아요 수 넣는 작업
-		out.println(count);		// ajax 리턴값
-	}
-	
-	
+//	상품 삭제
 	public void ShopDeleteProduct(Model model, HttpServletResponse response, ShopDAO mapper) throws IOException {
 		System.out.println("service => ShopDeleteProduct()");
 		Map<String, Object> map = model.asMap();
@@ -273,17 +237,22 @@ public class ShopService {
 		
 		String userPw = session.getAttribute("session_password") +"";		//	로그인시 사용되는 비밀번호
 		String inputPw = request.getParameter("sh_password");				//	삭제페이지에서 입력한 비밀번호
-		int sh_idx = Integer.parseInt(request.getParameter("sh_idx"));		// 	삭제할 비밀번호
+		String flag = request.getParameter("flag");							//	마이페이지에서 왔으면 flag = mypage
+		int sh_idx = Integer.parseInt(request.getParameter("sh_idx"));		// 	삭제할 상품 번호
 		System.out.println("inputPw : " + inputPw);
+		System.out.println("sh_idx : " + sh_idx);
 		PrintWriter script = response.getWriter();
-		if(userPw.trim().equals(inputPw.trim())) {
+		System.out.println(flag);
+		
+		if(flag.equals("mypage")) {
 			mapper.deleteProduct(sh_idx);
+		}else if(userPw.trim().equals(inputPw.trim())) {
 			script.println("<script>");
-			script.println("alert('삭제되었습니다.');");
-			script.println("location.href = '/TeamProject/AllProducts.nhn';");
+			script.println("alert('delete OK');");
+			script.println("location.href = 'ShopAllProduct';");
 			script.println("</script>");
 			script.close();
-		} else {
+		}else {
 			script.println("<script>");
 			script.println("alert('비밀번호가 맞지 않습니다.');");
 			script.println("history.back();");
@@ -292,6 +261,7 @@ public class ShopService {
 		}
 	}
 	
+//	상품 수정
 	public void ShopUpdateProduct(Model model, HttpServletResponse response, ShopDAO mapper) throws IOException {
 		System.out.println("service => ShopUpdateProduct()");
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
@@ -321,8 +291,7 @@ public class ShopService {
 			if (fileRealName == null) {
 				continue;
 			}
-			
-			imgNames += fileRealName;	// img 파일 이름
+			String imgNames = "http://localhost:9090/korea/upload/" + fileRealName;// img 파일 이름
 			
 			if(imgCount == 1) {
 				vo.setSh_img1(imgNames);
@@ -362,11 +331,9 @@ public class ShopService {
 		vo.setSh_category(category);
 		vo.setSh_categoryDetail(categoryDetail);
 		vo.setSh_content(content);
-//		vo.setSh_size(size);
 		vo.setSh_price(price);
 		vo.setSh_salePercent(salePercent);
 		vo.setSh_salePrice(salePrice);
-		System.out.println("수정  vo : " + vo);
 		
 		if(vo.getSh_img1() != null && vo.getSh_img2() != null) {
 			System.out.println("updateProduct");
@@ -378,12 +345,11 @@ public class ShopService {
 			System.out.println("updateProduct2");
 			mapper.updateProduct2(vo);
 		}
-		
-		
 	}
 	
+//	idx로 상품 한 개 가져오기
 	public void ShopSelectByIdx(Model model, ShopDAO mapper) throws IOException {
-		System.out.println("service => ShopDeleteProduct()");
+		System.out.println("service => ShopSelectByIdx()");
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
@@ -408,5 +374,129 @@ public class ShopService {
 		model.addAttribute("shopList",list.getList());
 	}
 	
+//	좋아요  업데이트
+	public void likeUpdate(Model model, HttpServletResponse response, ShopDAO mapper) throws IOException {
+		System.out.println("service => likeUpdate()");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		Map<String, Object> likeMap = new HashMap<String, Object>();
+		likeMap.put("like_idx", request.getParameter("like_idx"));
+		likeMap.put("like_id", request.getParameter("like_id"));
+		int likeCheck = mapper.likeCheck(likeMap); 		// 좋아요 누른 유저인지 체크
+		
+		System.out.println(likeCheck);
+		if(likeCheck == 0) {
+			mapper.likeUpdate(likeMap);
+		} else {
+			mapper.likeDelete(likeMap);
+		}
+		out.println(likeCheck);
+		
+	}
+
+//	좋아요 수 카운트
+	public void likeCount(Model model, HttpServletResponse response, ShopDAO mapper) throws IOException {
+		System.out.println("service => likeCount()");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		
+		Map<String, Object> likeMap = new HashMap<String, Object>();
+		int like_idx = Integer.parseInt(request.getParameter("like_idx"));
+		int count = mapper.likeCount(like_idx);
+		
+		likeMap.put("sh_idx", like_idx);
+		likeMap.put("count", count);
+		
+		mapper.productLikeInsert(likeMap);	// 상품 db에 좋아요 수 넣는 작업
+		out.println(count);		// ajax 리턴값
+	}
+	
+//	장바구니
+	public void addcart(Model model, HttpServletResponse response, ShopDAO mapper) throws IOException {
+		System.out.println("service => addcart()");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = response.getWriter();
+		HttpSession session = request.getSession();
+		PrintWriter script = response.getWriter();
+		
+		String sh_idx = request.getParameter("sh_idx");
+//		System.out.println("장바구니에 담을 상품 번호 : " + sh_idx);
+//		System.out.println("장바구니에 담긴 상품 번호 : " + session.getAttribute("sh_idx_" + sh_idx));
+//		System.out.println("sh_idx : " + sh_idx);
+		try {
+			if(sh_idx.equals(session.getAttribute("sh_idx_" + sh_idx)+"")) {
+				script.println("이미 장바구니에 있음");
+				script.close();
+			} else {
+				session.setAttribute("sh_idx_" + sh_idx , sh_idx);
+				script.println("장바구니 담기 성공");
+				script.close();
+			}
+		} catch (NumberFormatException e) {
+			System.out.println("장바구니에 없음");
+		}
+		out.println(sh_idx);
+	}
+	
+//	마이페이지 상품 관리
+	public void MyProductViewPage(Model model, ShopDAO mapper) throws IOException {
+		System.out.println("service => MyProductViewPage()");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+		
+		int currentPage = 1;
+		try {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		} catch (NumberFormatException e) {
+		}
+		int pageSize = 8;
+		int totalCount = mapper.selectCount(mapper);
+
+		ShopList list = ctx.getBean("ShopList", ShopList.class);
+		list.shopList_category(pageSize, totalCount, currentPage);
+		
+		String userId = (String) session.getAttribute("session_id");
+		list.setList(mapper.myProductViewPage(userId));
+		System.out.println("MyProductViewPage : " + list);
+		model.addAttribute("shoplist", list);
+	}
+	
+	public void AdminProductManagement(Model model, ShopDAO mapper) throws IOException {
+		System.out.println("service => AdminProductManagement()");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
+		
+		int currentPage = 1;
+		try {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		} catch (NumberFormatException e) {
+		}
+		int pageSize = 8;
+		int totalCount = mapper.selectCount(mapper);
+
+		ShopList list = ctx.getBean("ShopList", ShopList.class);
+		list.shopList_category(pageSize, totalCount, currentPage);
+		
+		String userId = (String) session.getAttribute("session_id");
+		list.setList(mapper.myProductViewPage(userId));
+		System.out.println("MyProductViewPage : " + list);
+		model.addAttribute("shoplist", list);
+	}
 	
 }

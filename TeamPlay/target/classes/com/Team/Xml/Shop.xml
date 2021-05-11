@@ -32,9 +32,7 @@
  			select * from (
  				select rownum rnum, TT.* from (
   					select * from shop where 
-  					
    					SH_CATEGORYDETAIL like '%'||#{categoryDetail}||'%' AND SH_CATEGORY like '%'||#{category}||'%'
-  					
   					order by sh_idx desc
  				) TT where rownum <= #{endNo}
  			) where rnum >= #{startNo}
@@ -84,7 +82,7 @@
 	
 	<!-- 좋아요 추가 -->
 	<insert id="likeUpdate" parameterType="map">
-		insert into product_like values(#{like_idx}, #{like_id})
+		insert into product_like values(#{like_id}, #{like_idx})
 	</insert>
 	
 	<!-- 좋아요 삭제 -->
@@ -126,6 +124,15 @@
 		sh_salePercent=#{sh_salePercent}, sh_salePrice=#{sh_salePrice}, sh_img1=null, sh_img2=#{sh_img2}
 		where sh_idx=#{sh_idx}
 	</update>
+	
+	<!-- 조회수 증가 -->
+	<update id="hitUp" parameterType="int">
+		update shop set sh_hit = sh_hit+1 where sh_idx=#{sh_idx}
+	</update>
+	
+	<select id="myProductViewPage" parameterType="String" resultType="com.Team.Vo.ShopVO">
+		select * from shop where sh_seller = #{userId}
+	</select>
 	
 	<select id="goodKingShop" resultType="com.Team.Vo.ShopVO">
 		<![CDATA[

@@ -43,7 +43,7 @@
 	          </a>
 	          <div class="collapse" id="toggleDemo" style="height: 0px;">
 	            <ul class="nav nav-list">
-	              <li><a href="#">판매 상품</a></li>
+	              <li><a href="MyProductViewPage">판매 상품</a></li>
 	              <li><a href="MyListViewPage">내가 올린 리뷰</a></li>
 	              <li><a href="MyQnAviewPageDo">1:1 상담</a></li>
 	            </ul>

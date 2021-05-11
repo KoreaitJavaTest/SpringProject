@@ -332,9 +332,9 @@ public class ClientContorller {
 	@RequestMapping("MyBaguniViewDo")
 	public String MyBaguniViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("MyBaguniViewDo()");
-		ClientDao Clientmapper = sqlSession.getMapper(ClientDao.class);
+		ShopDAO mapper = (ShopDAO) sqlSession.getMapper(ShopDAO.class);
 		model.addAttribute("request", request);
-		ClientService.getInstance().MyBaguniViewDo(model,Clientmapper,response);
+		ClientService.getInstance().MyBaguniViewDo(model,mapper,response);
 		return "MyPage/MyBaguniMainView";
 	}
 

@@ -17,6 +17,12 @@ public class ShopList {
 	private String category = "";
 	private String categoryDetail = "";
 	
+	public void shopList_category(int pageSize, int totalCount, int currentPage) {
+		this.pageSize = pageSize;
+		this.totalCount = totalCount;
+		this.currentPage = currentPage;
+		calculator();
+	}
 	public void shopList_category(int pageSize, int totalCount, int currentPage, String category) {
 		this.pageSize = pageSize;
 		this.totalCount = totalCount;

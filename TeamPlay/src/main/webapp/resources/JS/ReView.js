@@ -65,26 +65,7 @@ function commentDelete() {
 	location.href = 'deleteComment?idx='+voIdx+'&commentIdx='+CoIdx;
 }//AJAX로 하자!
 
-function like(flag){
-	var flag=flag;
-// 	console.log(flag);
-	$.ajax({
-		type:"POST",
-		url:"./likeCheck",
-		data:{
-			userId:"${sessionScope.session_id}",
-			idx:"${vo.RE_idx}",
-			checkFlag:flag
-		},
-		dataType : "json",
-		success: function(meg){
-// 			alert(meg);
-			location.reload();
-		},error: function(meg){
-			alert(meg);
-		}
-	});
-}
+
 $(function() {
 	$('#ReViewSearch').click(function() {
 		var searchName = $("select option:selected").val();

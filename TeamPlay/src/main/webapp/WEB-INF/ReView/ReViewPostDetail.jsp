@@ -8,6 +8,28 @@
 <link rel="stylesheet" href='<c:url value="/resources/css/ReViewPostDetail.css"/>'>
 <script type="text/javascript" src="<c:url value="/resources/JS/ReView.js"/>" ></script>
 <jsp:include page="/WEB-INF/ReView/ReViewModal.jsp"></jsp:include>
+<script type="text/javascript">
+function like(flag){
+	var flag=flag;
+// 	console.log(flag);
+	$.ajax({
+		type:"POST",
+		url:"./likeCheck",
+		data:{
+			userId:"${sessionScope.session_id}",
+			idx:"${vo.RE_idx}",
+			checkFlag:flag
+		},
+		dataType : "json",
+		success: function(meg){
+// 			alert(meg);
+			location.reload();
+		},error: function(meg){
+			alert(meg);
+		}
+	});
+}
+</script>
 <c:set var="goodCheckUsers" value="${fn:split(vo.RE_goodCheckUser,',')}"/>
 <div class="container" style="margin-top: 50px;">
 	<table align="center" class="table table-hover">

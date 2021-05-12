@@ -23,7 +23,7 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class ReViewService {
-	String fileAddr = "http://localhost:9090/korea/upload/";
+	String fileAddr = "http://localhost:8010/korea/upload/";
 	
 	private static ReViewService instance = new ReViewService();
 	private ReViewService() {}
@@ -35,7 +35,10 @@ public class ReViewService {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		int currentPage = 1;
+		String flag="";
 		try {
+			flag = ""+request.getParameter("flag");
+//			System.out.println(flag);
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		} catch (Exception e) {
 			
@@ -47,8 +50,10 @@ public class ReViewService {
 		ReViewList list = ctx.getBean("ReViewList",ReViewList.class);
 		list.setDate(pageSize, totalCount, currentPage);
 		list.setList(mapper.selectList(list));
-		
 		model.addAttribute("ReViewList",list);
+		if(flag.trim().equals("AdminReViewSelection")) {
+			model.addAttribute("succees","admincheck");
+		}
 	}
 	
 	public void ReViewDetailSelect(Model model, ReViewDAO mapper) {
@@ -254,7 +259,7 @@ public class ReViewService {
 		try {
 			MultipartRequest mr = new MultipartRequest(request,
 //					application.getRealPath("./upload/"),
-					"C:/upload",
+					"D:/upload",
 					5*1024*1024,
 					"UTF-8",
 					new DefaultFileRenamePolicy()

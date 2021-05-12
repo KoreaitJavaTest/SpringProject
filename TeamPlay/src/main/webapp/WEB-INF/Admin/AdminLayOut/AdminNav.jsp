@@ -30,8 +30,8 @@ body { padding-top:20px; }
             <ul class="nav nav-pills nav-stacked adminMenu">
                 <li id="home" class="active"><a href="adminPage"><i class="fa fa-home fa-fw"></i>Home</a></li>
                 <li id="userMange"><a href="AdminUserMangement"><i class="fa fa-list-alt fa-fw"></i>사용자관리</a></li>
-                <li id="shopMange"><a href="AdminProductManagement"><i class="fa fa-file-o fa-fw"></i>상품관리</a></li>
-                <li id="cashMange"><a href="http://www.jquery2dotnet.com"><i class="fa fa-bar-chart-o fa-fw"></i>결제 관리</a></li>
+                <li id="shopMange"><a href="http://www.jquery2dotnet.com"><i class="fa fa-file-o fa-fw"></i>상품관리</a></li>
+                <li id="cashMange"><a href="AdminReViewSelection"><i class="fa fa-bar-chart-o fa-fw"></i>리뷰 채택</a></li>
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-table fa-fw"></i>배송 관리</a></li>
                 <li id="pointMange"><a href="http://www.jquery2dotnet.com"><i class="fa fa-tasks fa-fw"></i>포인트 관리</a></li>
                 <li id="superList"><a href="http://www.jquery2dotnet.com"><i class="fa fa-calendar fa-fw"></i>공지사항 관리</a></li>

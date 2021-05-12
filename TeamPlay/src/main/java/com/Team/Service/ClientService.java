@@ -562,25 +562,35 @@ public class ClientService {
 		model.addAttribute("list", list);
 	}
 	public void MyBaguniViewDo(Model model, ShopDAO mapper, HttpServletResponse response) {
-		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		HttpSession session = request.getSession();
-		
 		ArrayList<ShopVO> baguni = new ArrayList<ShopVO>();
+		String goods = "";
+		int money = 0;
+		//총액
 		
+		//상품테이블에서 전부 카운트를 한 값이 들어가겠죠>
 		for(int i = 0; i < 50; i++) {
 			String idx = (String) session.getAttribute("sh_idx_" + i);
 			if(null != idx) {
 				System.out.println("널이아니라능");
 				int go = Integer.parseInt(idx);
-				baguni.add(mapper.selectProduct(go));
+				ShopVO vo = mapper.selectProduct(go);
+				goods += vo.getSh_name() + ",";
+				money += vo.getSh_price();
+				
+				baguni.add(vo);
 			}
 		}
 		
+		
+		System.out.println("상품목록 : " + goods);
 		System.out.println("바구니 : " + baguni);
 		
+		request.setAttribute("money", money);
 		request.setAttribute("list", baguni);
+		request.setAttribute("goods", goods);
 	}
 	
 }

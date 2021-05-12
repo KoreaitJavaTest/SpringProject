@@ -27,6 +27,17 @@
 	color:black;
 	text-decoration: none;
 }
+.media-carousel .carousel-control.right 
+{
+  right: 0px !important;
+  background-image: none;
+  background: none repeat scroll 0 0 #222222;
+  /* border: 4px solid #FFFFFF; */
+  border-radius: 23px 23px 23px 23px;
+  height: 40px;
+  width : 40px;
+  margin-top: 30px;
+}
 </style>
 <c:set var="list" value="${ReViewList.list}"/>
 
@@ -40,7 +51,7 @@
 			  <div class="col-xs-2 col-sm-6 col-md-4" style="height: 560px; width: 360px;" align="center">
 			    <div class="thumbnail" style="width: 320px; height: 548px;">
 			    	<a href="ReViewDetailSelect?idx=${vo.RE_idx}&currentPage=${ReViewList.currentPage}&flag=1">
-				        <img src="http://localhost:8009/korea/upload/${imgN[0]}" alt="${imgN[0]}" style="width: 300px;height: 300px;">
+				        <img src="http://localhost:8010/korea/upload/${imgN[0]}" alt="${imgN[0]}" style="width: 300px;height: 300px;">
 			    	</a>
 			      <div class="caption" style="height: 243px;">
 			      <div>

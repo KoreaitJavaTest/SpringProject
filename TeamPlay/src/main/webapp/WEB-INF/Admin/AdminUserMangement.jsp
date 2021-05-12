@@ -64,11 +64,9 @@ $(function() {
 								</c:if>
 							</td>
 							<td align="center">
-							<select id="level" name="level">
-								<option value="0" <c:if test="${id.client_level==0}">selected</c:if> >소비자</option>
-								<option value="2" <c:if test="${id.client_level==1}">selected</c:if> >판매자</option>
-								<option value="1" <c:if test="${id.client_level==2}">selected</c:if> >관리자</option>
-							</select>
+								<c:if test="${id.client_level==0}">소비자</c:if> 
+								<c:if test="${id.client_level==1}">관리자</c:if> 
+								<c:if test="${id.client_level==2}">판매자</c:if> 
 							</td>
 							<td align="center">
 						    	<p data-placement="top" data-toggle="tooltip" title="Edit">

@@ -29,24 +29,40 @@
 			<c:if test = "${list != null }">
 				<c:forEach var="list" items="${list}">
 				<tr>
-					<td>
-						${list.sh_img1 }
+					<td align = "center">
+						<div style = "width: 150px; height: 150px;">
+							<img src="${list.sh_img1 }" style = "width: 100%; height: 100%;">
+						</div>
 					</td>
-					<td>
+					<td align = "center" style="vertical-align : middle;">
 						${list.sh_name }
 					</td>
-					<td>
-						
+					<td align = "center" style="vertical-align : middle;">
+						<c:if test ="${list.sh_category eq '신발' }">
+							<select>
+								<option>230</option>
+								<option>240</option>
+								<option>250</option>
+								<option>260</option>
+								<option>270</option>
+								<option>280</option>
+							</select>
+						</c:if>
 					</td>
-					<td>
-						${list.sh_price}
+					<td align = "center" style="vertical-align : middle;">
+						${list.sh_price}원
 					</td>
 				</tr>
 				</c:forEach>
 			</c:if>
+			<tr>
+				<td colspan="5">
+					<div id ="money" style = "float: right;">총액 : ${money }</div>
+				</td>
+			</tr>
 		<tr>
-			<td colspan="5" style = "float: right;">
-				<input type="button" value="결제하기" id = "naverPayBtn">
+			<td colspan="5">
+				<input type="button"  style = "float: right;" value="결제하기" id = "naverPayBtn">
 			</td>
 		</tr>
 		
@@ -60,14 +76,17 @@
 	
 	    //직접 만드신 네이버페이 결제버튼에 click Event를 할당하세요
 	    var elNaverPayBtn = document.getElementById("naverPayBtn");
-	
+	    
+	    var money = ${money};
+	    var name = "${goods}";
+	    
 	    elNaverPayBtn.addEventListener("click", function() {
 	        oPay.open({
-	          "merchantUserKey": "가맹점 사용자 식별키",
-	          "merchantPayKey": "가맹점 주문 번호",
-	          "productName": "상품명을 입력하세요",
-	          "totalPayAmount": "1000",
-	          "taxScopeAmount": "1000",
+	          "merchantUserKey": "test",
+	          "merchantPayKey": "test",
+	          "productName": name,
+	          "totalPayAmount": money,
+	          "taxScopeAmount": money,
 	          "taxExScopeAmount": "0",
 	          "returnUrl": "사용자 결제 완료 후 결제 결과를 받을 URL"
 	        });

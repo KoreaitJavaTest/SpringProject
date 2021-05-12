@@ -32,7 +32,7 @@
 <div class="form-group">
   <label class="col-md-12 control-label userUpdate" for="DVFCZ">회원 비밀번호</label>  
   <div class="col-md-12">
-  <input id="userPw" name="userPw" type="text" placeholder="" class="form-control input-md" required="">
+  <input id="userPw" name="userPw" type="text" placeholder="" class="form-control input-md" required="required">
     
   </div>
 </div>
@@ -50,7 +50,7 @@
 <div class="form-group">
   <label class="col-md-12 control-label userUpdate" for="CCC">P.H</label>  
   <div class="col-md-12">
-  <input id="userPh" name="userPh" type="text" placeholder="" class="form-control input-md" required="">
+  <input id="userPh" name="userPh" type="text" placeholder="" class="form-control input-md" required="required">
     
   </div>
 </div>
@@ -59,9 +59,12 @@
 <div class="form-group">
   <label class="col-md-12 control-label userUpdate" for="YIHK">Point</label>  
   <div class="col-md-12">
-  <input id="userPoint" name="userPoint" type="text" placeholder="" class="form-control input-md" required="">
-    
+  <input id="userPoint" name="userPoint" type="text" placeholder="" class="form-control input-md" required="required">
   </div>
+<!--   <div class="col-md-7"> -->
+<!--   <input id="userPoint" name="userPoint" type="text" placeholder="" class="form-control input-md" required=""> -->
+<!--   </div> -->
+    
 </div>
 
 <!-- Text input-->

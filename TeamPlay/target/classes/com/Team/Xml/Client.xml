@@ -101,4 +101,11 @@
 		delete from CLIENT_DB where Client_ID = #{id}
 	</delete>
 	
+	<select id="checkip" parameterType="String" resultType="com.Team.Vo.IpVo">
+		select * from USERIP_DB where IP = #{ip}
+	</select>
+	
+	<insert id="insertUserIp" parameterType="String">
+		insert into USERIP_DB(ip) values (#{ip})
+	</insert>
 </mapper>

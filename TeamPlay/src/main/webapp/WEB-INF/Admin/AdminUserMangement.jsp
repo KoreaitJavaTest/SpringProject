@@ -25,7 +25,7 @@ $(function() {
 <c:set var="list" value="${AdminUserList.list}"/>	                
 
 	                <!-- 메인글시작 -->
-		<div class="col-xs-12 col-md-12" style="padding: 0 0 0 0;">
+<div class="col-xs-12 col-md-12" style="padding: 0 0 0 0;">
 	<table id="mytable" class="table table-bordred table-striped table-hover" style="margin-bottom: 0px;">
             		<tr>
 	                   <th class="text-center" style="width: 5%;"><input type="checkbox" id="checkall" /></th>

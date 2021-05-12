@@ -234,30 +234,52 @@ public class ShopService {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		
 		String userPw = session.getAttribute("session_password") +"";		//	로그인시 사용되는 비밀번호
 		String inputPw = request.getParameter("sh_password");				//	삭제페이지에서 입력한 비밀번호
-		String flag = request.getParameter("flag");							//	마이페이지에서 왔으면 flag = mypage
+		
+		String flag = "";
+		//	마이페이지에서 왔으면 flag = mypage
+		try { flag = request.getParameter("flag"); } catch (Exception e1) {System.out.println("flag 안받아옴");} 					
+		
 		int sh_idx = Integer.parseInt(request.getParameter("sh_idx"));		// 	삭제할 상품 번호
 		System.out.println("inputPw : " + inputPw);
 		System.out.println("sh_idx : " + sh_idx);
-		PrintWriter script = response.getWriter();
 		System.out.println(flag);
+		PrintWriter script = response.getWriter();
 		
-		if(flag.equals("mypage")) {
-			mapper.deleteProduct(sh_idx);
-		}else if(userPw.trim().equals(inputPw.trim())) {
-			script.println("<script>");
-			script.println("alert('delete OK');");
-			script.println("location.href = 'ShopAllProduct';");
-			script.println("</script>");
-			script.close();
-		}else {
-			script.println("<script>");
-			script.println("alert('비밀번호가 맞지 않습니다.');");
-			script.println("history.back();");
-			script.println("</script>");
-			script.close();
+		try {
+			if(flag.equals("mypage")) {
+				mapper.deleteProduct(sh_idx);
+				mapper.deleteProduct(sh_idx);
+				script.println("<script>");
+				script.println("alert('delete OK');");
+				script.println("location.href = 'MyProductViewPage';");
+				script.println("</script>");
+				script.close();
+			}else if(flag.equals("adminPage")){
+				mapper.deleteProduct(sh_idx);
+				script.println("<script>");
+				script.println("alert('delete OK');");
+				script.println("location.href = 'AdminProductManagement';");
+				script.println("</script>");
+				script.close();
+			}else if(userPw.trim().equals(inputPw.trim())) {
+				mapper.deleteProduct(sh_idx);
+				System.out.println("삭제됨");
+				script.println("<script>");
+				script.println("alert('delete OK');");
+				script.println("location.href = 'ShopAllProduct';");
+				script.println("</script>");
+				script.close();
+			}else {
+				script.println("<script>");
+				script.println("alert('비밀번호가 맞지 않습니다.');");
+				script.println("history.back();");
+				script.println("</script>");
+				script.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -425,7 +447,6 @@ public class ShopService {
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
 		PrintWriter script = response.getWriter();
 		
@@ -445,7 +466,6 @@ public class ShopService {
 		} catch (NumberFormatException e) {
 			System.out.println("장바구니에 없음");
 		}
-		out.println(sh_idx);
 	}
 	
 //	마이페이지 상품 관리

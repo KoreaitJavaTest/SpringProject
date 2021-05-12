@@ -565,8 +565,8 @@ public class ClientService {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		HttpSession session = request.getSession();
-		
 		ArrayList<ShopVO> baguni = new ArrayList<ShopVO>();
+		String goods = "";
 		int money = 0;
 		//총액
 		
@@ -577,15 +577,20 @@ public class ClientService {
 				System.out.println("널이아니라능");
 				int go = Integer.parseInt(idx);
 				ShopVO vo = mapper.selectProduct(go);
+				goods += vo.getSh_name() + ",";
 				money += vo.getSh_price();
+				
 				baguni.add(vo);
 			}
 		}
 		
+		
+		System.out.println("상품목록 : " + goods);
 		System.out.println("바구니 : " + baguni);
 		
 		request.setAttribute("money", money);
 		request.setAttribute("list", baguni);
+		request.setAttribute("goods", goods);
 	}
 	
 }

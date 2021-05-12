@@ -30,12 +30,14 @@
 				<c:forEach var="list" items="${list}">
 				<tr>
 					<td align = "center">
-						<img src="http://localhost:9090/korea/upload/${list.sh_img1 }">
+						<div style = "width: 150px; height: 150px;">
+							<img src="${list.sh_img1 }" style = "width: 100%; height: 100%;">
+						</div>
 					</td>
-					<td align = "center">
+					<td align = "center" style="vertical-align : middle;">
 						${list.sh_name }
 					</td>
-					<td align = "center">
+					<td align = "center" style="vertical-align : middle;">
 						<c:if test ="${list.sh_category eq '신발' }">
 							<select>
 								<option>230</option>
@@ -47,7 +49,7 @@
 							</select>
 						</c:if>
 					</td>
-					<td align = "center">
+					<td align = "center" style="vertical-align : middle;">
 						${list.sh_price}원
 					</td>
 				</tr>
@@ -74,14 +76,17 @@
 	
 	    //직접 만드신 네이버페이 결제버튼에 click Event를 할당하세요
 	    var elNaverPayBtn = document.getElementById("naverPayBtn");
-	
+	    
+	    var money = ${money};
+	    var name = "${goods}";
+	    
 	    elNaverPayBtn.addEventListener("click", function() {
 	        oPay.open({
 	          "merchantUserKey": "test",
 	          "merchantPayKey": "test",
-	          "productName": "뀨잉상품",
-	          "totalPayAmount": "${money}",
-	          "taxScopeAmount": "1000",
+	          "productName": name,
+	          "totalPayAmount": money,
+	          "taxScopeAmount": money,
 	          "taxExScopeAmount": "0",
 	          "returnUrl": "사용자 결제 완료 후 결제 결과를 받을 URL"
 	        });

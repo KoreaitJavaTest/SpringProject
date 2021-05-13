@@ -2,6 +2,7 @@ package com.Team.Service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Map;
@@ -30,6 +31,7 @@ import com.Team.List.QAboardList;
 import com.Team.List.ReViewList;
 import com.Team.Vo.AttentionPointVO;
 import com.Team.Vo.ClientVo;
+import com.Team.Vo.IpVo;
 import com.Team.Vo.ShopVO;
 
 import util.Gmail;
@@ -591,6 +593,31 @@ public class ClientService {
 		request.setAttribute("money", money);
 		request.setAttribute("list", baguni);
 		request.setAttribute("goods", goods);
+	}
+	
+	public void UserIpCheck(Model model, ClientDao mapper) {
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:ClientCTX.xml");
+		
+		String ip = null;
+	    ip = request.getRemoteAddr();
+
+	    IpVo vo = mapper.checkip(ip);
+	    Date today = new Date();
+	    
+	    SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
+	    
+	    try {
+		    if(date.format(today).equals(date.format(vo.getIndate()))){
+		    	System.out.println("저리가세욧");
+		    }else {	    	
+		    	mapper.insertUserIp(ip);
+		    }
+		} catch (Exception e) {
+			mapper.insertUserIp(ip);
+		}
+
 	}
 	
 }

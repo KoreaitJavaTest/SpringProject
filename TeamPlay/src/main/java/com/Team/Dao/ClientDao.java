@@ -6,6 +6,7 @@ import com.Team.List.QAboardList;
 import com.Team.List.ReViewList;
 import com.Team.Vo.AttentionPointVO;
 import com.Team.Vo.ClientVo;
+import com.Team.Vo.IpVo;
 import com.Team.Vo.QAboardVo;
 import com.Team.Vo.ReViewVO;
 
@@ -53,6 +54,12 @@ public interface ClientDao {
 	ArrayList<ReViewVO> selectreviewList(ReViewList reViewList);
 
 	ArrayList<AttentionPointVO> SelectMyPointDeposit(String userId);
+
+	IpVo checkip(String ip);
+
+	void insertUserIp(String ip);
+
+
 
 
 

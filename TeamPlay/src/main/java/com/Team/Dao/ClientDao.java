@@ -55,7 +55,7 @@ public interface ClientDao {
 
 	ArrayList<AttentionPointVO> SelectMyPointDeposit(String userId);
 
-	IpVo checkip(String ip);
+	ArrayList<IpVo> checkip(String ip);
 
 	void insertUserIp(String ip);
 

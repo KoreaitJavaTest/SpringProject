@@ -18,9 +18,16 @@ public class ReViewVO {
 	private String RE_imgNames;
 	private int RE_commentCount;
 	private String RE_goodCheckUser;
+	private int RE_rank;
 
 	
 
+	public int getRE_rank() {
+		return RE_rank;
+	}
+	public void setRE_rank(int rE_rank) {
+		RE_rank = rE_rank;
+	}
 	public void setDate(int rE_idx, String rE_title, String rE_content, int rE_img, String rE_categoryDetail,
 			String rE_imgNames) {
 		RE_idx = rE_idx;

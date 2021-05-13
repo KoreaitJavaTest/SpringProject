@@ -427,8 +427,12 @@ public class ReViewService {
 		
 		ReViewList list = ctx.getBean("ReViewList",ReViewList.class);
 		list.setList(reViewmapper.goodKingReView());
+		for (int i = 0; i < list.getList().size(); i++) {
+			list.getList().get(i).setRE_rank(i+1);
+		}
+		
 		System.out.println(list.getList());
-		model.addAttribute("ReViewList",list);
+		model.addAttribute("ReViewList",list.getList());
 		
 	}
 

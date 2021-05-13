@@ -4,5 +4,5 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<bean id="AdminUserMangementList" class="com.Team.List.AdminUserMangementList"/>
-
+	<bean id="ServerConnectionIP" class="com.Team.Vo.ServerConnectionIPVO"></bean>
 </beans>

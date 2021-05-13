@@ -12,6 +12,7 @@
 <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src='<c:url value="/resources/JS/AdminJS.js"/>'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
 </head>
 <style>
 <style>
@@ -34,8 +35,8 @@ body { padding-top:20px; }
                 <li id="cashMange"><a href="AdminReViewSelection"><i class="fa fa-bar-chart-o fa-fw"></i>리뷰 채택</a></li>
                 <li id="pointMange"><a href="http://www.jquery2dotnet.com"><i class="fa fa-tasks fa-fw"></i>포인트 관리</a></li>
                 <li id="superList"><a href="http://www.jquery2dotnet.com"><i class="fa fa-calendar fa-fw"></i>공지사항 관리</a></li>
-                <li><a href=""><i class="fa fa-table fa-fw"></i>통계</a></li>
-                <li><a href="statistics"><i class="fa fa-book fa-fw"></i>###</a></li>
+                <li><a href="statistics"><i class="fa fa-table fa-fw"></i>통계</a></li>
+                <li><a href=""><i class="fa fa-book fa-fw"></i>###</a></li>
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-pencil fa-fw"></i>###</a></li>
                 <li><a href="http://www.jquery2dotnet.com"><i class="fa fa-cogs fa-fw"></i>###</a></li>
             </ul>

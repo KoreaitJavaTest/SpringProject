@@ -15,6 +15,7 @@
 <link rel="shortcut icon" href="<c:url value="/resources/images/favicon.ico"/>">
 <link rel="icon" href="./images/me.png">
 <link rel="stylesheet" href='<c:url value="/resources/css/mainPage.css"/>'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
 </head>
 <body style="margin-top: 0px;">
 	<div style = "background-color: black;">
@@ -36,7 +37,7 @@
 			<div class="collapse navbar-collapse navheigt" id="bs-example-navbar-collapse-1" style="padding-left: 80px;">
 				<ul class="nav navbar-nav" style="background: black;" >
 					<li class="nav-item">
-						<a  class="nav-link jinho" href="ShopAllProduct">전체상품</a>
+						<a  class="nav-link jinho" href="ShopAllProduct">전체상품</a>d
 					</li>
 					<li class="nav-item">
 						<a  class="nav-link jinho" href="ShopInsertProduct">상품판매등록(임시)</a>

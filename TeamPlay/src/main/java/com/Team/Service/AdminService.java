@@ -1,6 +1,12 @@
 package com.Team.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +26,7 @@ import com.Team.Vo.AttentionPointVO;
 import com.Team.Vo.ClientVo;
 import com.Team.Vo.ReViewCommentVO;
 import com.Team.Vo.ReViewVO;
+import com.Team.Vo.ServerConnectionIPVO;
 
 public class AdminService {
 	private static AdminService instance = new AdminService();
@@ -122,6 +129,87 @@ public class AdminService {
 		
 		
 		
+		
+	}
+	public void statistics(Model model, AdminDao mapper, ClientDao clientwmapper) {
+		AbstractApplicationContext Adminctx = new GenericXmlApplicationContext("classpath:AdminCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		HttpSession session = request.getSession();
+		SimpleDateFormat sdf = new SimpleDateFormat("YYYYMMdd");
+		Date date2 = new Date();
+		Calendar cal = Calendar.getInstance(Locale.KOREA);
+		cal.setTime(date2);
+		cal.add(Calendar.DATE,2-cal.get(Calendar.DAY_OF_WEEK));
+		System.out.println("첫번째 요일(월) 날짜:"+sdf.format(cal.getTime()));
+		String startWeekDay = sdf.format(cal.getTime()); //20210510
+		//같은주 월요일
+		String currentWeekDate= sdf.format(cal.getTime())+"(월)~";
+		//현재는 : 20210510(월)~20210516(일)
+		//다음주는 : 20210517(월)~20210523(일)
+		cal.setTime(date2);
+		cal.add(Calendar.DATE,8-cal.get(Calendar.DAY_OF_WEEK));
+		System.out.println("막요일 일요일 날짜: "+sdf.format(cal.getTime()));
+		
+		String endWeekDay = sdf.format(cal.getTime()); //20210516
+		currentWeekDate+=sdf.format(cal.getTime())+"(일)";
+		
+		//조회한 로그의 이번주의 달
+		int nowStartMonth = Integer.parseInt(startWeekDay.substring(4,6)); //5
+		int nowEndMonth = Integer.parseInt(endWeekDay.substring(4,6)); //
+		//조회한 로그의 이번주의 시작일
+		int nowStartdate = Integer.parseInt(startWeekDay.substring(6)); //10
+		int nowEnddate = Integer.parseInt(endWeekDay.substring(6)); //
+		
+
+		//최종적으로 currentWeekDate를 request로 넘겨준다.
+		System.out.println(currentWeekDate);
+		String nowTime = sdf.format(date2);
+		//같은주 일요일
+		ArrayList<ServerConnectionIPVO> enterList = mapper.selectEnterList();	//싹다 sdf 식으로 끌어 오기
+		//0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday
+		int sun= 0 ,mon= 0,tue= 0,wed= 0,thur= 0,fri= 0,satur= 0; 
+		
+		for (int i = 0; i < enterList.size(); i++) {
+			if(enterList.get(i).getIndate().getMonth()+1==nowStartMonth || enterList.get(i).getIndate().getMonth()+1==nowEndMonth &&
+			   enterList.get(i).getIndate().getDate()>=nowStartdate || enterList.get(i).getIndate().getDate()<= nowEnddate) {
+				
+				if(enterList.get(i).getIndate().getDay()==0) {
+					sun++;
+					}
+				if(enterList.get(i).getIndate().getDay()==1) {
+					mon++;
+				}
+				if(enterList.get(i).getIndate().getDay()==2) {
+					tue++;
+				}
+				if(enterList.get(i).getIndate().getDay()==3) {
+					wed++;
+				}
+				if(enterList.get(i).getIndate().getDay()==4) {
+					thur++;
+				}
+				if(enterList.get(i).getIndate().getDay()==5) {
+					fri++;
+				}
+				if(enterList.get(i).getIndate().getDay()==6) {
+					satur++;
+				}//if...end
+			
+			}
+		}//for..end
+//		sun= 0 ,mon= 0,tue= 0,wed= 0,thur= 0,fri= 0,satur= 0; 
+		model.addAttribute("mon",mon);
+		model.addAttribute("tue",tue);
+		model.addAttribute("wed",wed);
+		model.addAttribute("thur",thur);
+		model.addAttribute("fri",fri);
+		model.addAttribute("satur",satur);
+		model.addAttribute("sun",sun);
+		model.addAttribute("currentWeekDate",currentWeekDate);
+		System.out.println("오늘요일: "+thur);
+			
+//		
 		
 	}
 	

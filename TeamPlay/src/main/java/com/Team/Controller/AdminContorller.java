@@ -135,6 +135,15 @@ public class AdminContorller {
 		AdminService.getInstance().AdminReViewSelectionOK(model,mapper,ReViewmapper,Clientwmapper);
 		return "redirect:AdminReViewSelection";
 	}
+	@RequestMapping("statistics")
+	public String statistics(Model model,HttpServletRequest request) {
+		System.out.println("통계");
+		model.addAttribute("request", request);
+		AdminDao mapper = sqlSession.getMapper(AdminDao.class);
+		ClientDao Clientwmapper = sqlSession.getMapper(ClientDao.class);
+		AdminService.getInstance().statistics(model,mapper,Clientwmapper);
+		return "Admin/AdminStatistics";
+	}
 
 
 }

@@ -26,4 +26,8 @@
 		WHERE CLIENT_ID = #{client_id}
 	</update>
 	
+	<select id="selectEnterList" resultType="com.Team.Vo.ServerConnectionIPVO">
+		select * from USERIP_DB 
+	</select>
+	
 </mapper>

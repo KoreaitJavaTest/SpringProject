@@ -93,9 +93,11 @@ public class ClientContorller {
 	public String home(Model model,HttpServletRequest request) {
 		ReViewDAO ReViewmapper = sqlSession.getMapper(ReViewDAO.class);
 		ShopDAO Shopmapper = sqlSession.getMapper(ShopDAO.class);
+		ClientDao Clientmapper = sqlSession.getMapper(ClientDao.class);		
 		model.addAttribute("request", request);
 		ReViewService.getInstance().ReViewGoodKing(model,ReViewmapper);
 		ShopService.getInstance().ShopGoodKing(model,Shopmapper);
+		ClientService.getInstance().UserIpCheck(model,Clientmapper);
 		
 		return "views/index";
 

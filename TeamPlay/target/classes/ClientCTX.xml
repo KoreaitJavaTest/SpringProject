@@ -6,6 +6,7 @@
 	<bean id = "Client" class="com.Team.Vo.ClientVo"></bean>
 	<bean id = "gmail" class = "util.Gmail"></bean>
 	<bean id = "sha256" class = "util.SHA256"></bean>
+	<bean id = "ipvo" class = "com.Team.Vo.IpVo"></bean>
 	
 	<!-- 출석체크 bean -->
 	<bean id="AttentionPointVO" class="com.Team.Vo.AttentionPointVO"/>

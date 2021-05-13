@@ -602,19 +602,31 @@ public class ClientService {
 		
 		String ip = null;
 	    ip = request.getRemoteAddr();
-
-	    IpVo vo = mapper.checkip(ip);
+	    ArrayList<IpVo> vo = new ArrayList<IpVo>();
+	    
+	    vo = mapper.checkip(ip);
+	    
 	    Date today = new Date();
 	    
 	    SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
+	    int wjflrktpdyt = 0;
 	    
 	    try {
-		    if(date.format(today).equals(date.format(vo.getIndate()))){
-		    	System.out.println("저리가세욧");
-		    }else {	    	
-		    	mapper.insertUserIp(ip);
-		    }
+	    	for(int i = 0; i < vo.size(); i++) {
+			    if(date.format(today).equals(date.format(vo.get(i).getIndate()))){
+			    	System.out.println("저리가세욧");
+			    	wjflrktpdyt++;
+			    }
+	    	}
+	    	
+	    	if(wjflrktpdyt == 1) {
+	    		System.out.println("저리가시라구욧!");
+	    	}else {
+	    		mapper.insertUserIp(ip);
+	    	}
+	    	
 		} catch (Exception e) {
+			System.out.println("뭐야없잖아!");
 			mapper.insertUserIp(ip);
 		}
 

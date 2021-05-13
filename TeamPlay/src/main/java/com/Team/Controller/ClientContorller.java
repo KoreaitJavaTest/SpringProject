@@ -95,7 +95,7 @@ public class ClientContorller {
 		ShopDAO Shopmapper = sqlSession.getMapper(ShopDAO.class);
 		model.addAttribute("request", request);
 		ReViewService.getInstance().ReViewGoodKing(model,ReViewmapper);
-//		ShopService.getInstance().ShopGoodKing(model,Shopmapper);
+		ShopService.getInstance().ShopGoodKing(model,Shopmapper);
 		
 		return "views/index";
 

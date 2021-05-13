@@ -30,8 +30,14 @@ public class ShopVO {
 	
 	private String sh_priceFM;			// 가격 포멧
 	private String sh_salePriceFM;		// 할인 가격 포멧
+	private int sh_ranking;				// 메인페이지 랭킹
 	
-	
+	public int getSh_ranking() {
+		return sh_ranking;
+	}
+	public void setSh_ranking(int sh_ranking) {
+		this.sh_ranking = sh_ranking;
+	}
 	public String getSh_salePriceFM() {
 		return sh_salePriceFM;
 	}

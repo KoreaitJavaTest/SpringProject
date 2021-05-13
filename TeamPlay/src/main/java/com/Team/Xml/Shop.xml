@@ -138,8 +138,8 @@
 		<![CDATA[
 		select * from (
 			select rownum rnum, TT.* from (
-				select * from SHOP order by SH_LIKE DESC
-			) TT where rownum <=2
+				select * from SHOP order by SH_LIKE DESC, SH_HIT DESC
+			) TT where rownum <=3
 		) where rnum >= 0
 		]]>	
 	</select>

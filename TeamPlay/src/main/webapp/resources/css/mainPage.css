@@ -36,8 +36,10 @@
 	.product-grid .social li a:after,.product-grid .social li a:before{content:attr(data-tip);color:#fff;background-color:#000;font-size:12px;letter-spacing:1px;line-height:20px;padding:1px 5px;white-space:nowrap;opacity:0;transform:translateX(-50%);position:absolute;left:50%;top:-30px}
 	.product-grid .social li a:after{content:'';height:15px;width:15px;border-radius:0;transform:translateX(-50%) rotate(45deg);top:-20px;z-index:-1}
 	.product-grid .social li a:hover:after,.product-grid .social li a:hover:before{opacity:1}
+	
 	.product-grid .product-discount-label,.product-grid .product-new-label{color:#fff;background-color:#ef5777;font-size:12px;text-transform:uppercase;padding:2px 7px;display:block;position:absolute;top:10px;left:0}
 	.product-grid .product-discount-label{background-color:#333;left:auto;right:0}
+	
 	.product-grid .rating{color:red;font-size:12px;padding:12px 0 0;margin:0;list-style:none;position:relative;z-index:-1}
 	.product-grid .rating li.disable{color:rgba(0,0,0,.2)}
 	.product-grid .product-content{background-color:#fff;text-align:center;padding:12px 0;margin:0 auto;position:absolute;left:0;right:0;bottom:-27px;z-index:1;transition:all .3s}

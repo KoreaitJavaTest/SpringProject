@@ -68,6 +68,47 @@ public class ShopService {
 		model.addAttribute("userId", userId);
 	}
 	
+	public void ShopGoodKing(Model model, ShopDAO shopmapper) {
+		DecimalFormat priceFm = new DecimalFormat("#,##0");
+		System.out.println("service => selectAllProduct() 메서드 들어옴");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		HttpSession session = request.getSession();
+		String userId = (String) session.getAttribute("session_id");
+		
+		int currentPage = 1;
+		try {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		} catch (NumberFormatException e) {
+		}
+		int pageSize = 8;
+		int totalCount = shopmapper.selectCount(shopmapper);
+
+		ShopList shopList = ctx.getBean("ShopList", ShopList.class);
+		
+		String category = "";
+		try {
+			category = request.getParameter("category"); // 이전 페이지에서 카테고리를 가져온다. ex) 신발, 상의, 하의
+		} catch (Exception e) {
+		}			
+		
+		shopList.shopList_category(pageSize, totalCount, currentPage, category);
+		shopList.setList(shopmapper.goodKingShop());
+		
+		int ranking = 0;
+//		가격에 , 찍기
+		for (ShopVO vo : shopList.getList()) {
+			ranking++;
+			vo.setSh_priceFM(priceFm.format(vo.getSh_price()));
+			vo.setSh_salePriceFM(priceFm.format(vo.getSh_salePrice()));
+			vo.setSh_ranking(ranking);
+		}
+		
+		model.addAttribute("shopList", shopList);
+		model.addAttribute("userId", userId);
+	}
+	
 //	상품 등록
 	public void insertProduct(Model model, ShopDAO mapper) throws IOException {
 		System.out.println("service => insertProduct()");
@@ -383,17 +424,6 @@ public class ShopService {
 		vo = mapper.selectProduct(sh_idx);
 		request.setAttribute("vo", vo);
 		
-	}
-	public void ShopGoodKing(Model model, ShopDAO shopmapper) {
-		System.out.println("shopGoodKing 실행");
-		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:shopCTX.xml");
-		Map<String, Object> map = model.asMap();
-		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		
-		ShopList list = ctx.getBean("ShopList",ShopList.class);
-		list.setList(shopmapper.goodKingShop());
-		
-		model.addAttribute("shopList",list.getList());
 	}
 	
 //	좋아요  업데이트

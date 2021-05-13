@@ -96,8 +96,9 @@ public class ClientContorller {
 		ClientDao Clientmapper = sqlSession.getMapper(ClientDao.class);		
 		model.addAttribute("request", request);
 		ReViewService.getInstance().ReViewGoodKing(model,ReViewmapper);
+		ShopService.getInstance().ShopGoodKing(model,Shopmapper);
 		ClientService.getInstance().UserIpCheck(model,Clientmapper);
-//		ShopService.getInstance().ShopGoodKing(model,Shopmapper);
+
 		
 		return "views/index";
 

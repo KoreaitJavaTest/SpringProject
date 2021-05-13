@@ -573,7 +573,7 @@ public class ClientService {
 		//총액
 		
 		//상품테이블에서 전부 카운트를 한 값이 들어가겠죠>
-		for(int i = 0; i < 50; i++) {
+		for(int i = 0; i < 2000; i++) {
 			String idx = (String) session.getAttribute("sh_idx_" + i);
 			if(null != idx) {
 				System.out.println("널이아니라능");

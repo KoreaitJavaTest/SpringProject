@@ -82,13 +82,15 @@ public class ClientContorller {
 
 	@Autowired
 	public SqlSession sqlSession;
-
+	
+	
+	//메인화면 노출
 	@RequestMapping(value="/")
 	public String homehome(Model model) {
 		return "redirect:index";
 
 	}
-	
+	//메인화면 노출시 리뷰(좋아요),상품(좋아요) 순 최대 3개 노출
 	@RequestMapping("/index")
 	public String home(Model model,HttpServletRequest request) {
 		ReViewDAO ReViewmapper = sqlSession.getMapper(ReViewDAO.class);
@@ -122,6 +124,7 @@ public class ClientContorller {
 		return "ClientJoin/JoinResultView";
 	}
 
+	//이메일 체크 결과
 	@RequestMapping("JoinEmailResultViewDo")
 	public String JoinEmailResultViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("JoinEmailResultViewDo()");
@@ -132,6 +135,7 @@ public class ClientContorller {
 		return "ClientJoin/JoinEmailResultView";
 	}
 
+	//ID 중복 체크 AJAX
 	@ResponseBody
 	@RequestMapping("IdoverlapcheckLogicDo")
 	public void IdoverlapcheckLogicDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
@@ -144,7 +148,7 @@ public class ClientContorller {
 		response.getWriter().write(getJSON(client_id, mapper));
 
 	}
-
+	//ID중복체크 AJAX의 메소드
 	private String getJSON(String client_id, ClientDao mapper) {
 		int daoresult = -1;
 		StringBuffer result = new StringBuffer("");
@@ -164,13 +168,13 @@ public class ClientContorller {
 
 		return result.toString();
 	}
-	
+	//로그인 뷰로 이동
 	@RequestMapping("LoginViewDo")
 	public String LoginViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("LoginViewDo()");
 		return "Login/LoginView";
 	}
-	
+	//로그인 뷰 -> 로그인 시도
 	@RequestMapping("LoginDo")
 	public String LoginDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		ClientDao mapper = sqlSession.getMapper(ClientDao.class);
@@ -179,7 +183,7 @@ public class ClientContorller {
 
 		return "Login/LoginResultView";
 	}
-
+	//로그아웃
 	@RequestMapping("LogoutViewDo")
 	public String LogoutViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("LogoutViewDo()");
@@ -188,7 +192,7 @@ public class ClientContorller {
 
 		return "Login/LogoutView";
 	}
-	
+	//ID&PW 찾기
 	@RequestMapping("SearchMyIdPwDo")
 	public String SearchMyIdPwDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("SearchMyIdPwDo()");
@@ -247,7 +251,7 @@ public class ClientContorller {
 		ClientService.getInstance().MyPasswordChangeDo(model,mapper);
 		return "MyPage/PasswordChangeResult";
 	}
-	
+	//(장진호) 마이페이지로 이동
 	@RequestMapping("MyPageViewDo")
 	public String MyPageViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("MyPageViewDo()");
@@ -288,7 +292,7 @@ public class ClientContorller {
 		return "MyPage/EditResultView";
 	}
 	
-	//진호 추가 출석체크 포인트 지급
+	//(장진호) 마이페이지 -> 출석체크 포인트 지급
 	@ResponseBody
 	@RequestMapping(value="depositPoint",produces="application/json;charset=utf8")
 	public String depositPoint(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
@@ -314,6 +318,7 @@ public class ClientContorller {
 		ClientService.getInstance().MyQnAviewPageDo(model,mapper,response);
 		return "MyPage/MyQnAviewPage";
 	}
+	//(장진호) 마이페이지 -> 내가쓴 리뷰 글 확인
 	@RequestMapping("MyListViewPage")
 	public String MyListViewPage(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("MyQnAviewPageDo()");
@@ -323,6 +328,7 @@ public class ClientContorller {
 		ClientService.getInstance().reviewSelect(model,Clientmapper,ReViewmapper,response);
 		return "MyPage/MyListViewPage";
 	}
+	//(장진호) 마이페이지 -> 포인트 적립내역확인
 	@RequestMapping("MyPointSelect")
 	public String MyPointSelect(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("MyQnAviewPageDo()");

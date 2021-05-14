@@ -7,7 +7,7 @@ import com.Team.List.ReViewList;
 import com.Team.Vo.ReViewCommentVO;
 import com.Team.Vo.ReViewSearchVO;
 import com.Team.Vo.ReViewVO;
-
+//리뷰게시글(CRUD) , 리뷰게시글의 댓글(CURD)
 public interface ReViewDAO {
 
 

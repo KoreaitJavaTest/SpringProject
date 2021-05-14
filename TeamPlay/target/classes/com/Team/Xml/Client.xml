@@ -94,7 +94,7 @@
 		]]>
 	</select>
 	<select id="SelectMyPointDeposit" parameterType="String" resultType="com.Team.Vo.AttentionPointVO">
-		select * from ATTENTIONPOINT WHERE USERID = #{userId}
+		select * from ATTENTIONPOINT  WHERE USERID = #{userId} ORDER BY DEPOSITDATE DESC 
 	</select>
 	
 	<delete id="deleteId" parameterType="String">

@@ -181,7 +181,7 @@ function AttentionCheck() {
 			                <div class="well profile col-lg-12 col-md-12 col-sm-12 col-xs-12" style="position: relative; left: 400px;">
 			                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 			                        <figure>
-			                             <img src="./htmll.jpg" alt="tq" class="img-circle" style="width:75px;" id="user-img">
+			                             <img src="<c:url value="/resources/images/Gender_Neutral_User_icon-icons.com_55902.png"/>" alt="tq" class="img-circle" style="width:75px;" id="user-img">
 			                        </figure>
 			                        <h5 style="text-align:center;"><strong id="user-name">${sessionScope.session_id} 님</strong></h5>
 			                        <p style="text-align:center;font-size: smaller;" id="user-frid">${sessionScope.session_gender}</p>

@@ -7,11 +7,11 @@
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">
-                <span class="glyphicon glyphicon-bookmark"></span> 상품 관리</h3>
+                <span class="glyphicon glyphicon-bookmark"></span> 이번주 웹페이지 방문횟수</h3>
         </div>
         <div class="panel-body" style="padding: 0px;"> 
         	<div class="container">
-<canvas id="myChart" width="1000" height="400">
+<canvas id="myChart" width="1000" height="600">
 </canvas>
 </div>	
 

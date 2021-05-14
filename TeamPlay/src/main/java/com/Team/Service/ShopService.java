@@ -147,7 +147,7 @@ public class ShopService {
 						continue;
 					}
 					
-					String imgNames = "http://localhost:9090/korea/upload/" + fileRealName;// img 파일 이름
+					String imgNames = "http://localhost:8010/korea/upload/" + fileRealName;// img 파일 이름
 					
 					if(imgCount == 1) {
 						vo.setSh_img1(imgNames);
@@ -354,7 +354,7 @@ public class ShopService {
 			if (fileRealName == null) {
 				continue;
 			}
-			String imgNames = "http://localhost:9090/korea/upload/" + fileRealName;// img 파일 이름
+			String imgNames = "http://localhost:8010/korea/upload/" + fileRealName;// img 파일 이름
 			
 			if(imgCount == 1) {
 				vo.setSh_img1(imgNames);

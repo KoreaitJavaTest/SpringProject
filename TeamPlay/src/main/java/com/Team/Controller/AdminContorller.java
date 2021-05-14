@@ -84,12 +84,12 @@ public class AdminContorller {
 	@Autowired
 	public SqlSession sqlSession;
 
-	//관리자 페이지 이동
+	//(장진호)관리자 페이지 이동
 	@RequestMapping("adminPage")
 	public String home(Model model) {
 		return "Admin/AdminMainPage";
 	}
-	//유저관리 페이지 이동
+	//(장진호)유저관리 페이지 이동
 	@RequestMapping("AdminUserMangement")
 	public String AdminUserMangement(Model model,HttpServletRequest request) {
 		model.addAttribute("request", request);
@@ -97,7 +97,7 @@ public class AdminContorller {
 		AdminService.getInstance().selectUserList(model,mapper);
 		return "Admin/AdminUserMangement";
 	}
-	//유저관리페이지 -> 유저삭제 (AJAX)
+	//(장진호)유저관리페이지 -> 유저삭제 (AJAX)
 	@ResponseBody
 	@RequestMapping(value="AdminUserDelete",produces="application/json;charset=utf8")
 	public String AdminUserDelete(Model model,HttpServletRequest request , HttpServletResponse response) throws UnsupportedEncodingException {
@@ -110,6 +110,7 @@ public class AdminContorller {
 		String result = gson.toJson(AdminService.getInstance().AdminUserDelete(model,mapper,response));
 		return result.toString();
 	}
+	//(장진호)유저관리페이지->유저정보수정
 	@RequestMapping("AdminUserUpdate")
 	public String AdminUserUpdate(Model model,HttpServletRequest request) {
 		model.addAttribute("request", request);
@@ -117,27 +118,28 @@ public class AdminContorller {
 		AdminService.getInstance().AdminUserUpdate(model,mapper);
 		return "redirect:AdminUserMangement";
 	}
-	//Admim페이지 -> 리뷰체택 -> 리뷰게시글출력
+	//(장진호)관리자페이지 -> 리뷰체택 -> 전체리뷰게시글 출력
 	@RequestMapping("AdminReViewSelection")
 	public String AdminReViewSelection(Model model,HttpServletRequest request) {
 		model.addAttribute("request", request);
 		ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
-		ReViewService.getInstance().ReViewSelect(model, mapper);
+		ReViewService.getInstance().ReViewSelect(model, mapper);	//모든 리뷰글을 받아오는 메소드호출
 		return "Admin/AdminReViewSelection";
 	}
+	//(장진호)관리자페이지->리뷰체택 ->채택버튼->리뷰게시글댓글작성,해당클라이언트 포인트 지급,log추가
 	@RequestMapping("AdminReViewSelectionOK")
 	public String AdminReViewSelectionOK(Model model,HttpServletRequest request) {
-		System.out.println("일로오냐");
 		model.addAttribute("request", request);
 		AdminDao mapper = sqlSession.getMapper(AdminDao.class);
+		//3가지 DAO를 인수로 사용하기위함
 		ReViewDAO ReViewmapper = sqlSession.getMapper(ReViewDAO.class);
 		ClientDao Clientwmapper = sqlSession.getMapper(ClientDao.class);
 		AdminService.getInstance().AdminReViewSelectionOK(model,mapper,ReViewmapper,Clientwmapper);
 		return "redirect:AdminReViewSelection";
 	}
+	//(장진호)관리자페이지->통계->IP별 웹페이지 접속횟수 = 방문자수  -> Chart.js에 response
 	@RequestMapping("statistics")
 	public String statistics(Model model,HttpServletRequest request) {
-		System.out.println("통계");
 		model.addAttribute("request", request);
 		AdminDao mapper = sqlSession.getMapper(AdminDao.class);
 		ClientDao Clientwmapper = sqlSession.getMapper(ClientDao.class);

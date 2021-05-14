@@ -42,7 +42,6 @@ public class QAservice {
 		
 		ArrayList<AnswerVO> Alist = new ArrayList<AnswerVO>();
 		Alist = mapper.selectAlist();
-//		System.out.println(Alist);
 		request.setAttribute("Alist", Alist);
 		
 		HashMap<String, Integer> hmap = new HashMap<String, Integer>();

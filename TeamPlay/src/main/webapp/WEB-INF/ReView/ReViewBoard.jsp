@@ -9,7 +9,20 @@
 <jsp:include page="../Layout/header.jsp"></jsp:include>
 <c:set var="list" value="${ReViewList.list}"/>
 <jsp:useBean id="date" class="java.util.Date"/>
-<script type="text/javascript" src="<c:url value="/resources/JS/ReView.js"/>" ></script>
+<script type="text/javascript">
+//리뷰글 검색 JS
+$(function() {
+	$('#ReViewSearch').click(function() {
+		var searchName = $("select option:selected").val();
+		var searchText = $('input[name=searchText]').val();
+		if(searchText.trim().length==0){
+			alert('검색어를 입력해 주세요');
+		}else{
+			location.href='ReViewSearch?searchName='+searchName+'&searchText='+searchText;
+		}
+	})
+})
+</script>
 <style>
 .searchLine{
 	margin-bottom: 5px;

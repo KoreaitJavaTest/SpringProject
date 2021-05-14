@@ -9,9 +9,23 @@
 <script type="text/javascript" src="<c:url value="/resources/JS/ReView.js"/>" ></script>
 <jsp:include page="/WEB-INF/ReView/ReViewModal.jsp"></jsp:include>
 <script type="text/javascript">
-function like(flag){
+$(function() {
+	var CoIdx = 0;					//삭제하기 버튼누른후 초기화될 댓글번호
+	var flag = "${commentUpdate}"	//컨트롤러에서  받아올 flag
+})
+$(document).ready(function() {
+	if(flag=="update"){
+		alert('댓글이 성공적으로 수정 되었습니다');
+	}//if...end
+	  $('#media').carousel({
+	    pause: true,
+	    interval: false,
+	  });
+$('.dropdown-toggle').dropdown();//드롭다운
+	});
+
+function like(flag){	//좋아요 기능 AJAX
 	var flag=flag;
-// 	console.log(flag);
 	$.ajax({
 		type:"POST",
 		url:"./likeCheck",
@@ -22,13 +36,58 @@ function like(flag){
 		},
 		dataType : "json",
 		success: function(meg){
-// 			alert(meg);
 			location.reload();
 		},error: function(meg){
 			alert(meg);
 		}
 	});
 }
+function commentCheck() {	//댓글 작성시 로그인 체크
+	var session_id = '${sessionScope.session_id}';
+	var context = $('#context').val();
+	if(session_id==''){
+		alert('로그인 후 작성해주세요.');
+		location.href='LoginViewDo'
+		return false;
+	}else if(context.trim().length==0){
+		alert('댓글을 작성해 주세요.');
+		return false;
+	}
+	return true;
+
+}
+function commentUpdateForm(obj) {	//댓글수정 클릭시 기존댓글삭제후 TextArea에서 기존댓글 수정하는 JS
+	var idx =  obj.children[0].value;
+	var userId = obj.children[1].value;
+	var content = obj.children[2].value;
+	if(userId.trim()=='${sessionScope.session_id}'){
+		$('#'+idx+'').empty();
+		$('#'+idx+'').append("<td colspan=3><input type='text' name='content2' value='"+content+"' style='width:1100px;margin-top: 4px;'/>"+
+								"</td>");
+		$('#'+idx+'').append("<td>"+
+							"<input type='button' class='btn btndefault test' value='수정하기' onclick='test("+idx+")'></td>");
+
+	}else{
+		alert('댓글 작성자가 아닙니다!');
+	}
+}
+function test(idx) {			//댓글을 수정하는 컨트롤러로  이동 + 정보전달
+	var Commentidx = idx;		//댓글번호
+	var content = $('input[name=content2]').val();
+	var PageIdx = '${vo.RE_idx}'
+	location.href = 'updateComment?Commentidx='+Commentidx+'&content='+content+'&idx='+PageIdx;
+	
+}
+function idxCommit(idx) {			//idx : 댓글 번호 idx 
+	CoIdx =idx;						//댓글 삭제하기 누름동시에 버튼초기화
+	console.log("삭제할 댓글 글번호 : "+CoIdx);
+	console.log("댓글을 가진 게시글번호 : "+${vo.RE_idx});
+}
+function commentDelete() {
+	console.log("삭제할 댓글 글번호 : "+CoIdx);
+	console.log("댓글을 가진 게시글번호 : "+${vo.RE_idx});
+	location.href = 'deleteComment?idx='+${vo.RE_idx}+'&commentIdx='+CoIdx;
+}//AJAX로 하자!
 </script>
 <c:set var="goodCheckUsers" value="${fn:split(vo.RE_goodCheckUser,',')}"/>
 <div class="container" style="margin-top: 50px;">

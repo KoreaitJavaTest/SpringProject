@@ -37,7 +37,7 @@
 			<div class="collapse navbar-collapse navheigt" id="bs-example-navbar-collapse-1" style="padding-left: 80px;">
 				<ul class="nav navbar-nav" style="background: black;" >
 					<li class="nav-item">
-						<a  class="nav-link jinho" href="ShopAllProduct">전체상품</a>d
+						<a  class="nav-link jinho" href="ShopAllProduct">전체상품</a>
 					</li>
 					<li class="nav-item">
 						<a  class="nav-link jinho" href="ShopInsertProduct">상품판매등록(임시)</a>

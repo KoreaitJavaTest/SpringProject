@@ -84,9 +84,9 @@ public class ClientService {
 			return;
 		}	
 		
-		String host = "http://localhost:9090/Controller/";
+		String host = "http://localhost:8010/Controller/";
 		String to = mapper.getClientEmail(vo.getClient_id());
-		String from = "gygus7345@naver.com";
+		String from = "ses1238@gmail.com";
 		String subject = "이메일인증입니다.";
 		String content = "다음 링크에 접속하여 이메일 인증을 진행하세요" + "<a href ='"+host+"JoinEmailResultViewDo?code=" + new SHA256().getSHA256(to) + "'>이메일 인증하기</a>";
 		
@@ -447,6 +447,7 @@ public class ClientService {
 			session.setAttribute("session_addr_end", addr_end);
 		}
 	}
+	//(장진호) 출석체크 포인트 지급AJAX
 	public int AttentionCheck(Model model, ClientDao mapper, HttpServletResponse response) throws IOException {
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:ClientCTX.xml");
 		Map<String, Object> map = model.asMap();
@@ -456,50 +457,36 @@ public class ClientService {
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		int check = 0;
-		int attentionPoint = 50;
-		String content = "출석체크 포인트";
+		int attentionPoint = 50;										//기본지급포인트
+		String content = "출석체크 포인트";									//출석체크 포인트포맷
 		String userId = request.getParameter("userId");
 		System.out.println(userId);
 		ArrayList<AttentionPointVO> PointList = mapper.selectPoint(userId);
-		System.out.println("PointList: "+PointList);
 		Date date = new Date(System.currentTimeMillis());
 		AttentionPointVO logVo = ctx.getBean("AttentionPointVO",AttentionPointVO.class);
 		logVo.SetAttentionPointVO(userId, attentionPoint, content);
-		if(PointList.size()==0) {
-			mapper.insertPointLog(logVo);
-			mapper.depositAttentionPoint(logVo);
-			System.out.println("test");
-//			response.getWriter().write("출석포인트 50Point 적립 되었습니다!");
-//			System.out.println("사이즈가 0일떄");
+		if(PointList.size()==0) {										//해당가져온 DB의 사이즈가 0이면 포인트지급
+			mapper.insertPointLog(logVo);								//지급
+			mapper.depositAttentionPoint(logVo);						//로그 추가
 		}else { 
 			System.out.println("사이즈"+PointList.size());
-			for (int i = 0; i < PointList.size(); i++) {	
-//				System.out.println("적립날짜 순서 :"+PointList.);
-				System.out.println("반복횟수:"+i);
+			for (int i = 0; i < PointList.size(); i++) {				//현재날짜와 비교해서 포인트를 준다,안준다 확인하는 조건문
 				if(PointList.get(i).getDepositDate().getMonth()+1!=date.getMonth()+1 && PointList.get(i).getDepositDate().getDate()!=date.getDate()
 					|| PointList.get(i).getDepositDate().getMonth()+1==date.getMonth()+1 && PointList.get(i).getDepositDate().getDate()!=date.getDate()) {
 					check++;
 				}
 			}
-			if(check==PointList.size()) { //포인트내역추가 , 유저 포인트 증가
+			if(check==PointList.size()) { 								//포인트내역추가 , 유저 포인트 증가
 				mapper.insertPointLog(logVo);
-				System.out.println("insertPointLog 종료");
 				mapper.depositAttentionPoint(logVo);
-				System.out.println("depositAttentionPoint 종료");
-				
-//				response.getWriter().write("출석포인트 50Point 적립 되었습니다!");
-				int user_point = mapper.userPointSelect(userId);
-				session.setAttribute("session_point", user_point);//다시 세션에저장해줘야함
+				int user_point = mapper.userPointSelect(userId);		//추가후 다시 유저의 포인트를 가져와 초기화 해준다.
+				session.setAttribute("session_point", user_point);		//다시 세션에저장해줘야함
 				return 1;
 			}else {
-//				response.getWriter().write("오늘 이미 출석포인트를 적립 받으셨습니다!");
 				return -1;
 			}
-				
-		
-			
 		}
-		return 1;
+		return 1;														// 1:정상지급 -1:미지급
 	}
 	
 	public void MyQnAviewPageDo(Model model, ClientDao mapper, HttpServletResponse response) throws IOException {
@@ -530,6 +517,7 @@ public class ClientService {
 
 		request.setAttribute("qaList", qaBoardList);		
 	}
+	//MyPage -> 내가쓴 리뷰글 확인
 	public void reviewSelect(Model model, ClientDao mapper, ReViewDAO reViewmapper, HttpServletResponse response) throws UnsupportedEncodingException {
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
 		Map<String, Object> map = model.asMap();
@@ -554,13 +542,14 @@ public class ClientService {
 		System.out.println("list:" +reViewList.getList());
 		
 	}
+	//MyPage -> 내가적립받은 포인트 내역 확인
 	public void SelectMyPointDeposit(Model model, ClientDao clientmapper, HttpServletResponse response) {
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:applicationCTX.xml");
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
 		HttpSession session = request.getSession();
 		String userId=""+session.getAttribute("session_id");
-		ArrayList<AttentionPointVO> list = clientmapper.SelectMyPointDeposit(userId);
+		ArrayList<AttentionPointVO> list = clientmapper.SelectMyPointDeposit(userId);	//해당유저의 id를 가진 내역을 DB에서 찾아와 list로 넘겨받음
 		model.addAttribute("list", list);
 	}
 	public void MyBaguniViewDo(Model model, ShopDAO mapper, HttpServletResponse response) {
@@ -572,7 +561,7 @@ public class ClientService {
 		int money = 0;
 		//총액
 		
-		//상품테이블에서 전부 카운트를 한 값이 들어가겠죠>
+		//상품테이블에서 전부 카운트를 한 값이 들어가겠죠
 		for(int i = 0; i < 2000; i++) {
 			String idx = (String) session.getAttribute("sh_idx_" + i);
 			if(null != idx) {

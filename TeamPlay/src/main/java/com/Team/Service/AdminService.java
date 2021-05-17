@@ -152,7 +152,8 @@ public class AdminService {
 		//조회한 로그의 이번주의 시작일
 		int nowStartdate = Integer.parseInt(startWeekDay.substring(6)); //10
 		int nowEnddate = Integer.parseInt(endWeekDay.substring(6)); //
-		
+		System.out.println("시작일: "+nowStartdate);
+		System.out.println("끝일: "+nowEnddate);
 
 		//최종적으로 currentWeekDate를 request로 넘겨준다.
 		System.out.println(currentWeekDate);
@@ -160,34 +161,62 @@ public class AdminService {
 		//같은주 일요일
 		ArrayList<ServerConnectionIPVO> enterList = mapper.selectEnterList();	//싹다 sdf 식으로 끌어 오기
 		//0 = Sunday, 1 = Monday, 2 = Tuesday, 3 = Wednesday, 4 = Thursday, 5 = Friday, 6 = Saturday
+		System.out.println(enterList);
 		int sun= 0 ,mon= 0,tue= 0,wed= 0,thur= 0,fri= 0,satur= 0; 
-		
+//		&&enterList.get(i).getIndate().getDate()>=nowStartdate || enterList.get(i).getIndate().getDate()<= nowEnddate
 		for (int i = 0; i < enterList.size(); i++) {
-			if(enterList.get(i).getIndate().getMonth()+1==nowStartMonth || enterList.get(i).getIndate().getMonth()+1==nowEndMonth &&
-			   enterList.get(i).getIndate().getDate()>=nowStartdate || enterList.get(i).getIndate().getDate()<= nowEnddate) {
+			if(enterList.get(i).getIndate().getMonth()+1==nowStartMonth || enterList.get(i).getIndate().getMonth()+1==nowEndMonth) {
+				//  10~16,17~23,24~
+				//지금은 데이터 에있는게 일로 들어와서 문제지 5.13일이든 17일 이든
+			    if(enterList.get(i).getIndate().getMonth()+1==nowStartMonth&&enterList.get(i).getIndate().getDate()>=nowStartdate) {
+			    	
+			    	if(enterList.get(i).getIndate().getDay()==0) {
+			    		sun++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==1) {
+			    		mon++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==2) {
+			    		tue++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==3) {
+			    		wed++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==4) {
+			    		thur++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==5) {
+			    		fri++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==6) {
+			    		satur++;
+			    	}//if...end
+			    }
+			    if(enterList.get(i).getIndate().getMonth()+1==nowEndMonth && enterList.get(i).getIndate().getDate()<=nowEnddate) {
+			    	if(enterList.get(i).getIndate().getDay()==0) {
+			    		sun++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==1) {
+			    		mon++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==2) {
+			    		tue++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==3) {
+			    		wed++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==4) {
+			    		thur++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==5) {
+			    		fri++;
+			    	}
+			    	if(enterList.get(i).getIndate().getDay()==6) {
+			    		satur++;
+			    	}//if...end
+			    }
 				
-				if(enterList.get(i).getIndate().getDay()==0) {
-					sun++;
-					}
-				if(enterList.get(i).getIndate().getDay()==1) {
-					mon++;
-				}
-				if(enterList.get(i).getIndate().getDay()==2) {
-					tue++;
-				}
-				if(enterList.get(i).getIndate().getDay()==3) {
-					wed++;
-				}
-				if(enterList.get(i).getIndate().getDay()==4) {
-					thur++;
-				}
-				if(enterList.get(i).getIndate().getDay()==5) {
-					fri++;
-				}
-				if(enterList.get(i).getIndate().getDay()==6) {
-					satur++;
-				}//if...end
-			
+				
 			}
 		}//for..end
 //		sun= 0 ,mon= 0,tue= 0,wed= 0,thur= 0,fri= 0,satur= 0; 
@@ -199,7 +228,14 @@ public class AdminService {
 		model.addAttribute("satur",satur);
 		model.addAttribute("sun",sun);
 		model.addAttribute("currentWeekDate",currentWeekDate);
-		System.out.println("오늘요일: "+thur);			
+		System.out.println("오늘요일: "+thur);		
+//		=========================================여기까지 요일별 IP통계
+//		여기부터 회원 성비율 차트
+		int ClientIsMen = clientwmapper.genderSelect("남자");
+		int ClientIsGirl = clientwmapper.genderSelect("여자");
+		
+		model.addAttribute("ClientIsMen",ClientIsMen);
+		model.addAttribute("ClientIsGirl",ClientIsGirl);
 	}
 	
 	

@@ -1,6 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri ="http://java.sun.com/jsp/jstl/core" %>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+function onSignIn(googleUser) {
+	  var profile = googleUser.getBasicProfile();
+		$.ajax({
+			type:"POST",
+			url:"./GoogleIdCheck",
+			data:{
+				userId:profile.getId(),
+				Name:profile.getName(),
+				Email:profile.getEmail(),
+				checkFlag:'Google'
+			},
+			success: function(meg){
+				if(meg==-1){
+					alert('회원가입 페이지로 이동합니다.');
+					location.href='JoinViewDo?userEmail='+profile.getEmail()+'&checkFlag=google';
+				}else{
+					location.href='LoginDo?id='+profile.getEmail()+'&checkFlag=google';
+				}
+			},error: function(meg){
+				alert('에러')
+				
+			}
+		});
+		var auth2 = gapi.auth2.getAuthInstance();
+		auth2.signOut().then(function () {
+		      console.log('User signed out.');
+		    });
+	}
+</script>
 <jsp:include page="../Layout/header.jsp"></jsp:include>
 <style>
     body {
@@ -29,6 +60,10 @@
                     </div>
                     <div>
                         <button type="submit" class="form-control btn btn-primary">로그인</button>
+                    </div>
+                    <div>
+                    	 <a href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>	
+                    	 <div class="g-signin2" data-onsuccess="onSignIn"></div>
                     </div>
                 </form>
             </div>

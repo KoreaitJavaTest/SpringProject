@@ -13,7 +13,21 @@
         	<div class="container">
 <canvas id="myChart" width="1000" height="600">
 </canvas>
-</div>	
+			</div>
+		</div>
+	</div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span class="glyphicon glyphicon-bookmark"></span> 회원별 남녀 성비</h3>
+        </div>
+        <div class="panel-body" style="padding: 0px;"> 
+<div class="container">
+<canvas id="genderChart" width="1000" height="600">
+</canvas>
+			</div>
+		</div>
+	</div>	
 
 <script>
 var ctx = document.getElementById("myChart");
@@ -48,6 +62,25 @@ var myChart = new Chart(ctx, {
     options: {scales: {yAxes: [{ticks: {beginAtZero:true,
     									max:50	
     } }]}} //데이터 값을 0부터 시작
+});
+var ctx2 = document.getElementById("genderChart");
+var genderChart = new Chart(ctx2, {
+    type: 'pie',
+    data: { 
+        labels: ["남","여"],
+        datasets: [{
+            label: '${currentWeekDate}',
+            data: [${ClientIsMen},${ClientIsGirl}],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 99, 132, 0.2)'
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+                'rgba(255,99,132,1)'
+            ],
+        }]
+    },
 });
 </script>
         

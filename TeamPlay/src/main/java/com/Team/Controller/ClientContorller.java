@@ -8,10 +8,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.google.api.Google;
+import org.springframework.social.google.api.impl.GoogleTemplate;
+import org.springframework.social.google.api.plus.Person;
+import org.springframework.social.google.api.plus.PlusOperations;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
+import org.springframework.social.oauth2.AccessGrant;
+import org.springframework.social.oauth2.GrantType;
+import org.springframework.social.oauth2.OAuth2Operations;
+import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -82,6 +99,11 @@ public class ClientContorller {
 
 	@Autowired
 	public SqlSession sqlSession;
+	 @Autowired
+	  private GoogleConnectionFactory googleConnectionFactory;
+
+	  @Autowired
+	  private OAuth2Parameters googleOAuth2Parameters;
 	
 	
 	//메인화면 노출
@@ -107,10 +129,37 @@ public class ClientContorller {
 	}
 	
 	// 회원가입 페이지 이동
-	@RequestMapping("JoinViewDo")
+	@RequestMapping(value="JoinViewDo",method=RequestMethod.GET)
 	public String JoinViewDo(HttpServletRequest request, Model model) {
 		System.out.println("JoinViewDo()");
+		model.addAttribute("request", request);
+		ClientService.getInstance().googleJoin(model);
 		return "ClientJoin/JoinView";
+	}
+	
+	@RequestMapping("GoogleLoginDo")
+	public String GoogleLoginDo(HttpServletRequest request, Model model) {
+		System.out.println("구글로그인 DO");
+		return "redirect:index";
+	}
+	//(장진호) 구글로그인->CLIENTDB 에 있나 확인 
+	// 없음 ->구글ID로 회원가입 check=-1
+	// 있음 ->로그인 check=1
+	@ResponseBody
+	@RequestMapping(value="GoogleIdCheck",produces="application/json;charset=utf8")
+	public String GoogleIdCheck(HttpServletRequest request, Model model) {
+		System.out.println("구글로그인 GoogleIdCheck");
+		model.addAttribute("request", request);
+		ClientDao mapper = sqlSession.getMapper(ClientDao.class);	
+		int check=ClientService.getInstance().googleIdCheck(mapper,model);
+		Gson gson = new Gson();
+		StringBuffer result = new StringBuffer("");
+		if(check==-1) {
+			result.append(gson.toJson("-1"));
+		}else if(check==1) {
+			result.append(gson.toJson("1"));
+		}
+		return result.toString();
 	}
 
 	// 회원가입 결과 페이지
@@ -172,6 +221,9 @@ public class ClientContorller {
 	@RequestMapping("LoginViewDo")
 	public String LoginViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("LoginViewDo()");
+		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
+		model.addAttribute("google_url", url);
 		return "Login/LoginView";
 	}
 	//로그인 뷰 -> 로그인 시도

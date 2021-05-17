@@ -18,6 +18,17 @@
 }
 </style>
 <jsp:include page="../Layout/header.jsp"></jsp:include>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script type="text/javascript">
+function onSignIn(googleUser) {
+	  var profile = googleUser.getBasicProfile();
+	  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+	  console.log('Name: ' + profile.getName());
+	  console.log('Image URL: ' + profile.getImageUrl());
+	  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+	}
+</script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 <div class="container">
 	<div class="indexjumbo">
@@ -88,7 +99,9 @@
 	<div class="row">
         <div class="col-md-3" style="width: 585px;height: 237px; position: relative;" >
          	<div>
+         	<a href="ReViewDetailSelect?idx=${vo.RE_idx}">
             <img class="img-fluid rounded mb-3 mb-md-0" style="width: 100%; height: 100%" src="http://localhost:8010/korea/upload/${imgN[0]}" alt="">
+         	</a>
 			<span class="label label-default" 
 			style="color:#fff;background-color:#ef5777;font-size:12px;text-transform:uppercase;
 			padding:2px 7px;display:block;position:absolute;top:10px;left:0"><p style="font-size: 15pt;">${vo.RE_rank}위</p></span>         	
@@ -97,11 +110,13 @@
         </div>
         <div class="col-md-5" style="height: 195px;">
         	<div class="ReViewRank" style="height: 195px;">
+		          <a style="text-decoration: none; color:black;" href="ReViewDetailSelect?idx=${vo.RE_idx}">
 		          <h1 style="font-size: 20pt;">${fn:trim(vo.RE_title)}</h1>
+		          </a>
 		          <p>
 		          	${fn:trim(vo.RE_content)}
 		          </p>
-		          <a class="btn btn-primary" href="ReViewDetailSelect?idx=${vo.RE_idx}" style="position: relative ;top: 10px;">바로가기</a>
+		         
         	</div>
         </div>
      </div>

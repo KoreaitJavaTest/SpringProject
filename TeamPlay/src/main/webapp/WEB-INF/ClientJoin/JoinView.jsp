@@ -162,7 +162,8 @@ function searchAddr(){
 			</tr>
 			<tr>
 				<td align = "center" colspan ="2">
-					<input type = "text" class="form-control" id = "user_input_id" name = "id" placeholder="이름을 적어주세요" maxlength='16' autocomplete="off" required="required">
+					<input type = "text" class="form-control" id = "user_input_id" name = "id"
+					value='<c:if test="${userId!=null}">${userId}</c:if>' placeholder="이름을 적어주세요" maxlength='20' autocomplete="off" required="required">
 					<div id = "id_overlap_result"></div>
 				</td>
 			</tr>
@@ -197,7 +198,8 @@ function searchAddr(){
 			</tr>
 			<tr>
 				<td align = "center" colspan ="1" style = "width : 80%;">
-					<input type = "text" name = "email_head" placeholder="이메일을 적어주세요" autocomplete="off" required="required">@
+					<input type = "text" name = "email_head" placeholder="이메일을 적어주세요" autocomplete="off" required="required"
+					value='<c:if test="${userEamilFront!=null}">${userEamilFront}</c:if>'>@
 					<select name = "email_end">
 						<option selected="selected">이메일선택</option>
 						<option>naver.com</option>

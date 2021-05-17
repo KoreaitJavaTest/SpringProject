@@ -52,6 +52,16 @@
 			ref="sqlSessionFactory"></beans:constructor-arg>
 	</beans:bean>
 	
+	  <beans:bean id="googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
+    <beans:constructor-arg value="986137111067-iel1e4ss9j65162i97gri45o89349gf2.apps.googleusercontent.com" />
+    <beans:constructor-arg value="_tbBo723EiEE_8N4UJQhOEh0" />
+  </beans:bean>
+  
+    <beans:bean id="googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
+   	 	<beans:property name="scope" value="https://www.googleapis.com/auth/plus.login" />
+    	<beans:property name="redirectUri" value="http://localhost:8010/Controller/GoogleLoginDo" />
+  </beans:bean>
+	
 	<!-- 파일 업로드 -->
 <!-- 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> -->
 <!-- 	</beans:bean> -->

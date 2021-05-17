@@ -23,6 +23,9 @@
 	<select id="login" parameterType="com.Team.Vo.ClientVo" resultType="com.Team.Vo.ClientVo">
 		SELECT * FROM CLIENT_DB WHERE CLIENT_ID = #{client_id} AND CLIENT_PASSWORD = #{client_password}
 	</select>
+	<select id="Googlelogin" parameterType="com.Team.Vo.ClientVo" resultType="com.Team.Vo.ClientVo">
+		SELECT * FROM CLIENT_DB WHERE CLIENT_ID = #{client_id} AND CLIENT_WEB='google'
+	</select>
 	
 	<select id="SearchMyIdByEmailDo" parameterType="String" resultType="String">
 		select CLIENT_ID from CLIENT_DB WHERE CLIENT_EMAIL = #{email}
@@ -108,4 +111,12 @@
 	<insert id="insertUserIp" parameterType="String">
 		insert into USERIP_DB(ip) values (#{ip})
 	</insert>
+	
+	<select id="genderSelect" parameterType="String" resultType="Integer">
+		select count(*) from CLIENT_DB WHERE CLIENT_GENDER =#{String}
+	</select>
+	
+	<select id="googleIdCheck" parameterType="String" resultType="Integer">
+		select count(*) from CLIENT_DB WHERE CLIENT_ID=#{userId} and CLIENT_WEB='google'
+	</select>
 </mapper>

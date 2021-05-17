@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-signin-client_id" content="986137111067-6blmfih4njnp4vsstfibtuv3t012lg8t.apps.googleusercontent.com">
 <title>부트스트랩 웹 페이지</title>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
@@ -16,6 +17,20 @@
 <link rel="icon" href="./images/me.png">
 <link rel="stylesheet" href='<c:url value="/resources/css/mainPage.css"/>'>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script type="text/javascript">
+function signOut() {
+	  function signOut() {
+		    var auth2 = gapi.auth2.getAuthInstance();
+		    auth2.signOut().then(function () {
+		      console.log('User signed out.');
+		    });
+		  }
+}
+function homeSignHidden(googleUser) {
+	  var profile = googleUser.getBasicProfile();
+}
+</script>
 </head>
 <body style="margin-top: 0px;">
 	<div style = "background-color: black;">
@@ -67,13 +82,14 @@
 						</a>
 						<ul class="dropdown-menu">
 							<c:if test = "${sessionScope.session_id eq null }">
-								<li><a href="LoginViewDo">로그인</a></li>
+								<li><a  href="LoginViewDo" onclick="signOut()">로그인</a></li>
 								<li><a href="SearchMyIdPwDo">아이디,비밀번호 찾기</a></li>
 								<li><a href="JoinViewDo">회원가입</a></li>
 							</c:if>
 							<c:if test = "${sessionScope.session_id != null }">
 								<li><div align="center">${sessionScope.session_id}님<br/>point: ${sessionScope.session_point}점</div></li>
-								<li><div style="cursor: pointer;" align="center" onclick="location.href='LogoutViewDo'">로그아웃</div></li>
+								<li><div style="cursor: pointer;" align="center" onclick="signOut()">로그아웃</div></li>
+								<input type="hidden" class="g-signin2" data-onsuccess="homeSignHidden">
 								<c:if test="${sessionScope.session_level==1}">
 									<li><div style="cursor: pointer;" align="center" onclick="location.href='adminPage'">관리자페이지</div></li>
 								</c:if>

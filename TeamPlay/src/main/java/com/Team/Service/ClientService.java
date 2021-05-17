@@ -177,15 +177,38 @@ public class ClientService {
 		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:ClientCTX.xml");
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		
+		HttpSession session = request.getSession();
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
-		String id = request.getParameter("id");
-		String password = request.getParameter("password");
 		ClientVo vo = (ClientVo) ctx.getBean("Client");
-		vo.setClientVo(id, password);
 		
+		String id = "";
+		String password="";
+		String flag = null;
+		try {
+			id=request.getParameter("id");
+			password = request.getParameter("password");
+			flag = request.getParameter("checkFlag"); //구글로그인
+			if(flag.equals("google")) {
+				vo.setClient_id(id);
+				vo = mapper.Googlelogin(vo);
+				session.setAttribute("session_level", vo.getClient_level()); 
+				session.setAttribute("session_id", vo.getClient_id()); 
+				session.setAttribute("session_password", vo.getClient_password()); 
+				session.setAttribute("session_gender", vo.getClient_gender()); 
+				session.setAttribute("session_addr_head", vo.getClient_addr_head()); 
+				session.setAttribute("session_addr_end", vo.getClient_addr_end()); 
+				session.setAttribute("session_phone", vo.getClient_phone()); 
+				session.setAttribute("session_email", vo.getClient_email()); 
+				session.setAttribute("session_point", vo.getClient_point());
+				return;
+			}
+		}catch(Exception e) {}
+			System.out.println("id"+id);
+			System.out.println("password"+password);
+			System.out.println("flag"+flag);
+
+		vo.setClientVo(id, password);
 		vo = mapper.login(vo);	
 		if(null == vo) {
 			PrintWriter script = response.getWriter();
@@ -203,16 +226,15 @@ public class ClientService {
 			script.println("</script>");
 			script.close();
 		}else {
-		HttpSession session = request.getSession();
-		session.setAttribute("session_level", vo.getClient_level()); 
-		session.setAttribute("session_id", vo.getClient_id()); 
-		session.setAttribute("session_password", vo.getClient_password()); 
-		session.setAttribute("session_gender", vo.getClient_gender()); 
-		session.setAttribute("session_addr_head", vo.getClient_addr_head()); 
-		session.setAttribute("session_addr_end", vo.getClient_addr_end()); 
-		session.setAttribute("session_phone", vo.getClient_phone()); 
-		session.setAttribute("session_email", vo.getClient_email()); 
-		session.setAttribute("session_point", vo.getClient_point()); 
+			session.setAttribute("session_level", vo.getClient_level()); 
+			session.setAttribute("session_id", vo.getClient_id()); 
+			session.setAttribute("session_password", vo.getClient_password()); 
+			session.setAttribute("session_gender", vo.getClient_gender()); 
+			session.setAttribute("session_addr_head", vo.getClient_addr_head()); 
+			session.setAttribute("session_addr_end", vo.getClient_addr_end()); 
+			session.setAttribute("session_phone", vo.getClient_phone()); 
+			session.setAttribute("session_email", vo.getClient_email()); 
+			session.setAttribute("session_point", vo.getClient_point()); 
 		}
 		
 	}
@@ -619,6 +641,39 @@ public class ClientService {
 			mapper.insertUserIp(ip);
 		}
 
+	}
+	public int googleIdCheck(ClientDao mapper, Model model) {
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		AbstractApplicationContext ctx = new GenericXmlApplicationContext("classpath:ClientCTX.xml");
+		
+		String userId = request.getParameter("userId");
+		String email = request.getParameter("Email");
+		String flag = request.getParameter("checkFlag"); //Google이라는 Flag
+		int googleIdCheck = mapper.googleIdCheck(email);
+		
+		if(googleIdCheck==0) { // 구글+아이디 검색결과가 0일시 = 해당 아이디가 존재하지않다 => 회원가입페이지 이동
+			return -1;
+		}else{					// 있다 => 로그인해야한다.
+			return 1;
+		}
+	}
+	// 구글로그인-> 아이디없음 -> 회원가입 페이지 이동 (기존ID 가져가면서)
+	public void googleJoin(Model model) {
+		Map<String, Object> map = model.asMap();
+		HttpServletRequest request = (HttpServletRequest) map.get("request");
+		try {
+			String userId =request.getParameter("userEmail");
+			String userEamilFront = userId.substring(0,userId.indexOf("@"));
+			System.out.println(userEamilFront);
+			//ses7361@naver.com - ses7361
+			String flag = request.getParameter("checkFlag"); //Google이라는 Flag
+			model.addAttribute("userId",userId);	//구글 로그인 ID
+			model.addAttribute("flag",flag);	//google
+			model.addAttribute("userEamilFront",userEamilFront);	//google
+		}catch (Exception e) {}
+		
+			
 	}
 	
 }

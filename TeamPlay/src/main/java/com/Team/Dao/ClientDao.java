@@ -59,6 +59,12 @@ public interface ClientDao {
 
 	void insertUserIp(String ip);
 
+	int genderSelect(String string);
+
+	int googleIdCheck(String userId);
+
+	ClientVo Googlelogin(ClientVo vo);
+
 
 
 

@@ -169,14 +169,8 @@ public class AdminService {
 //		&&enterList.get(i).getIndate().getDate()>=nowStartdate || enterList.get(i).getIndate().getDate()<= nowEnddate
 		for (int i = 0; i < enterList.size(); i++) {
 			if(enterList.get(i).getIndate().getMonth()+1==nowStartMonth || enterList.get(i).getIndate().getMonth()+1==nowEndMonth) {	//5월 6월 다가져오기
-				//  10~16,17~23,24~
-				//지금은 데이터 에있는게 일로 들어와서 문제지 5.13일이든 17일 이든
-				//5.31~6.6
 				if(enterList.get(i).getIndate().getMonth()+1==nowStartMonth) {
-//					System.out.println(enterList.get(i).getIndate());
-					//5월이라면
-//					cal.getActualMaximum(Calendar.DAY_OF_MONTH);//31
-					if(enterList.get(i).getIndate().getDate()>=nowStartdate &&
+					if(enterList.get(i).getIndate().getDate()>=nowStartdate && 
 						enterList.get(i).getIndate().getDate()<=nowStartCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
 						System.out.println(enterList.get(i).getIndate());
 						if(enterList.get(i).getIndate().getDay()==0) {
@@ -229,7 +223,6 @@ public class AdminService {
 				
 			}
 		}//for..end
-//		sun= 0 ,mon= 0,tue= 0,wed= 0,thur= 0,fri= 0,satur= 0; 
 		model.addAttribute("mon",mon);
 		model.addAttribute("tue",tue);
 		model.addAttribute("wed",wed);

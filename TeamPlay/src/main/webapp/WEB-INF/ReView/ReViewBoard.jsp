@@ -64,7 +64,7 @@ $(function() {
 			  <div class="col-xs-2 col-sm-6 col-md-4" style="height: 560px; width: 360px;" align="center">
 			    <div class="thumbnail" style="width: 320px; height: 548px;">
 			    	<a href="ReViewDetailSelect?idx=${vo.RE_idx}&currentPage=${ReViewList.currentPage}&flag=1">
-				        <img src="http://localhost:8010/korea/upload/${imgN[0]}" alt="${imgN[0]}" style="width: 300px;height: 300px;">
+				        <img src="http://localhost:	8010/korea/upload/${imgN[0]}" alt="${imgN[0]}" style="width: 300px;height: 300px;">
 			    	</a>
 			      <div class="caption" style="height: 243px;">
 			      <div>

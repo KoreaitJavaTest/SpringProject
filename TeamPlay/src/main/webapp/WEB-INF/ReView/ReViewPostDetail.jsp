@@ -100,7 +100,7 @@ function commentDelete() {
 		<tbody>
 			<tr>
 				<td width="10%">제목</td>
-				<td>${vo.RE_title} Test:${goodCheckUsers[0]}</td>
+				<td>${vo.RE_title}</td>
 			</tr>
 			<tr>
 				<td>작성자</td>
@@ -182,7 +182,7 @@ function commentDelete() {
 							 	</c:when>
 							 	<c:otherwise>
 <%-- 							 		<a href="ReView/ReViewUpdate?idx=${vo.RE_idx}&currentPage=${currentPage}" role="menuitem" tabindex="-1"> --%>
-								 	<a href="#" role="menuitem" tabindex="-1" onclick="alert('작성자 아이디가 아닙니다!');location.href='LoginView.nhn'">
+								 	<a href="#" role="menuitem" tabindex="-1" onclick="alert('작성자 아이디가 아닙니다!');location.href='LoginViewDo'">
 								 		수정하기
 								 	</a>
 							 	</c:otherwise>
@@ -202,7 +202,7 @@ function commentDelete() {
 							 	</c:when>
 							 	<c:otherwise>
 <%-- 								 	<a href="ReViewDeleteOK?idx=${vo.RE_idx}&currentPage=${currentPage}&flag=detail" role="menuitem" tabindex="-1"> --%>
-								 	<a href="#" role="menuitem" tabindex="-1" onclick="alert('작성자 아이디가 아닙니다!')location.href='LoginView.nhn'">
+								 	<a href="#" role="menuitem" tabindex="-1" onclick="alert('작성자 아이디가 아닙니다!')location.href='LoginViewDo'">
 								 		삭제하기
 								 	</a>
 							 	</c:otherwise>
@@ -219,7 +219,7 @@ function commentDelete() {
 					<div style="display: inline-block; float: left;">
 						<!-- 비 로그인일시 -->
 						<c:if test="${sessionScope.session_id eq null }">
-							<a onclick="alert('로그인후 이용해주세요.');location.href='LoginView.nhn'">
+							<a onclick="alert('로그인후 이용해주세요.');location.href='	'">
 								<img class="like" src="<c:url value="/resources/images/nolike.png"/>" alt="좋아요안눌럿을때"/>
 							</a>
 						</c:if>

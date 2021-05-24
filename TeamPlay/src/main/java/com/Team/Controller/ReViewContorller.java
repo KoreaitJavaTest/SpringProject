@@ -139,7 +139,7 @@ public class ReViewContorller {
 		model.addAttribute("request", request);
 		ReViewDAO mapper = sqlSession.getMapper(ReViewDAO.class);
 		ReViewService.getInstance().ReViewDelete(model,mapper);
-		return "ReView/ReViewDeleteOK";
+		return "ReView/ReViewBoardListOk";
 	}
 	//(장진호)리뷰글 추가페이지 이동
 	@RequestMapping("ReViewInsert")

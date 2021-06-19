@@ -1,5 +1,5 @@
 # 웹 쇼핑몰 팀 프로젝트
-작성자 : 장진호
+작성자 : 장진호<
 Naver Blog = https://blog.naver.com/ses7361
 
 <br>

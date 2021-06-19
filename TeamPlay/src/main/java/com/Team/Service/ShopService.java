@@ -125,7 +125,7 @@ public class ShopService {
 		try {
 			MultipartRequest mr = new MultipartRequest(
 					request, 
-					"C:/upload", 
+					"D:/upload", 
 					5 * 1024 * 1024,
 					"UTF-8",
 					new DefaultFileRenamePolicy()

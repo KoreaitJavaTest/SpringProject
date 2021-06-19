@@ -99,11 +99,6 @@ public class ClientContorller {
 
 	@Autowired
 	public SqlSession sqlSession;
-	 @Autowired
-	  private GoogleConnectionFactory googleConnectionFactory;
-
-	  @Autowired
-	  private OAuth2Parameters googleOAuth2Parameters;
 	
 	
 	//메인화면 노출
@@ -221,9 +216,6 @@ public class ClientContorller {
 	@RequestMapping("LoginViewDo")
 	public String LoginViewDo(HttpServletRequest request,HttpServletResponse response, Model model) throws IOException {
 		System.out.println("LoginViewDo()");
-		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
-		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-		model.addAttribute("google_url", url);
 		return "Login/LoginView";
 	}
 	//로그인 뷰 -> 로그인 시도

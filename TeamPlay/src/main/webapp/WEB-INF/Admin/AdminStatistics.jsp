@@ -37,7 +37,7 @@ var myChart = new Chart(ctx, {
         labels: ["월", "화", "수", "목", "금", "토","일"],
         datasets: [{
             label: '${currentWeekDate}',
-            data: [${mon}, ${thu},${wed},${thur}, ${fri}, ${satur},${sun}],
+            data: [${mon}, ${tue},${wed},${thur}, ${fri}, ${satur},${sun}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
